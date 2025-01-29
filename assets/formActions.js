@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('serviceNameInput').value = '';
         editor.setData('');
         document.querySelector('textarea[name="office"]').value = '';
-        document.querySelector('select[name="classification"]').value = 'Simple';
+        document.querySelectorAll('input[name="classification"]').forEach(radio => radio.checked = false);
         document.querySelectorAll('input[name="transaction_type"]').forEach(checkbox => checkbox.checked = false);
         document.querySelector('textarea[name="who_may_avail"]').value = '';
         document.getElementById('FeesToBePaid').value = '';
@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const serviceName = document.getElementById('serviceNameInput').value;
         const description = editor.getData();
         const office = document.querySelector('textarea[name="office"]').value;
-        const classification = document.querySelector('select[name="classification"]').value;
+        const classificationElement = document.querySelector('input[name="classification"]:checked');
+        const classification = classificationElement ? classificationElement.value : 'Not selected';
         const transactionTypes = Array.from(document.querySelectorAll('input[name="transaction_type"]:checked')).map(el => el.value).join(', ');
         const whoMayAvail = document.querySelector('textarea[name="who_may_avail"]').value.replace(/\n/g, '<br>');
 
@@ -69,7 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const serviceName = document.getElementById('serviceNameInput').value;
         const description = editor.getData();
         const office = document.querySelector('textarea[name="office"]').value;
-        const classification = document.querySelector('select[name="classification"]').value;
+        const classificationElement = document.querySelector('input[name="classification"]:checked');
+        if (!classificationElement) {
+            console.error('Element with name "classification" not found.');
+            return;
+        }
+        const classification = classificationElement.value;
         const transactionTypes = Array.from(document.querySelectorAll('input[name="transaction_type"]:checked')).map(el => el.value).join(', ');
         const whoMayAvail = document.querySelector('textarea[name="who_may_avail"]').value.replace(/\n/g, '<br>');
 
