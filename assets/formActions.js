@@ -1,4 +1,5 @@
 function openPreview() {
+    console.log("Preview button clicked");
     const FeesToBePaid = document.getElementById('FeesToBePaid').value || "N/A";
     const ProcessingTime = document.getElementById('ProcessingTime').value || "N/A";
     const serviceName = document.getElementById('serviceNameInput').value;
@@ -38,6 +39,7 @@ function openPreview() {
 }
 
 function saveToDatabase() {
+    console.log("Preview button clicked");
     const FeesToBePaid = document.getElementById('FeesToBePaid').value || "N/A";
     const ProcessingTime = document.getElementById('ProcessingTime').value || "N/A";
     const serviceName = document.getElementById('serviceNameInput').value;
@@ -101,6 +103,7 @@ function saveToDatabase() {
 }
 
 function clearForm() {
+    console.log("Preview button clicked");
     document.getElementById('serviceNameInput').value = '';
     editor.setData('');
     document.querySelector('textarea[name="office"]').value = '';
