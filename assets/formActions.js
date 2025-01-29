@@ -70,6 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const serviceName = document.getElementById('serviceNameInput').value;
         const description = editor.getData();
         const office = document.querySelector('textarea[name="office"]').value;
+           // Debugging statements
+    console.log(document.querySelectorAll('input[name="classification"]'));
         const classificationElement = document.querySelector('input[name="classification"]:checked');
         if (!classificationElement) {
             console.error('Element with name "classification" not found.');
