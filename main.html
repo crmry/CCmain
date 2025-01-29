@@ -12,16 +12,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
     <!-- AdminKit JS -->
     <script src="https://cdn.jsdelivr.net/npm/@adminkit/core@latest/dist/js/app.js" defer></script>
-  <!--  <style>
-        .fixed-table th, .fixed-table td {
-            width: 1px; /* Forces the table to take the width of the content */
-            white-space: nowrap; /* Prevents text from wrapping */
-            overflow: hidden; /* Hides any overflow text */
-            text-overflow: ellipsis; /* Adds ellipsis (...) for overflow text */
-            max-width: 150px; /* Sets a max width for the columns */
-        }
-    </style> -->
-    </head>
+</head>
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
@@ -30,41 +21,13 @@
                 <a class="sidebar-brand" href="index.html">
                     <span class="align-middle">AdminKit</span>
                 </a>
-
                 <ul class="sidebar-nav">
-                    <li class="sidebar-header">
-                        Pages
-                    </li>
-
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="#">
-                            <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="#">
-                            <i class="align-middle" data-feather="file"></i> <span class="align-middle">Citizen Charter</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="#">
-                            <i class="align-middle" data-feather="settings"></i> <span class="align-middle">Settings</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="#">
-                            <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="#">
-                            <i class="align-middle" data-feather="help-circle"></i> <span class="align-middle">Help</span>
-                        </a>
-                    </li>
+                    <li class="sidebar-header">Pages</li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="#"><i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span></a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="#"><i class="align-middle" data-feather="file"></i> <span class="align-middle">Citizen Charter</span></a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="#"><i class="align-middle" data-feather="settings"></i> <span class="align-middle">Settings</span></a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="#"><i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span></a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="#"><i class="align-middle" data-feather="help-circle"></i> <span class="align-middle">Help</span></a></li>
                 </ul>
             </div>
         </nav>
@@ -73,15 +36,10 @@
         <div class="main">
             <!-- Navbar -->
             <nav class="navbar navbar-expand navbar-light navbar-bg">
-                <a class="sidebar-toggle js-sidebar-toggle">
-                    <i class="hamburger align-self-center"></i>
-                </a>
-
+                <a class="sidebar-toggle js-sidebar-toggle"><i class="hamburger align-self-center"></i></a>
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav navbar-align">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Dashboard</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
                     </ul>
                 </div>
             </nav>
@@ -90,7 +48,6 @@
             <main class="content">
                 <div class="container-fluid p-0">
                     <h1 class="h3 mb-3">Citizen Charter Generator</h1>
-
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -100,19 +57,11 @@
                                             <label for="serviceNameInput" class="form-label">Service Name:</label>
                                             <input type="text" class="form-control" id="serviceNameInput" name="serviceName">
                                         </div>
-
                                         <div class="mb-3">
                                             <label for="description" class="form-label">Description:</label>
                                             <div id="editor" name="description"></div>
                                         </div>
-
                                         <table class="table table-bordered mt-4">
-                                            <!--<thead>
-                                                <tr>
-                                                    <th>Office or Division</th>
-                                                    <th>Details</th>
-                                                </tr>
-                                            </thead> -->
                                             <tbody>
                                                 <tr>
                                                     <td>Office or Division</td>
@@ -158,7 +107,6 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-
                                         <div class="mb-3">
                                             <h3>Requirements</h3>
                                             <button type="button" class="btn btn-primary mb-3" onclick="addRequirementRow()">Add New Requirement Row</button>
@@ -171,35 +119,35 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="requirementsTableBody">
-                                    <!-- Add one row to the Requirements and Process Overview sections when the page loads -->
-                                    <script>
-                                        document.addEventListener('DOMContentLoaded', function() {
-                                            addRequirementRow();
-                                        });
-                                    </script>                                                </tbody>
+                                                    <!-- Add one row to the Requirements and Process Overview sections when the page loads -->
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', function() {
+                                                            addRequirementRow();
+                                                        });
+                                                    </script>
+                                                </tbody>
                                             </table>
                                         </div>
-
                                         <div class="mb-3">
                                             <h3>Process Overview</h3>
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                        <th style="text-align: center; vertical-align: middle; width: 30%;">CLIENT STEPS</th>
-                                        <th style="text-align: center; vertical-align: middle; width: 30%;">AGENCY ACTIONS</th>
-                                        <th style="text-align: center; vertical-align: middle; width: 10%;">FEES TO BE PAID</th>
-                                        <th style="text-align: center; vertical-align: middle; width: 15%;">PROCESSING TIME</th>
-                                        <th style="text-align: center; vertical-align: middle; width: 15%;">PERSON RESPONSIBLE</th>
-                                        <th style="text-align: center; vertical-align: middle; width: 100px;">Actions</th>
+                                                        <th style="text-align: center; vertical-align: middle; width: 30%;">CLIENT STEPS</th>
+                                                        <th style="text-align: center; vertical-align: middle; width: 30%;">AGENCY ACTIONS</th>
+                                                        <th style="text-align: center; vertical-align: middle; width: 10%;">FEES TO BE PAID</th>
+                                                        <th style="text-align: center; vertical-align: middle; width: 15%;">PROCESSING TIME</th>
+                                                        <th style="text-align: center; vertical-align: middle; width: 15%;">PERSON RESPONSIBLE</th>
+                                                        <th style="text-align: center; vertical-align: middle; width: 100px;">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="processOverviewTableBody">
-                                                                                        <!-- Add one row to the Requirements and Process Overview sections when the page loads -->
-                                    <script>
-                                        document.addEventListener('DOMContentLoaded', function() {
-                                            addProcessOverviewRow();
-                                        });
-                                    </script>
+                                                    <!-- Add one row to the Requirements and Process Overview sections when the page loads -->
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', function() {
+                                                            addProcessOverviewRow();
+                                                        });
+                                                    </script>
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
@@ -214,7 +162,6 @@
                                             </table>
                                             <button type="button" class="btn btn-primary" onclick="addProcessOverviewRow()">Add New Process Overview Row</button>
                                         </div>
-
                                         <div class="button-container mb-3">
                                             <button type="button" class="btn btn-dark" onclick="openPreview()">Preview</button>
                                             <button type="button" class="btn btn-dark" onclick="saveToDatabase()">Save</button>
@@ -232,45 +179,17 @@
 
     <!-- Custom JS -->
     <script src="assets/init.js" defer></script>
+    
+    <!-- Define openPreview before deleteRows.js -->
+    <script>
+        function openPreview() {
+            console.log("Preview button clicked");
+            // Your preview logic here
+        }
+    </script>
+    
     <script src="assets/addRows.js" defer></script>
     <script src="assets/deleteRows.js" defer></script>
     <script src="assets/formActions.js" defer></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Example JavaScript functions
-            function clearForm() {
-                console.log("Clear Form button clicked");
-                // Add your form clearing logic here
-            }
-
-            function openPreview() {
-                console.log("Preview button clicked");
-                // Add your preview logic here
-            }
-
-            function saveToDatabase() {
-                console.log("Save button clicked");
-                // Add your save logic here
-            }
-
-            // Ensure buttons are clickable
-            document.querySelector('button[onclick="clearForm()"]').onclick = clearForm;
-            document.querySelector('button[onclick="openPreview()"]').onclick = openPreview;
-            document.querySelector('button[onclick="saveToDatabase()"]').onclick = saveToDatabase;
-        });
-    </script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const classificationElement = document.querySelector('select[name="classification"]');
-        if (classificationElement) {
-            const classification = classificationElement.value;
-            console.log(classification);
-        } else {
-            console.error('Element with name "classification" not found.');
-        }
-    });
-    </script>
-    
 </body>
 </html>
