@@ -1,24 +1,20 @@
 function clearForm() {
-    // Clear all input fields
-    document.getElementById('serviceNameInput').value = '';
+    const form = document.getElementById('citizenCharterForm');
+    form.reset();
+
+    // Clear CKEditor content
     document.getElementById('editor').innerHTML = '';
-    document.getElementsByName('office')[0].value = '';
-    
+
     // Clear radio buttons
-    document.querySelectorAll('input[name="classification"]').forEach((radio) => {
+    form.querySelectorAll('input[type="radio"]').forEach(function(radio) {
         radio.checked = false;
     });
-    
+
     // Clear checkboxes
-    document.querySelectorAll('input[name="transaction_type"]').forEach((checkbox) => {
+    form.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
         checkbox.checked = false;
     });
-    
-    // Clear textarea fields
-    document.getElementsByName('who_may_avail')[0].value = '';
-    document.getElementsByName('feesToBePaid')[0].value = '';
-    document.getElementsByName('processingTime')[0].value = '';
-    
+
     // Clear requirements table
     const requirementsTableBody = document.getElementById('requirementsTableBody');
     while (requirementsTableBody.firstChild) {

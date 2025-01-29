@@ -53,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ensure buttons are clickable and call the appropriate functions
     document.querySelector('button[onclick="clearForm()"]').onclick = clearForm;
     document.querySelector('button[onclick="openPreview()"]').onclick = openPreview;
-    document.querySelector('button[onclick="saveToDatabase()"]').onclick = saveToDatabase;
 });
 
 function displayPreview(serviceName, description, office, classification, transactionTypes, whoMayAvail, requirements, processOverview, FeesToBePaid, ProcessingTime) {

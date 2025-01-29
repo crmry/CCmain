@@ -184,32 +184,9 @@
     <script src="assets/deleteRows.js" defer></script>
     <script src="assets/formActions.js" defer></script>
     <script src="assets/clearForm.js" defer></script>
+    <script src="assets/formValidation.js" defer></script> <!-- Include formValidation.js here -->
     <script>
-        document.getElementById('citizenCharterForm').addEventListener('input', function() {
-            const form = this;
-            const saveButton = document.getElementById('saveButton');
-            let allFilled = true;
-
-            // Check required fields
-            form.querySelectorAll('[required]').forEach(function(input) {
-                if (!input.value.trim()) {
-                    allFilled = false;
-                }
-            });
-
-            // Check requirements table
-            if (document.querySelectorAll('#requirementsTableBody tr').length === 0) {
-                allFilled = false;
-            }
-
-            // Check process overview table
-            if (document.querySelectorAll('#processOverviewTableBody tr').length === 0) {
-                allFilled = false;
-            }
-
-            // Enable or disable the save button based on field validation
-            saveButton.disabled = !allFilled;
-        });
+        document.getElementById('citizenCharterForm').addEventListener('input', validateForm);
 
         document.getElementById('citizenCharterForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -217,6 +194,10 @@
                 // Add your save logic here
                 alert("Save was successful!");
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            validateForm();
         });
     </script>
 </body>
