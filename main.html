@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citizen Charter Generator</title>
-    <!-- CoreUI CSS -->
-    <link rel="stylesheet" href="coreui/css/coreui.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Your Custom CSS -->
     <link rel="stylesheet" href="assets/styles.css">
     <!-- CKEditor -->
@@ -16,202 +21,242 @@
     <script src="assets/deleteRows.js" defer></script>
     <script src="assets/formActions.js" defer></script>
 </head>
-<body class="c-app">
-    <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
-        <div class="c-sidebar-brand d-lg-down-none">
-            <h4>CoreUI</h4>
-        </div>
-        <ul class="c-sidebar-nav">
-            <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="index.html">
-                <i class="c-sidebar-nav-icon cil-speedometer"></i> Dashboard</a></li>
-            <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
-                <i class="c-sidebar-nav-icon cil-people"></i> Contact</a></li>
-        </ul>
-        <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
-    </div>
-    <div class="c-wrapper">
-        <header class="c-header c-header-light c-header-fixed">
-            <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show">
-                <span class="c-header-toggler-icon"></span>
-            </button>
-            <button class="c-header-toggler c-class-toggler d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
-                <span class="c-header-toggler-icon"></span>
-            </button>
-            <ul class="c-header-nav ml-auto">
-                <li class="c-header-nav-item d-md-down-none mx-2">
-                    <a class="c-header-nav-link" href="#">
-                        <i class="c-icon cil-bell"></i>
-                    </a>
-                </li>
-                <li class="c-header-nav-item d-md-down-none mx-2">
-                    <a class="c-header-nav-link" href="#">
-                        <i class="c-icon cil-list-rich"></i>
-                    </a>
-                </li>
-                <li class="c-header-nav-item d-md-down-none mx-2">
-                    <a class="c-header-nav-link" href="#">
-                        <i class="c-icon cil-envelope-open"></i>
-                    </a>
-                </li>
-                <li class="c-header-nav-item dropdown mx-2">
-                    <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <div class="c-avatar">
-                            <img class="c-avatar-img" src="coreui/img/avatars/6.jpg" alt="user@email.com">
-                        </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right pt-0">
-                        <div class="dropdown-header bg-light py-2"><strong>Account</strong></div>
-                        <a class="dropdown-item" href="#">
-                            <i class="c-icon cil-user"></i> Profile</a>
-                        <a class="dropdown-item" href="#">
-                            <i class="c-icon cil-settings"></i> Settings</a>
-                        <a class="dropdown-item" href="#">
-                            <i class="c-icon cil-credit-card"></i> Payments<span class="badge badge-secondary">42</span></a>
-                        <a class="dropdown-item" href="#">
-                            <i class="c-icon cil-file"></i> Projects<span class="badge badge-primary">42</span></a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                            <i class="c-icon cil-lock-locked"></i> Lock Account</a>
-                        <a class="dropdown-item" href="#">
-                            <i class="c-icon cil-account-logout"></i> Logout</a>
-                    </div>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-bars"></i></a>
                 </li>
             </ul>
-        </header>
-        <div class="c-body">
-            <main class="c-main">
-                <div class="container-fluid">
-                    <div class="fade-in">
-                        <!-- Your content here -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h2>Citizen Charter Generator</h2>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="serviceNameInput">Service Name:</label>
-                                    <input type="text" id="serviceNameInput" name="serviceName" class="form-control">
-                                </div>
+        </nav>
+        <!-- /.navbar -->
 
-                                <div class="form-group">
-                                    <label for="description">Description:</label>
-                                    <div id="editor" name="description"></div>
-                                </div>
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="index.html" class="brand-link">
+                <span class="brand-text font-weight-light">AdminLTE 3</span>
+            </a>
 
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>Office or Division</th>
-                                        <td>
-                                            <textarea name="office" rows="2" class="form-control"></textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Classification</th>
-                                        <td>
-                                            <select name="classification" class="form-control">
-                                                <option value="Simple">Simple</option>
-                                                <option value="Complex">Complex</option>
-                                                <option value="Highly Technical">Highly Technical</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Type of Transaction</th>
-                                        <td>
-                                            <div class="form-group">
-                                                <div class="form-check">
-                                                    <input type="checkbox" name="transaction_type" value="Government to Citizen (G2C)" class="form-check-input">
-                                                    <label class="form-check-label">Government to Citizen (G2C)</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input type="checkbox" name="transaction_type" value="Government to Business (G2B)" class="form-check-input">
-                                                    <label class="form-check-label">Government to Business (G2B)</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input type="checkbox" name="transaction_type" value="Government to Government (G2G)" class="form-check-input">
-                                                    <label class="form-check-label">Government to Government (G2G)</label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Who May Avail</th>
-                                        <td>
-                                            <textarea name="who_may_avail" rows="4" class="form-control"></textarea>
-                                        </td>
-                                    </tr>
-                                </table>
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3>Requirements</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <button type="button" class="btn btn-primary mb-3" onclick="addRequirementRow()">Add New Requirement Row</button>
-                                        <table class="table table-bordered" id="requirements-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>CHECKLIST OF REQUIREMENTS</th>
-                                                    <th>WHERE TO SECURE</th>
-                                                    <th style="width: 80px;">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="requirementsTableBody">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3>Process Overview</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <table class="table table-bordered" id="processOverviewTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Client Steps</th>
-                                                    <th>Agency Actions</th>
-                                                    <th>Fees to be Paid</th>
-                                                    <th>Processing Time</th>
-                                                    <th>Person Responsible</th>
-                                                    <th style="width: 80px;">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="processOverviewTableBody">
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th><input type="text" id='FeesToBePaid' name="feesToBePaid" class="form-control"></th>
-                                                    <th><input type="text" id='ProcessingTime' name="processingTime" class="form-control"></th>
-                                                    <th></th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                        <button class="btn btn-primary mt-3" onclick="addProcessOverviewRow()">Add New Process Overview Row</button>
-                                    </div>
-                                </div>
-
-                                <div class="btn-group">
-                                    <button class="btn btn-success" onclick="openPreview()">Preview</button>
-                                    <button class="btn btn-primary" onclick="saveToDatabase()">Save</button>
-                                    <button class="btn btn-danger" onclick="clearForm()">Clear Form</button>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="https://via.placeholder.com/160x160" class="img-circle elevation-2" alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a href="#" class="d-block">User Name</a>
                     </div>
                 </div>
-            </main>
-        </div>
-        <footer class="c-footer">
-            <div><a href="https://coreui.io">CoreUI</a> &copy; 2023 creativeLabs.</div>
-            <div class="ml-auto">Powered by&nbsp;<a href="https://coreui.io">CoreUI</a></div>
-        </footer>
-    </div>
 
-    <!-- CoreUI JS -->
-    <script src="coreui/js/coreui.bundle.min.js"></script>
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-tachometer"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-file"></i>
+                                <p>Citizen Charter</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-cog"></i>
+                                <p>Settings</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-user"></i>
+                                <p>Profile</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fa fa-question-circle"></i>
+                                <p>Help</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">Citizen Charter Generator</h1>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <form>
+                        <div class="mb-3">
+                            <label for="serviceNameInput" class="form-label">Service Name:</label>
+                            <input type="text" class="form-control" id="serviceNameInput" name="serviceName">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description:</label>
+                            <div id="editor" name="description"></div>
+                        </div>
+
+                        <table class="table table-bordered mt-4 fixed-table">
+                            <thead>
+                                <tr class="bg-light">
+                                    <th>Office or Division</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Office or Division</td>
+                                    <td><textarea class="form-control" name="office" rows="2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Classification</td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="radio" name="classification" id="simpleClassification" value="Simple">
+                                            <label class="form-check-label" for="simpleClassification">Simple</label>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="radio" name="classification" id="complexClassification" value="Complex">
+                                            <label class="form-check-label" for="complexClassification">Complex</label>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="radio" name="classification" id="highlyTechnicalClassification" value="Highly Technical">
+                                            <label class="form-check-label" for="highlyTechnicalClassification">Highly Technical</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Type of Transaction</td>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="transaction_type" value="Government to Citizen (G2C)">
+                                            <label class="form-check-label">Government to Citizen (G2C)</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="transaction_type" value="Government to Business (G2B)">
+                                            <label class="form-check-label">Government to Business (G2B)</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="transaction_type" value="Government to Government (G2G)">
+                                            <label class="form-check-label">Government to Government (G2G)</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Who May Avail</td>
+                                    <td><textarea class="form-control" name="who_may_avail" rows="4"></textarea></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="requirements-section mt-4">
+                            <h3><i class="fas fa-check-square"></i> Requirements</h3>
+                            <button type="button" class="btn btn-primary mb-3" onclick="addRequirementRow()"><i class="fas fa-plus"></i> Add New Requirement Row</button>
+                            <table class="table table-bordered fixed-table">
+                                <thead>
+                                    <tr class="bg-light">
+                                        <th style="text-align: center; vertical-align: middle; width: 50%;">CHECKLIST OF REQUIREMENTS</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 50%;">WHERE TO SECURE</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 100px;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="requirementsTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="process-overview-section mt-4">
+                            <h3><i class="fas fa-tasks"></i> Process Overview</h3>
+                            
+                            <table class="table table-bordered fixed-table">
+                                <thead>
+                                    <tr class="bg-light">
+                                        <th style="text-align: center; vertical-align: middle; width: 30%;">CLIENT STEPS</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 30%;">AGENCY ACTIONS</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 10%;">FEES TO BE PAID</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 15%;">PROCESSING TIME</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 15%;">PERSON RESPONSIBLE</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 100px;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="processOverviewTableBody">
+                                </tbody>
+
+                                <!-- Button to add new row -->
+                                <tfoot>
+                                    <tr></tr>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-primary mb-3" onclick="addProcessOverviewRow()"><i class="fas fa-plus"></i> Add New Process Overview Row</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th style="text-align: right; vertical-align: middle;">TOTAL</th>
+                                        <th><input type="text" class="form-control" id='FeesToBePaid' name="feesToBePaid"></th>
+                                        <th><input type="text" class="form-control" id='ProcessingTime' name="processingTime"></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <div class="button-container mt-4">
+                            <button type="button" class="btn btn-dark float-right ml-2" id="previewButton"><i class="fas fa-eye"></i> Preview</button>
+                            <button type="button" class="btn btn-dark float-right ml-2" id="saveButton"><i class="fas fa-save"></i> Save</button>
+                            <button type="button" class="btn btn-danger float-right ml-2" id="clearButton"><i class="fas fa-eraser"></i> Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
+    <!-- Your Custom JS -->
+    <script src="assets/init.js"></script>
+    <script src="assets/addRows.js"></script>
+    <script src="assets/deleteRows.js"></script>
+    <script src="assets/formActions.js"></script>
 </body>
+
 </html>
