@@ -4,119 +4,208 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citizen Charter Generator</title>
+    <!-- AdminKit CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@latest/dist/css/app.css" rel="stylesheet">
+    <!-- Your Custom CSS -->
     <link rel="stylesheet" href="assets/styles.css">
+    <!-- CKEditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <!-- AdminKit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@adminkit/core@latest/dist/js/app.js" defer></script>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar js-sidebar">
+            <div class="sidebar-content js-simplebar">
+                <a class="sidebar-brand" href="index.html">
+                    <span class="align-middle">AdminKit</span>
+                </a>
+
+                <ul class="sidebar-nav">
+                    <li class="sidebar-header">
+                        Pages
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="#">
+                            <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="#">
+                            <i class="align-middle" data-feather="file"></i> <span class="align-middle">Citizen Charter</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="#">
+                            <i class="align-middle" data-feather="settings"></i> <span class="align-middle">Settings</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="#">
+                            <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="#">
+                            <i class="align-middle" data-feather="help-circle"></i> <span class="align-middle">Help</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- End Sidebar -->
+
+        <div class="main">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand navbar-light navbar-bg">
+                <a class="sidebar-toggle js-sidebar-toggle">
+                    <i class="hamburger align-self-center"></i>
+                </a>
+
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav navbar-align">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Dashboard</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+
+            <main class="content">
+                <div class="container-fluid p-0">
+                    <h1 class="h3 mb-3">Citizen Charter Generator</h1>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="serviceNameInput" class="form-label">Service Name:</label>
+                                            <input type="text" class="form-control" id="serviceNameInput" name="serviceName">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label">Description:</label>
+                                            <div id="editor" name="description"></div>
+                                        </div>
+
+                                        <table class="table table-bordered mt-4">
+                                            <thead>
+                                                <tr>
+                                                    <th>Office or Division</th>
+                                                    <th>Details</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Office or Division</td>
+                                                    <td><textarea class="form-control" name="office" rows="2"></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Classification</td>
+                                                    <td>
+                                                        <select name="classification" class="form-control">
+                                                            <option value="Simple">Simple</option>
+                                                            <option value="Complex">Complex</option>
+                                                            <option value="Highly Technical">Highly Technical</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Type of Transaction</td>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" name="transaction_type" value="Government to Citizen (G2C)">
+                                                            <label class="form-check-label">Government to Citizen (G2C)</label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" name="transaction_type" value="Government to Business (G2B)">
+                                                            <label class="form-check-label">Government to Business (G2B)</label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" name="transaction_type" value="Government to Government (G2G)">
+                                                            <label class="form-check-label">Government to Government (G2G)</label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Who May Avail</td>
+                                                    <td><textarea class="form-control" name="who_may_avail" rows="4"></textarea></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <div class="mb-3">
+                                            <h3>Requirements</h3>
+                                            <button type="button" class="btn btn-primary mb-3" onclick="addRequirementRow()">Add New Requirement Row</button>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>CHECKLIST OF REQUIREMENTS</th>
+                                                        <th>WHERE TO SECURE</th>
+                                                        <th style="width: 80px;">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="requirementsTableBody">
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <h3>Process Overview</h3>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Client Steps</th>
+                                                        <th>Agency Actions</th>
+                                                        <th>Fees to be Paid</th>
+                                                        <th>Processing Time</th>
+                                                        <th>Person Responsible</th>
+                                                        <th style="width: 80px;">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="processOverviewTableBody">
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid"></th>
+                                                        <th><input type="text" class="form-control" id="ProcessingTime" name="processingTime"></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                            <button type="button" class="btn btn-primary" onclick="addProcessOverviewRow()">Add New Process Overview Row</button>
+                                        </div>
+
+                                        <div class="button-container mb-3">
+                                            <button type="button" class="btn btn-dark" onclick="openPreview()">Preview</button>
+                                            <button type="button" class="btn btn-dark" onclick="saveToDatabase()">Save</button>
+                                            <button type="button" class="btn btn-danger" onclick="clearForm()">Clear Form</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
     <script src="assets/init.js" defer></script>
     <script src="assets/addRows.js" defer></script>
     <script src="assets/deleteRows.js" defer></script>
     <script src="assets/formActions.js" defer></script>
-</head>
-<body>
-    <div class="container">
-        <h2>Citizen Charter Generator</h2>
-        
-        <div class="form-group">
-            <label for="serviceNameInput">Service Name:</label>
-            <input type="text" id="serviceNameInput" name="serviceName">
-        </div>
-
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <div id="editor" name="description"></div>
-        </div>
-
-        <table class="requirements-table">
-            <tr>
-                <th>Office or Division</th>
-                <td>
-                    <textarea name="office" rows="2"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <th>Classification</th>
-                <td>
-                    <select name="classification">
-                        <option value="Simple">Simple</option>
-                        <option value="Complex">Complex</option>
-                        <option value="Highly Technical">Highly Technical</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>Type of Transaction</th>
-                <td>
-                    <div class="checkbox-group">
-                        <div>
-                            <input type="checkbox" name="transaction_type" value="Government to Citizen (G2C)">
-                            <label>Government to Citizen (G2C)</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" name="transaction_type" value="Government to Business (G2B)">
-                            <label>Government to Business (G2B)</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" name="transaction_type" value="Government to Government (G2G)">
-                            <label> Government to Government (G2G)</label>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>Who May Avail</th>
-                <td>
-                    <textarea name="who_may_avail" rows="4"></textarea>
-                </td>
-            </tr>
-        </table>
-
-        <div class="requirements-section">
-            <h3>Requirements</h3>
-            <button type="button" onclick="addRequirementRow()">Add New Requirement Row</button>
-            <table class="requirementsChecklistTable" id="requirements-table">
-                <thead>
-                    <tr>
-                        <th>CHECKLIST OF REQUIREMENTS</th>
-                        <th>WHERE TO SECURE</th>
-                        <th style="width: 80px;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="requirementsTableBody">
-                </tbody>
-            </table>
-        </div>
-
-        <div class="requirements-section">
-            <h3>Process Overview</h3>
-            <table id="processOverviewTable" class="requirements-table">
-                <thead>
-                    <tr>
-                        <th>Client Steps</th>
-                        <th>Agency Actions</th>
-                        <th>Fees to be Paid</th>
-                        <th>Processing Time</th>
-                        <th>Person Responsible</th>
-                        <th style="width: 80px;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="processOverviewTableBody">
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th><input type="text" id='FeesToBePaid' name="feesToBePaid"></th>
-                        <th><input type="text" id='ProcessingTime' name="processingTime"></th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-        <button onclick="addProcessOverviewRow()">Add New Process Overview Row</button>             
-        <div class="button-container">
-            <button onclick="openPreview()">Preview</button>
-            <button onclick="saveToDatabase()">Save</button>
-            <button onclick="clearForm()">Clear Form</button>
-        </div>
-    </div>
 </body>
 </html>

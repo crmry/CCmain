@@ -1,123 +1,136 @@
-function openPreview() {
-    console.log("Preview button clicked");
-    const FeesToBePaid = document.getElementById('FeesToBePaid').value || "N/A";
-    const ProcessingTime = document.getElementById('ProcessingTime').value || "N/A";
-    const serviceName = document.getElementById('serviceNameInput').value;
-    const description = editor.getData();
-    const office = document.querySelector('textarea[name="office"]').value;
-    const classification = document.querySelector('select[name="classification"]').value;
-    const transactionTypes = Array.from(document.querySelectorAll('input[name="transaction_type"]:checked')).map(el => el.value).join(', ');
-    const whoMayAvail = document.querySelector('textarea[name="who_may_avail"]').value.replace(/\n/g, '<br>');
+// assets/formActions.js
 
-    let requirements = [];
-    requirementEditors.forEach(req => {
-        if (req.type === 'requirement') {
-            const requirementData = req.editor.getData();
-            const whereToSecureEditor = requirementEditors.find(r => r.index === req.index && r.type === 'whereToSecure');
-            const whereToSecureData = whereToSecureEditor ? whereToSecureEditor.editor.getData() : '';
-            requirements.push({ requirement: requirementData, whereToSecure: whereToSecureData });
-        }
-    });
+document.addEventListener('DOMContentLoaded', () => {
+    // Function to clear the form
+    function clearForm() {
+        console.log("Clear Form button clicked");
+        // Clear all input fields
+        document.getElementById('serviceNameInput').value = '';
+        editor.setData('');
+        document.querySelector('textarea[name="office"]').value = '';
+        document.querySelector('select[name="classification"]').value = 'Simple';
+        document.querySelectorAll('input[name="transaction_type"]').forEach(checkbox => checkbox.checked = false);
+        document.querySelector('textarea[name="who_may_avail"]').value = '';
+        document.getElementById('FeesToBePaid').value = '';
+        document.getElementById('ProcessingTime').value = '';
+        document.getElementById('requirementsTableBody').innerHTML = '';
+        document.getElementById('processOverviewTableBody').innerHTML = '';
+        requirementEditors = [];
+        processOverviewEditors = [];
+        editorCounter = 0;
+    }
 
-    let processOverview = [];
-    processOverviewEditors.forEach(proc => {
-        if (proc.type === 'clientSteps') {
-            const clientStepsData = proc.editor.getData();
-            const agencyActionsEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'agencyActions');
-            const agencyActionsData = agencyActionsEditor ? agencyActionsEditor.editor.getData() : '';
-            const feesToBePaidEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'feesToBePaid');
-            const feesToBePaidData = feesToBePaidEditor ? feesToBePaidEditor.editor.getData() : '';
-            const processingTimeEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'processingTime');
-            const processingTimeData = processingTimeEditor ? processingTimeEditor.editor.getData() : '';
-            const personResponsibleEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'personResponsible');
-            const personResponsibleData = personResponsibleEditor ? personResponsibleEditor.editor.getData() : '';
-            processOverview.push({ clientSteps: clientStepsData, agencyActions: agencyActionsData, feesToBePaid: feesToBePaidData, processingTime: processingTimeData, personResponsible: personResponsibleData });
-        }
-    });
+    // Function to open preview
+    function openPreview() {
+        console.log("Preview button clicked");
+        const FeesToBePaid = document.getElementById('FeesToBePaid').value || "N/A";
+        const ProcessingTime = document.getElementById('ProcessingTime').value || "N/A";
+        const serviceName = document.getElementById('serviceNameInput').value;
+        const description = editor.getData();
+        const office = document.querySelector('textarea[name="office"]').value;
+        const classification = document.querySelector('select[name="classification"]').value;
+        const transactionTypes = Array.from(document.querySelectorAll('input[name="transaction_type"]:checked')).map(el => el.value).join(', ');
+        const whoMayAvail = document.querySelector('textarea[name="who_may_avail"]').value.replace(/\n/g, '<br>');
 
-    displayPreview(serviceName, description, office, classification, transactionTypes, whoMayAvail, requirements, processOverview, FeesToBePaid, ProcessingTime);
-}
+        let requirements = [];
+        requirementEditors.forEach(req => {
+            if (req.type === 'requirement') {
+                const requirementData = req.editor.getData();
+                const whereToSecureEditor = requirementEditors.find(r => r.index === req.index && r.type === 'whereToSecure');
+                const whereToSecureData = whereToSecureEditor ? whereToSecureEditor.editor.getData() : '';
+                requirements.push({ requirement: requirementData, whereToSecure: whereToSecureData });
+            }
+        });
 
-function saveToDatabase() {
-    console.log("Preview button clicked");
-    const FeesToBePaid = document.getElementById('FeesToBePaid').value || "N/A";
-    const ProcessingTime = document.getElementById('ProcessingTime').value || "N/A";
-    const serviceName = document.getElementById('serviceNameInput').value;
-    const description = editor.getData();
-    const office = document.querySelector('textarea[name="office"]').value;
-    const classification = document.querySelector('select[name="classification"]').value;
-    const transactionTypes = Array.from(document.querySelectorAll('input[name="transaction_type"]:checked')).map(el => el.value).join(', ');
-    const whoMayAvail = document.querySelector('textarea[name="who_may_avail"]').value.replace(/\n/g, '<br>');
+        let processOverview = [];
+        processOverviewEditors.forEach(proc => {
+            if (proc.type === 'clientSteps') {
+                const clientStepsData = proc.editor.getData();
+                const agencyActionsEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'agencyActions');
+                const agencyActionsData = agencyActionsEditor ? agencyActionsEditor.editor.getData() : '';
+                const feesToBePaidEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'feesToBePaid');
+                const feesToBePaidData = feesToBePaidEditor ? feesToBePaidEditor.editor.getData() : '';
+                const processingTimeEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'processingTime');
+                const processingTimeData = processingTimeEditor ? processingTimeEditor.editor.getData() : '';
+                const personResponsibleEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'personResponsible');
+                const personResponsibleData = personResponsibleEditor ? personResponsibleEditor.editor.getData() : '';
+                processOverview.push({ clientSteps: clientStepsData, agencyActions: agencyActionsData, feesToBePaid: feesToBePaidData, processingTime: processingTimeData, personResponsible: personResponsibleData });
+            }
+        });
 
-    let requirements = [];
-    requirementEditors.forEach(req => {
-        if (req.type === 'requirement') {
-            const requirementData = req.editor.getData();
-            const whereToSecureEditor = requirementEditors.find(r => r.index === req.index && r.type === 'whereToSecure');
-            const whereToSecureData = whereToSecureEditor ? whereToSecureEditor.editor.getData() : '';
-            requirements.push({ requirement: requirementData, whereToSecure: whereToSecureData });
-        }
-    });
+        displayPreview(serviceName, description, office, classification, transactionTypes, whoMayAvail, requirements, processOverview, FeesToBePaid, ProcessingTime);
+    }
 
-    let processOverview = [];
-    processOverviewEditors.forEach(proc => {
-        if (proc.type === 'clientSteps') {
-            const clientStepsData = proc.editor.getData();
-            const agencyActionsEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'agencyActions');
-            const agencyActionsData = agencyActionsEditor ? agencyActionsEditor.editor.getData() : '';
-            const feesToBePaidEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'feesToBePaid');
-            const feesToBePaidData = feesToBePaidEditor ? feesToBePaidEditor.editor.getData() : '';
-            const processingTimeEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'processingTime');
-            const processingTimeData = processingTimeEditor ? processingTimeEditor.editor.getData() : '';
-            const personResponsibleEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'personResponsible');
-            const personResponsibleData = personResponsibleEditor ? personResponsibleEditor.editor.getData() : '';
-            processOverview.push({ clientSteps: clientStepsData, agencyActions: agencyActionsData, feesToBePaid: feesToBePaidData, processingTime: processingTimeData, personResponsible: personResponsibleData });
-        }
-    });
+    // Function to save form data to the database
+    function saveToDatabase() {
+        console.log("Save button clicked");
+        const FeesToBePaid = document.getElementById('FeesToBePaid').value || "N/A";
+        const ProcessingTime = document.getElementById('ProcessingTime').value || "N/A";
+        const serviceName = document.getElementById('serviceNameInput').value;
+        const description = editor.getData();
+        const office = document.querySelector('textarea[name="office"]').value;
+        const classification = document.querySelector('select[name="classification"]').value;
+        const transactionTypes = Array.from(document.querySelectorAll('input[name="transaction_type"]:checked')).map(el => el.value).join(', ');
+        const whoMayAvail = document.querySelector('textarea[name="who_may_avail"]').value.replace(/\n/g, '<br>');
 
-    const formData = new FormData();
-    formData.append('serviceName', serviceName);
-    formData.append('description', description);
-    formData.append('office', office);
-    formData.append('classification', classification);
-    formData.append('transactionTypes', transactionTypes);
-    formData.append('whoMayAvail', whoMayAvail);
-    formData.append('requirements', JSON.stringify(requirements));
-    formData.append('processOverview', JSON.stringify(processOverview));
-    formData.append('feesToBePaid', FeesToBePaid);
-    formData.append('processingTime', ProcessingTime);
+        let requirements = [];
+        requirementEditors.forEach(req => {
+            if (req.type === 'requirement') {
+                const requirementData = req.editor.getData();
+                const whereToSecureEditor = requirementEditors.find(r => r.index === req.index && r.type === 'whereToSecure');
+                const whereToSecureData = whereToSecureEditor ? whereToSecureEditor.editor.getData() : '';
+                requirements.push({ requirement: requirementData, whereToSecure: whereToSecureData });
+            }
+        });
 
-    fetch('save_service.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log(data);
-        alert("Data saved successfully!");
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert("Failed to save data!");
-    });
-}
+        let processOverview = [];
+        processOverviewEditors.forEach(proc => {
+            if (proc.type === 'clientSteps') {
+                const clientStepsData = proc.editor.getData();
+                const agencyActionsEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'agencyActions');
+                const agencyActionsData = agencyActionsEditor ? agencyActionsEditor.editor.getData() : '';
+                const feesToBePaidEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'feesToBePaid');
+                const feesToBePaidData = feesToBePaidEditor ? feesToBePaidEditor.editor.getData() : '';
+                const processingTimeEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'processingTime');
+                const processingTimeData = processingTimeEditor ? processingTimeEditor.editor.getData() : '';
+                const personResponsibleEditor = processOverviewEditors.find(p => p.index === proc.index && p.type === 'personResponsible');
+                const personResponsibleData = personResponsibleEditor ? personResponsibleEditor.editor.getData() : '';
+                processOverview.push({ clientSteps: clientStepsData, agencyActions: agencyActionsData, feesToBePaid: feesToBePaidData, processingTime: processingTimeData, personResponsible: personResponsibleData });
+            }
+        });
 
-function clearForm() {
-    console.log("Preview button clicked");
-    document.getElementById('serviceNameInput').value = '';
-    editor.setData('');
-    document.querySelector('textarea[name="office"]').value = '';
-    document.querySelector('select[name="classification"]').value = '';
-    document.querySelectorAll('input[name="transaction_type"]').forEach(checkbox => checkbox.checked = false);
-    document.querySelector('textarea[name="who_may_avail"]').value = '';
-    document.getElementById('FeesToBePaid').value = '';
-    document.getElementById('ProcessingTime').value = '';
-    document.getElementById('requirementsTableBody').innerHTML = '';
-    document.getElementById('processOverviewTableBody').innerHTML = '';
-    requirementEditors = [];
-    processOverviewEditors = [];
-    editorCounter = 0;
-}
+        const formData = new FormData();
+        formData.append('serviceName', serviceName);
+        formData.append('description', description);
+        formData.append('office', office);
+        formData.append('classification', classification);
+        formData.append('transactionTypes', transactionTypes);
+        formData.append('whoMayAvail', whoMayAvail);
+        formData.append('requirements', JSON.stringify(requirements));
+        formData.append('processOverview', JSON.stringify(processOverview));
+        formData.append('feesToBePaid', FeesToBePaid);
+        formData.append('processingTime', ProcessingTime);
+
+        fetch('save_service.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            alert("Data saved successfully!");
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Failed to save data!");
+        });
+    }
+
+    // Ensure buttons are clickable and call the appropriate functions
+    document.querySelector('button[onclick="clearForm()"]').onclick = clearForm;
+    document.querySelector('button[onclick="openPreview()"]').onclick = openPreview;
+    document.querySelector('button[onclick="saveToDatabase()"]').onclick = saveToDatabase;
+});
 
 function displayPreview(serviceName, description, office, classification, transactionTypes, whoMayAvail, requirements, processOverview, FeesToBePaid, ProcessingTime) {
     let previewWindow = window.open('', 'Preview', 'width=816px,height=1056px');
