@@ -12,7 +12,16 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
     <!-- AdminKit JS -->
     <script src="https://cdn.jsdelivr.net/npm/@adminkit/core@latest/dist/js/app.js" defer></script>
-</head>
+  <!--  <style>
+        .fixed-table th, .fixed-table td {
+            width: 1px; /* Forces the table to take the width of the content */
+            white-space: nowrap; /* Prevents text from wrapping */
+            overflow: hidden; /* Hides any overflow text */
+            text-overflow: ellipsis; /* Adds ellipsis (...) for overflow text */
+            max-width: 150px; /* Sets a max width for the columns */
+        }
+    </style> -->
+    </head>
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
@@ -98,12 +107,12 @@
                                         </div>
 
                                         <table class="table table-bordered mt-4">
-                                            <thead>
+                                            <!--<thead>
                                                 <tr>
                                                     <th>Office or Division</th>
                                                     <th>Details</th>
                                                 </tr>
-                                            </thead>
+                                            </thead> -->
                                             <tbody>
                                                 <tr>
                                                     <td>Office or Division</td>
@@ -112,11 +121,18 @@
                                                 <tr>
                                                     <td>Classification</td>
                                                     <td>
-                                                        <select name="classification" class="form-control">
-                                                            <option value="Simple">Simple</option>
-                                                            <option value="Complex">Complex</option>
-                                                            <option value="Highly Technical">Highly Technical</option>
-                                                        </select>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="classification" id="simpleClassification" value="Simple">
+                                                            <label class="form-check-label" for="simpleClassification">Simple</label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="classification" id="complexClassification" value="Complex">
+                                                            <label class="form-check-label" for="complexClassification">Complex</label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="classification" id="highlyTechnicalClassification" value="Highly Technical">
+                                                            <label class="form-check-label" for="highlyTechnicalClassification">Highly Technical</label>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -149,13 +165,18 @@
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th>CHECKLIST OF REQUIREMENTS</th>
-                                                        <th>WHERE TO SECURE</th>
-                                                        <th style="width: 80px;">Actions</th>
+                                                        <th style="text-align: center; vertical-align: middle; width: 50%;">CHECKLIST OF REQUIREMENTS</th>
+                                                        <th style="text-align: center; vertical-align: middle; width: 50%;">WHERE TO SECURE</th>
+                                                        <th style="text-align: center; vertical-align: middle; width: 100px;">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="requirementsTableBody">
-                                                </tbody>
+                                    <!-- Add one row to the Requirements and Process Overview sections when the page loads -->
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            addRequirementRow();
+                                        });
+                                    </script>                                                </tbody>
                                             </table>
                                         </div>
 
@@ -164,22 +185,29 @@
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th>Client Steps</th>
-                                                        <th>Agency Actions</th>
-                                                        <th>Fees to be Paid</th>
-                                                        <th>Processing Time</th>
-                                                        <th>Person Responsible</th>
-                                                        <th style="width: 80px;">Actions</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 30%;">CLIENT STEPS</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 30%;">AGENCY ACTIONS</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 10%;">FEES TO BE PAID</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 15%;">PROCESSING TIME</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 15%;">PERSON RESPONSIBLE</th>
+                                        <th style="text-align: center; vertical-align: middle; width: 100px;">Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="processOverviewTableBody">
+                                                                                        <!-- Add one row to the Requirements and Process Overview sections when the page loads -->
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            addProcessOverviewRow();
+                                        });
+                                    </script>
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
                                                         <th></th>
+                                                        <th style="text-align: right; vertical-align: middle;">TOTAL</th>
+                                                        <th><input type="text" class="form-control" id='FeesToBePaid' name="feesToBePaid"></th>
+                                                        <th><input type="text" class="form-control" id='ProcessingTime' name="processingTime"></th>
                                                         <th></th>
-                                                        <th><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid"></th>
-                                                        <th><input type="text" class="form-control" id="ProcessingTime" name="processingTime"></th>
                                                         <th></th>
                                                     </tr>
                                                 </tfoot>
@@ -207,5 +235,29 @@
     <script src="assets/addRows.js" defer></script>
     <script src="assets/deleteRows.js" defer></script>
     <script src="assets/formActions.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Example JavaScript functions
+            function clearForm() {
+                console.log("Clear Form button clicked");
+                // Add your form clearing logic here
+            }
+
+            function openPreview() {
+                console.log("Preview button clicked");
+                // Add your preview logic here
+            }
+
+            function saveToDatabase() {
+                console.log("Save button clicked");
+                // Add your save logic here
+            }
+
+            // Ensure buttons are clickable
+            document.querySelector('button[onclick="clearForm()"]').onclick = clearForm;
+            document.querySelector('button[onclick="openPreview()"]').onclick = openPreview;
+            document.querySelector('button[onclick="saveToDatabase()"]').onclick = saveToDatabase;
+        });
+    </script>
 </body>
 </html>
