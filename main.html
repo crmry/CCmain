@@ -4,54 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citizen Charter Generator</title>
-    <!-- AdminKit CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@latest/dist/css/app.css" rel="stylesheet">
+    <!-- Offline Inspinia CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/fontawesome/fontawesome.min.css" rel="stylesheet">
+    <link href="assets/css/inspinia.css" rel="stylesheet">
     <!-- Your Custom CSS -->
     <link rel="stylesheet" href="assets/styles.css">
     <!-- CKEditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
-    <!-- AdminKit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@adminkit/core@latest/dist/js/app.js" defer></script>
 </head>
 <body>
-    <div class="wrapper">
+    <div id="wrapper">
         <!-- Sidebar -->
-        <nav id="sidebar" class="sidebar js-sidebar">
-            <div class="sidebar-content js-simplebar">
-                <a class="sidebar-brand" href="index.html">
-                    <span class="align-middle">AdminKit</span>
-                </a>
-                <ul class="sidebar-nav">
-                    <li class="sidebar-header">Pages</li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="#"><i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span></a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="#"><i class="align-middle" data-feather="file"></i> <span class="align-middle">Citizen Charter</span></a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="#"><i class="align-middle" data-feather="settings"></i> <span class="align-middle">Settings</span></a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="#"><i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span></a></li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="#"><i class="align-middle" data-feather="help-circle"></i> <span class="align-middle">Help</span></a></li>
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <span class="block m-t-xs font-bold">Inspinia</span>
+                        </div>
+                        <div class="logo-element">IN+</div>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Citizen Charter</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-cogs"></i> <span class="nav-label">Settings</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Profile</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-question-circle"></i> <span class="nav-label">Help</span></a>
+                    </li>
                 </ul>
             </div>
         </nav>
         <!-- End Sidebar -->
 
-        <div class="main">
+        <div id="page-wrapper" class="gray-bg">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand navbar-light navbar-bg">
-                <a class="sidebar-toggle js-sidebar-toggle"><i class="hamburger align-self-center"></i></a>
-                <div class="navbar-collapse collapse">
-                    <ul class="navbar-nav navbar-align">
-                        <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i></a>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
                     </ul>
-                </div>
-            </nav>
+                </nav>
+            </div>
             <!-- End Navbar -->
 
-            <main class="content">
+            <div class="wrapper wrapper-content">
                 <div class="container-fluid p-0">
                     <h1 class="h3 mb-3">Citizen Charter Generator</h1>
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
-                                <div class="card-body">
+                            <div class="ibox">
+                                <div class="ibox-content">
                                     <form id="citizenCharterForm">
                                         <div class="mb-3">
                                             <label for="serviceNameInput" class="form-label">Service Name:</label>
@@ -174,11 +190,14 @@
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
     </div>
 
     <!-- Custom JS -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/inspinia.min.js"></script>
     <script src="assets/init.js" defer></script>
     <script src="assets/addRows.js" defer></script>
     <script src="assets/deleteRows.js" defer></script>
