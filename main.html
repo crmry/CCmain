@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citizen Charter Generator</title>
-    <!-- Offline Inspinia CSS -->
+
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <link href="assets/css/inspinia.css" rel="stylesheet">
-    <!-- Your Custom CSS -->
     <link rel="stylesheet" href="assets/styles.css">
-    <!-- CKEditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 </head>
 <body>
@@ -19,169 +17,123 @@
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
-                   
-                    <li>
-                        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
-                    </li>
-                    <li class="active">
-                        <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Citizen Charter</span></a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-cogs"></i> <span class="nav-label">Settings</span></a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Profile</span></a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-question-circle"></i> <span class="nav-label">Help</span></a>
-                    </li>
+                    <li><a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a></li>
+                    <li class="active"><a href="#"><i class="fa fa-file"></i> <span class="nav-label">Citizen Charter</span></a></li>
+                    <li><a href="#"><i class="fa fa-cogs"></i> <span class="nav-label">Settings</span></a></li>
+                    <li><a href="#"><i class="fa fa-user"></i> <span class="nav-label">Profile</span></a></li>
+                    <li><a href="#"><i class="fa fa-question-circle"></i> <span class="nav-label">Help</span></a></li>
                 </ul>
             </div>
         </nav>
-        <!-- End Sidebar -->
 
+        <!-- Main Content -->
         <div id="page-wrapper" class="gray-bg">
-            <!-- Navbar -->
             <div class="row border-bottom">
-                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <nav class="navbar navbar-static-top" role="navigation">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i></a>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
-                        <li>
-                            <a href="#">Citizen Charter Generator</a>
-                        </li>
+                        <li><a href="#">Citizen Charter Generator</a></li>
                     </ul>
                 </nav>
             </div>
-            <!-- End Navbar -->
 
             <div class="wrapper wrapper-content">
                 <div class="container-fluid p-0">
                     <h1 class="h3 mb-3">Citizen Charter Generator</h1>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="ibox">
-                                <div class="ibox-content">
-                                    <form id="citizenCharterForm">
-                                        <div class="mb-3">
-                                            <label for="serviceNameInput" class="form-label">Service Name:</label>
-                                            <input type="text" class="form-control" id="serviceNameInput" name="serviceName" placeholder="Enter service name" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="description" class="form-label">Description:</label>
-                                            <div id="editor" name="description"></div>
-                                        </div>
-                                        <table class="table table-bordered mt-4">
-                                            <tbody>
-                                                <tr>
-                                                    <td>Office or Division</td>
-                                                    <td><textarea class="form-control" name="office" rows="2" placeholder="Enter office or division" required></textarea></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Classification</td>
-                                                    <td>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="classification" id="simpleClassification" value="Simple" required>
-                                                            <label class="form-check-label" for="simpleClassification">Simple</label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="classification" id="complexClassification" value="Complex">
-                                                            <label class="form-check-label" for="complexClassification">Complex</label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="classification" id="highlyTechnicalClassification" value="Highly Technical">
-                                                            <label class="form-check-label" for="highlyTechnicalClassification">Highly Technical</label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Type of Transaction</td>
-                                                    <td>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" name="transaction_type" value="Government to Citizen (G2C)">
-                                                            <label class="form-check-label">Government to Citizen (G2C)</label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" name="transaction_type" value="Government to Business (G2B)">
-                                                            <label class="form-check-label">Government to Business (G2B)</label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" name="transaction_type" value="Government to Government (G2G)">
-                                                            <label class="form-check-label">Government to Government (G2G)</label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Who May Avail</td>
-                                                    <td><textarea class="form-control" name="who_may_avail" rows="4" placeholder="Enter who may avail" required></textarea></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <div class="mb-3">
-                                            <h3>Requirements</h3>
-                                            <button type="button" class="btn btn-primary mb-3" onclick="addRequirementRow()">Add New Requirement Row</button>
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="text-align: center; vertical-align: middle; width: 50%;">CHECKLIST OF REQUIREMENTS</th>
-                                                        <th style="text-align: center; vertical-align: middle; width: 50%;">WHERE TO SECURE</th>
-                                                        <th style="text-align: center; vertical-align: middle; width: 100px;">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="requirementsTableBody">
-                                                    <!-- Add one row to the Requirements and Process Overview sections when the page loads -->
-                                                    <script>
-                                                        document.addEventListener('DOMContentLoaded', function() {
-                                                            addRequirementRow();
-                                                        });
-                                                    </script>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="mb-3">
-                                            <h3>Process Overview</h3>
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="text-align: center; vertical-align: middle; width: 30%;">CLIENT STEPS</th>
-                                                        <th style="text-align: center; vertical-align: middle; width: 30%;">AGENCY ACTIONS</th>
-                                                        <th style="text-align: center; vertical-align: middle; width: 10%;">FEES TO BE PAID</th>
-                                                        <th style="text-align: center; vertical-align: middle; width: 15%;">PROCESSING TIME</th>
-                                                        <th style="text-align: center; vertical-align: middle; width: 15%;">PERSON RESPONSIBLE</th>
-                                                        <th style="text-align: center; vertical-align: middle; width: 100px;">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="processOverviewTableBody">
-                                                    <!-- Add one row to the Requirements and Process Overview sections when the page loads -->
-                                                    <script>
-                                                        document.addEventListener('DOMContentLoaded', function() {
-                                                            addProcessOverviewRow();
-                                                        });
-                                                    </script>
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th></th>
-                                                        <th style="text-align: right; vertical-align: middle;">TOTAL</th>
-                                                        <th><input type="text" class="form-control" id='FeesToBePaid' name="feesToBePaid" placeholder="Enter total fees"></th>
-                                                        <th><input type="text" class="form-control" id='ProcessingTime' name="processingTime" placeholder="Enter total processing time"></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                            <button type="button" class="btn btn-primary" onclick="addProcessOverviewRow()">Add New Process Overview Row</button>
-                                        </div>
-                                        <div class="button-container mb-3">
-                                            <button type="button" class="btn btn-dark" onclick="openPreview()">Preview</button>
-                                            <button type="submit" class="btn btn-dark" id="saveButton" disabled>Save</button>
-                                            <button type="button" class="btn btn-danger" onclick="clearForm()">Clear Form</button>
-                                        </div>
-                                    </form>
-                                    <div id="saveSuccessMsg" class="alert alert-success mt-3" style="display: none;">Save was successful!</div>
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <form id="citizenCharterForm">
+                                <div class="mb-3">
+                                    <label for="serviceNameInput" class="form-label">Service Name:</label>
+                                    <input type="text" class="form-control" id="serviceNameInput" name="serviceName" required>
                                 </div>
-                            </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description:</label>
+                                    <div id="editor" name="description"></div>
+                                </div>
+
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>Office or Division</td>
+                                            <td><textarea class="form-control" name="office" rows="2" required></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Classification</td>
+                                            <td>
+                                                <label><input type="radio" name="classification" value="Simple" required> Simple</label><br>
+                                                <label><input type="radio" name="classification" value="Complex"> Complex</label><br>
+                                                <label><input type="radio" name="classification" value="Highly Technical"> Highly Technical</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Type of Transaction</td>
+                                            <td>
+                                                <label><input type="checkbox" name="transaction_type" value="Government to Citizen (G2C)"> Government to Citizen (G2C)</label><br>
+                                                <label><input type="checkbox" name="transaction_type" value="Government to Business (G2B)"> Government to Business (G2B)</label><br>
+                                                <label><input type="checkbox" name="transaction_type" value="Government to Government (G2G)"> Government to Government (G2G)</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Who May Avail</td>
+                                            <td><textarea class="form-control" name="who_may_avail" rows="4" required></textarea></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="mb-3">
+                                    <h3>Requirements</h3>
+                                    <button type="button" class="btn btn-primary mb-2" onclick="addRequirementRow()">Add Requirement</button>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Checklist of Requirements</th>
+                                                <th>Where to Secure</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="requirementsTableBody">
+										
+										</tbody>
+                                    </table>
+                                </div>
+
+                                <div class="mb-3">
+                                    <h3>Process Overview</h3>
+                                    <button type="button" class="btn btn-primary mb-2" onclick="addProcessOverviewRow()">Add Process Step</button>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Client Steps</th>
+                                                <th>Agency Actions</th>
+                                                <th>Fees</th>
+                                                <th>Time</th>
+                                                <th>Person Responsible</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="processOverviewTableBody"></tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" class="text-end"><strong>Total</strong></td>
+                                                <td><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid"></td>
+                                                <td><input type="text" class="form-control" id="ProcessingTime" name="processingTime"></td>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+                                <div class="mb-3">
+									<button type="button" class="btn btn-primary" onclick="openPreview()">Preview</button>
+                                    <button type="button" class="btn btn-success" onclick="exportFormData()">Export Data</button>
+                                    <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="importFormData(event)">
+                                    <button type="button" class="btn btn-info" onclick="document.getElementById('importFileInput').click()">Import Data</button>
+                                    <button type="button" class="btn btn-danger" onclick="clearForm()">Clear Form</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -189,30 +141,11 @@
         </div>
     </div>
 
-    <!-- Custom JS -->
     <script src="assets/js/jquery-3.1.1.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/inspinia.js"></script>
-    <script src="assets/init.js" defer></script>
-    <script src="assets/addRows.js" defer></script>
-    <script src="assets/deleteRows.js" defer></script>
-    <script src="assets/formActions.js" defer></script>
-    <script src="assets/clearForm.js" defer></script>
-    <script src="assets/formValidation.js" defer></script> <!-- Include formValidation.js here -->
-    <script>
-        document.getElementById('citizenCharterForm').addEventListener('input', validateForm);
 
-        document.getElementById('citizenCharterForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            if (confirm("Are you sure to Save This File?")) {
-                // Add your save logic here
-                alert("Save was successful!");
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            validateForm();
-        });
-    </script>
+    <!-- Main Script -->
+	<script src="assets/main.js"></script>
 </body>
 </html>
