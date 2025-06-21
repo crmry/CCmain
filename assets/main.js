@@ -22,9 +22,15 @@
 		    const rowIndex = editorCounter++;
 
 		    newRow.innerHTML = `
-        <td><div id="requirement-${rowIndex}"></div></td>
-        <td><div id="whereToSecure-${rowIndex}"></div></td>
-        <td><button class="delete-btn" onclick="deleteRequirementRow(this.parentNode.parentNode)">Delete</button></td>
+        <td colspan="2">
+            <div id="requirement-${rowIndex}"></div>
+        </td>
+        <td colspan="3">
+            <div id="whereToSecure-${rowIndex}"></div>
+        </td>
+        <td style="text-align: center;">
+            <button class="delete-btn" onclick="deleteRequirementRow(this.parentNode.parentNode)">Delete</button>
+        </td>
     `;
 		    tableBody.appendChild(newRow);
 
@@ -35,16 +41,30 @@
 		    ClassicEditor.create(document.querySelector(`#requirement-${rowIndex}`), editorConfig)
 		        .then(editorInstance => {
 		            editorInstance.setData(requirementValue);
+			// Inject CSS to prevent word-break in CKEditor editable area
+            editorInstance.editing.view.change(writer => {
+                writer.setStyle('word-break', 'keep-all', editorInstance.editing.view.document.getRoot());
+                writer.setStyle('overflow-wrap', 'break-word', editorInstance.editing.view.document.getRoot());
+                writer.setStyle('white-space', 'normal', editorInstance.editing.view.document.getRoot());
+				writer.setStyle('hyphens', 'none', editorInstance.editing.view.document.getRoot());
+            });
 		            requirementEditors.push({
 		                type: 'requirement',
 		                index: rowIndex,
 		                editor: editorInstance
 		            });
 		        });
-
+			
 		    ClassicEditor.create(document.querySelector(`#whereToSecure-${rowIndex}`), editorConfig)
 		        .then(editorInstance => {
 		            editorInstance.setData(whereValue);
+			// Inject CSS to prevent word-break in CKEditor editable area
+            editorInstance.editing.view.change(writer => {
+                writer.setStyle('word-break', 'keep-all', editorInstance.editing.view.document.getRoot());
+                writer.setStyle('overflow-wrap', 'break-word', editorInstance.editing.view.document.getRoot());
+                writer.setStyle('white-space', 'normal', editorInstance.editing.view.document.getRoot());
+				writer.setStyle('hyphens', 'none', editorInstance.editing.view.document.getRoot());
+            });
 		            requirementEditors.push({
 		                type: 'whereToSecure',
 		                index: rowIndex,
@@ -65,7 +85,7 @@
         <td><div id="feesToBePaid-${rowIndex}"></div></td>
         <td><div id="processingTime-${rowIndex}"></div></td>
         <td><div id="personResponsible-${rowIndex}"></div></td>
-        <td><button class="delete-btn" onclick="deleteProcessOverviewRow(this.parentNode.parentNode)">Delete</button></td>
+        <td style="text-align: center;"><button class="delete-btn" onclick="deleteProcessOverviewRow(this.parentNode.parentNode)">Delete</button></td>
     `;
 		    tableBody.appendChild(newRow);
 
@@ -99,6 +119,13 @@
 		        ClassicEditor.create(document.querySelector(`#${field.type}-${rowIndex}`), editorConfig)
 		            .then(editorInstance => {
 		                editorInstance.setData(field.value);
+			// Inject CSS to prevent word-break in CKEditor editable area
+            editorInstance.editing.view.change(writer => {
+                writer.setStyle('word-break', 'keep-all', editorInstance.editing.view.document.getRoot());
+                writer.setStyle('overflow-wrap', 'break-word', editorInstance.editing.view.document.getRoot());
+                writer.setStyle('white-space', 'normal', editorInstance.editing.view.document.getRoot());
+				writer.setStyle('hyph®ens', 'none', editorInstance.editing.view.document.getRoot());
+            });
 		                processOverviewEditors.push({
 		                    type: field.type,
 		                    index: rowIndex,
@@ -154,7 +181,7 @@
 		        who_may_avail: formData.get('who_may_avail'),
 		        feesToBePaid: formData.get('feesToBePaid'),
 		        processingTime: formData.get('processingTime'),
-		        description: ckeditorInstance ? ckeditorInstance.getData() : '', // Handle the case if ckeditorInstance is not ready
+		        description: ckeditorInstance ? ckeditorInstance.getData() : '',
 		        requirements: [],
 		        processOverview: []
 		    };
@@ -302,103 +329,142 @@
         <html>
         <head>
             <style>
-                @page {
-                    size: A4;
-                    margin: 1.5in 1in 1in 1in;
-                }
-                body {
-                    font-family: Arial, sans-serif;
-                    line-height: 1.4;
-                    margin: 0;
-                    padding: 20px;
-                    font-size: 12px;
-                }
-                .print-warning {
-                    color: red;
-                    font-weight: bold;
-                    margin-bottom: 10px;
-                }
-                .main-header {
-                    margin-bottom: 0;
-                }
-                .service-name {
-                    font-size: 1.6em;
-                    font-weight: bold;
-                    margin-bottom: 5px;
-                    display: block;
-                }
-                .pdf-button {
-                    margin-bottom: 0;
-                    padding: 8px 12px;
-                    font-size: 14px;
-                    cursor: pointer;
-                }
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin: 0;
-                    word-wrap: break-word;
-                }
-                th, td {
-                    border: 1px solid #000;
-                    padding: 6px;
-                    text-align: left;
-                    vertical-align: top;
-                    word-break: break-word;
-                }
-                th {
-                    background-color: #8eaadb;
-                }
-                .requirements-table-wrapper,
-                .process-table-wrapper {
-                    page-break-after: auto;
-                    break-inside: avoid;
-                    margin: 0;
-                    padding: 0;
-                }
-                @media print {
-                    table {
-                        border-collapse: collapse;
-                        page-break-inside: auto;
-                        margin: 0;
-                    }
-                    thead {
-                        display: table-header-group;
-                    }
-                    tfoot {
-                        display: table-footer-group;
-                    }
-                    tr {
-                        page-break-inside: avoid;
-                        page-break-after: auto;
-                    }
-                    .requirements-table-wrapper,
-                    .process-table-wrapper {
-                        page-break-after: auto;
-                        break-inside: avoid;
-                        margin: 0;
-                        padding: 0;
-                    }
-                    button, .print-warning {
-                        display: none;
-                    }
-                    body {
-                        margin: 0;
-                        padding: 0;
-                    }
-                }
-                @media screen and (max-width: 768px) {
-                    body {
-                        font-size: 10px;
-                    }
-                    .service-name {
-                        font-size: 1.2em;
-                    }
-                    .pdf-button {
-                        font-size: 12px;
-                    }
-                }
-            </style>
+    @page {
+        size: A4;
+        margin: 1.5in 0.5in 1in 1in;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.4;
+        margin: 0;
+        padding: 20px;
+        font-size: 12px;
+    }
+
+    .print-warning {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .main-header {
+        margin-bottom: 0;
+    }
+
+    .service-name {
+        font-size: 1.6em;
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+	.service-description {
+	font-size: 12pt;
+	display: block;
+    }
+
+    .pdf-button {
+        margin-bottom: 0;
+        padding: 8px 12px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+        word-wrap: break-word;
+        page-break-inside: auto;
+    }
+
+    th, td {
+        border: 1px solid #000;
+        padding: 6px;
+        text-align: left;
+        vertical-align: top;
+        word-break: break-word;
+    }
+
+    th {
+        background-color: #8eaadb;
+    }
+
+    table + div table tr:first-child th {
+        border-top: none !important;
+    }
+	table + div + div table tr:first-child th {
+        border-top: none !important;
+        }
+
+    .requirements-table-wrapper,
+    .process-table-wrapper {
+        margin: 0;
+        padding: 0;
+        break-inside: auto;
+        page-break-inside: auto;
+        page-break-before: auto;
+    }
+
+    @media print {
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .print-warning,
+        .pdf-button {
+            display: none;
+        }
+
+        table {
+            border-collapse: collapse;
+            page-break-inside: auto;
+            margin: 0;
+        }
+
+        thead {
+            display: table-header-group !important;
+        }
+
+        tfoot {
+            display: table-footer-group;
+        }
+
+        tr {
+            page-break-inside: avoid;
+        }
+
+
+        .requirements-table-wrapper,
+        .process-table-wrapper {
+            break-inside: auto;
+            page-break-inside: auto;
+            page-break-before: auto;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        body {
+            font-size: 1.0037500100375em;
+        }
+
+        .service-name {
+            font-size: 1.16em;
+        }
+
+        .pdf-button {
+            font-size: 12px;
+        }
+    }
+</style>
+
+
+
         </head>
         <body>
             <div class="print-warning">
@@ -431,15 +497,17 @@
                     <td>${whoMayAvail}</td>
                 </tr>
             </table>
-            <div class="requirements-table-wrapper">
+            <div>
                 <table>
-                    <thead>
-                        <tr>
-                            <th>CHECKLIST OF REQUIREMENTS</th>
-                            <th>WHERE TO SECURE</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+					
+					<tbody style="page-break-inside: avoid;">
+						<tr>
+							<th style="width: 46%; text-align: center;">CHECKLIST OF REQUIREMENTS</th>
+							<th style="width: 54%; text-align: center;">WHERE TO SECURE</th>
+						</tr>
+					</tbody>
+  
+                    <tbody style="page-break-inside: avoid;">
                         ${requirements.map(req => `
                             <tr>
                                 <td>${req.requirement}</td>
@@ -449,36 +517,41 @@
                     </tbody>
                 </table>
             </div>
-            <div class="process-table-wrapper">
+            <div>
                 <table>
-                    <thead>
-                        <tr>
-                            <th>CLIENT STEPS</th>
-                            <th>AGENCY ACTIONS</th>
-                            <th>FEES TO BE PAID</th>
-                            <th>PROCESSING TIME</th>
-                            <th>PERSON RESPONSIBLE</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${processOverview.map(proc => `
-                            <tr>
-                                <td>${proc.clientSteps}</td>
-                                <td>${proc.agencyActions}</td>
-                                <td>${proc.feesToBePaid}</td>
-                                <td>${proc.processingTime}</td>
-                                <td>${proc.personResponsible}</td>
-                            </tr>
-                        `).join('')}
-                        <tr>
-                            <td></td>
-                            <th style="text-align:right;">TOTAL</th>
-                            <th style="text-align:center;">${FeesToBePaid}</th>
-                            <th style="text-align:center;">${ProcessingTime}</th>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+    <tbody style="page-break-inside: avoid;">
+    <tr>
+      <th style="width: 23%; text-align: center;">CLIENT STEPS</th>
+      <th style="width: 23%; text-align: center;">AGENCY ACTIONS</th>
+      <th style="width: 14%; text-align: center;">FEES TO BE PAID</th>
+      <th style="width: 19%; text-align: center;">PROCESSING TIME</th>
+      <th style="width: 21%; text-align: center;">PERSON RESPONSIBLE</th>
+    </tr>
+  </tbody>
+
+    ${processOverview.map(proc => `
+        <tbody style="page-break-inside: avoid;">
+            <tr>
+                <td>${proc.clientSteps}</td>
+                <td>${proc.agencyActions}</td>
+                <td style="text-align: center;">${proc.feesToBePaid}</td>
+                <td style="text-align: center;">${proc.processingTime}</td>
+                <td>${proc.personResponsible}</td>
+            </tr>
+        </tbody>
+    `).join('')}
+
+    <tbody style="page-break-inside: avoid;">
+        <tr>
+            <td style="background-color: #8eaadb;"></td>
+            <th style="text-align:right;">TOTAL</th>
+            <th style="text-align:center;">${FeesToBePaid.toUpperCase()}</th>
+            <th style="text-align:center;">${ProcessingTime.toUpperCase()}</th>
+            <td style="background-color: #8eaadb;"></td>
+        </tr>
+    </tbody>
+</table>
+
             </div>
         </body>
         </html>

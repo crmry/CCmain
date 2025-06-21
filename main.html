@@ -13,7 +13,7 @@
 </head>
 <body>
     <div id="wrapper">
-        <!-- Sidebar -->
+        <!-- Sidebar 
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
@@ -24,10 +24,10 @@
                     <li><a href="#"><i class="fa fa-question-circle"></i> <span class="nav-label">Help</span></a></li>
                 </ul>
             </div>
-        </nav>
+        </nav> -->
 
         <!-- Main Content -->
-        <div id="page-wrapper" class="gray-bg">
+        <div id="page-wrapper" class="gray-bg" style="margin-left:0; width:100%;">
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation">
                     <div class="navbar-header">
@@ -40,99 +40,123 @@
             </div>
 
             <div class="wrapper wrapper-content">
-                <div class="container-fluid p-0">
-                    <h1 class="h3 mb-3">Citizen Charter Generator</h1>
+                <div class="container-fluid" style="margin-left:0; width:100%;">
+                    <h1 class="h3 mb-3">CITIZEN CHARTER GENERATOR</h1>
                     <div class="ibox">
                         <div class="ibox-content">
                             <form id="citizenCharterForm">
                                 <div class="mb-3">
-                                    <label for="serviceNameInput" class="form-label">Service Name:</label>
+                                    <label for="serviceNameInput" class="form-label">SERVICE NAME:</label>
                                     <input type="text" class="form-control" id="serviceNameInput" name="serviceName" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="description" class="form-label">Description:</label>
+                                    <label for="description" class="form-label">DESCRIPTION:</label>
                                     <div id="editor" name="description"></div>
                                 </div>
 
-                                <table class="table table-bordered">
-                                    <tbody>
-                                        <tr>
-                                            <td>Office or Division</td>
-                                            <td><textarea class="form-control" name="office" rows="2" required></textarea></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Classification</td>
-                                            <td>
-                                                <label><input type="radio" name="classification" value="Simple" required> Simple</label><br>
-                                                <label><input type="radio" name="classification" value="Complex"> Complex</label><br>
-                                                <label><input type="radio" name="classification" value="Highly Technical"> Highly Technical</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Type of Transaction</td>
-                                            <td>
-                                                <label><input type="checkbox" name="transaction_type" value="Government to Citizen (G2C)"> Government to Citizen (G2C)</label><br>
-                                                <label><input type="checkbox" name="transaction_type" value="Government to Business (G2B)"> Government to Business (G2B)</label><br>
-                                                <label><input type="checkbox" name="transaction_type" value="Government to Government (G2G)"> Government to Government (G2G)</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Who May Avail</td>
-                                            <td><textarea class="form-control" name="who_may_avail" rows="4" required></textarea></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <table class="table table-bordered">
+                                <colgroup>
+                                    <col style="width: 220px;">
+                                    <col>
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>OFFICE OR DIVISION</strong></td>
+                                        <td>
+                                            <textarea class="form-control" name="office" rows="2" required></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>CLASSIFICATION</strong></td>
+                                        <td>
+                                            <label>
+                                                <input type="radio" name="classification" value="Simple" required> Simple
+                                            </label><br>
+                                            <label>
+                                                <input type="radio" name="classification" value="Complex"> Complex
+                                            </label><br>
+                                            <label>
+                                                <input type="radio" name="classification" value="Highly Technical"> Highly Technical
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>TYPE OF TRANSACTION</strong></td>
+                                        <td>
+                                            <label>
+                                                <input type="checkbox" name="transaction_type" value="Government to Citizen (G2C)"> Government to Citizen (G2C)
+                                            </label><br>
+                                            <label>
+                                                <input type="checkbox" name="transaction_type" value="Government to Business (G2B)"> Government to Business (G2B)
+                                            </label><br>
+                                            <label>
+                                                <input type="checkbox" name="transaction_type" value="Government to Government (G2G)"> Government to Government (G2G)
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>WHO MAY AVAIL</strong></td>
+                                        <td>
+                                            <textarea class="form-control" name="who_may_avail" rows="4" required></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
                                 <div class="mb-3">
                                     <h3>Requirements</h3>
-                                    <button type="button" class="btn btn-primary mb-2" onclick="addRequirementRow()">Add Requirement</button>
+                                       <button type="button" class="btn btn-primary mb-2" onclick="addRequirementRow()">Add Requirement</button>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Checklist of Requirements</th>
-                                                <th>Where to Secure</th>
-                                                <th>Actions</th>
+                                                <th colspan="2" class="text-center">CHECKLIST OF REQUIREMENTS</th>
+                                                <th colspan="3" class="text-center">WHERE TO SECURE</th>
+                                                <th class="text-center">ACTIONS</th>
                                             </tr>
                                         </thead>
                                         <tbody id="requirementsTableBody">
-										
 										</tbody>
                                     </table>
                                 </div>
 
                                 <div class="mb-3">
                                     <h3>Process Overview</h3>
-                                    <button type="button" class="btn btn-primary mb-2" onclick="addProcessOverviewRow()">Add Process Step</button>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Client Steps</th>
-                                                <th>Agency Actions</th>
-                                                <th>Fees</th>
-                                                <th>Time</th>
-                                                <th>Person Responsible</th>
-                                                <th>Actions</th>
+                                                <th style="text-align: center; page-break-inside: avoid;">CLIENT STEPS</th>
+                                                <th style="text-align: center; page-break-inside: avoid;">AGENCY ACTIONS</th>
+                                                <th style="text-align: center; page-break-inside: avoid;">FEES</th>
+                                                <th style="text-align: center; page-break-inside: avoid;">TIME</th>
+                                                <th style="text-align: center; page-break-inside: avoid;">PERSON<br>RESPONSIBLE</th>
+                                                <th style="text-align: center; page-break-inside: avoid;">ACTIONS</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="processOverviewTableBody"></tbody>
+                                        <tbody id="processOverviewTableBody">
+                                        </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="2" class="text-end"><strong>Total</strong></td>
-                                                <td><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid"></td>
-                                                <td><input type="text" class="form-control" id="ProcessingTime" name="processingTime"></td>
+                                                <td colspan="2" class="text-right"><strong>TOTAL</strong></td>
+                                                <td><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid" placeholder="Total fees"></td>
+                                                <td><input type="text" class="form-control" id="ProcessingTime" name="processingTime" placeholder="Total processing time"></td>
                                                 <td colspan="2"></td>
                                             </tr>
                                         </tfoot>
                                     </table>
+                                     <button type="button" class="btn btn-primary mb-2" onclick="addProcessOverviewRow()">Add Process Step</button>
                                 </div>
 
-                                <div class="mb-3">
-									<button type="button" class="btn btn-primary" onclick="openPreview()">Preview</button>
-                                    <button type="button" class="btn btn-success" onclick="exportFormData()">Export Data</button>
-                                    <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="importFormData(event)">
-                                    <button type="button" class="btn btn-info" onclick="document.getElementById('importFileInput').click()">Import Data</button>
-                                    <button type="button" class="btn btn-danger" onclick="clearForm()">Clear Form</button>
-                                </div>
+                                <div class="ibox mb-3">
+                                    <div class="ibox-content">
+                                        <div class="mb-3 text-center">
+                                            <button type="button" class="btn btn-primary" onclick="openPreview()">Preview</button>
+                                            <button type="button" class="btn btn-success" onclick="exportFormData()">Export Data</button>
+                                            <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="importFormData(event)">
+                                            <button type="button" class="btn btn-info" onclick="document.getElementById('importFileInput').click()">Import Data</button>
+                                            <button type="button" class="btn btn-danger" onclick="clearForm()">Clear Form</button>
+                                        </div>
+                                       </div>
+                                    </div>    
                             </form>
                         </div>
                     </div>

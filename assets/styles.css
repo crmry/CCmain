@@ -1,9 +1,29 @@
+/* Layout and Container Styles */
+html, body, #wrapper, #page-wrapper, .container-fluid, .wrapper-content {
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0;
+    padding: 20;
+}
+
 body {
+    overflow-x: hidden;
     font-family: Arial, sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 20px;
     background-color: #f8f9fa; /* AdminKit background color */
+}
+
+.ibox, .ibox-content {
+    margin: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.container-fluid {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
 }
 
 .container {
@@ -15,33 +35,37 @@ body {
     box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05); /* AdminKit card shadow */
 }
 
+/* Typography */
 h2 {
-    color: #343a40; /* AdminKit text color */
-    border-bottom: 2px solid #343a40; /* AdminKit text color */
+    color: #000000; /* AdminKit text color */
+    border-bottom: 2px solid #343a40;
     padding-bottom: 10px;
-}
-
-.form-group {
-    margin-bottom: 15px;
 }
 
 label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #343a40; /* AdminKit text color */
+    color: #010101;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 15px;
 }
 
 input[type="text"], textarea, select {
     width: 100%;
     padding: 0.5em;
     font-size: 1rem;
-    border: 1px solid #ced4da; /* AdminKit border color */
+    border: 1px solid #ced4da;
     border-radius: 4px;
     box-sizing: border-box;
     line-height: 1.5;
+    color:#010101
 }
 
+/* Checkbox Group */
 .checkbox-group {
     margin-top: 5px;
 }
@@ -58,28 +82,41 @@ input[type="text"], textarea, select {
     cursor: pointer;
 }
 
-.requirements-table {
+/* Table Styles */
+.requirements-table,
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    table-layout: fixed;
 }
 
-.requirements-table th, .requirements-table td {
-    border: 1px solid #dee2e6; /* AdminKit border color */
+.requirements-table th, .requirements-table td,
+table th, table td {
+    border: 1px solid #dee2e6;
     padding: 8px;
-    text-align: left; 
+    text-align: left;
+    vertical-align: top;
+    box-sizing: border-box;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+    min-width: 0;
+    max-width: 0;
 }
 
-.requirements-table th {
-    background-color: #e9ecef; /* AdminKit background color for table headers */
+.requirements-table th,
+table th {
+    background-color: #e9ecef;
     font-weight: bold;
 }
 
+/* Button Styles */
 .button-container {
     display: flex;
     justify-content: right;
     align-items: center;
-    margin-left: 10px; /* Adds space to the right of each button */
+    margin-left: 10px;
 }
 
 button {
@@ -91,39 +128,26 @@ button {
     cursor: pointer;
     margin-top: 10px;
     font-size: 1rem;
-    margin-left: 10px; /* Adds space to the right of each button */
+    margin-left: 10px;
 }
 
 button:hover {
-    background-color: #0056b3; /* AdminKit primary button hover color */
+    background-color: #0056b3;
 }
 
+/* CKEditor Editable Area */
 .ck-editor__editable {
     min-height: 100px !important;
-    font-size: 1rem
+    font-size: 1rem;
+    color: #111 !important; /* or #000 for pure black */
 }
 
-/* Ensure table cells adjust width based on content */
-table {
-    table-layout: auto; /* Let the table adjust column widths based on content */
-    width: 100%; /* Optional: Ensure the table takes the full width of the container */
-    border-collapse: collapse;
-}
-
-table th, table td {
-    padding: 8px; /* Adjust padding as needed */
-    border: 1px solid #dee2e6; /* AdminKit border color */
-    text-align: left;
-    vertical-align: top;
-}
-
-
-/* Styles for delete functionality */
+/* Delete Button */
 .delete-btn {
     display: inline-block;
     background-color: #dc3545; /* AdminKit danger button color */
     color: white;
-    padding: 2px 8px;
+    padding: 4px 8px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -131,22 +155,5 @@ table th, table td {
 }
 
 .delete-btn:hover {
-    background-color: #c82333; /* AdminKit danger button hover color */
+    background-color: #c82333;
 }
-
-/* Styles for delete functionality */
-.delete-btn {
-    display: inline-block;
-    background-color: #dc3545; /* AdminKit danger button color */
-    color: white;
-    padding: 4px 8px; /* Adjust padding for better alignment */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px;
-}
-
-.delete-btn:hover {
-    background-color: #c82333; /* AdminKit danger button hover color */
-}
-
