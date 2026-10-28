@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1730102400000,
+    "savedAt": "2026-10-28T08:30:00.000Z",
+    "serviceName": "ISSUANCE OF MEDICAL CERTIFICATE AND CLINICAL ABSTRACT",
+    "description": "<p>Provision of certified medical certificates, clinical abstracts, and verification of hospital confinements or consultations for employment, legal, insurance, financial assistance, or continuing medical care purposes.</p>",
+    "office": "Health Information Management Department (HIMD) / Outpatient Department (OPD)",
+    "classification": "Simple",
+    "transactionTypes": "Government to Citizen (G2C)",
+    "whoMayAvail": "All discharged inpatients, active outpatients, or their officially authorized representative requesting certified copies of hospital records and medical abstracts.",
+    "feesToBePaid": "<p><strong>₱50.00</strong> (Official Certification Fee; indigent patients waived upon Medical Social Service endorsement)</p>",
+    "processingTime": "<p><strong>30 Minutes</strong> (Upon submission of complete documentary requirements)</p>",
+    "requirements": "<p>1. Valid Government ID &bull; 2. OPD / Hospital Record Card &bull; 3. Authorization Letter (if representative)</p>",
+    "processOverview": "<p>Step 1: Verification (5m) &bull; Step 2: Payment (5m) &bull; Step 3: Physician Signature (15m) &bull; Step 4: Releasing (5m)</p>"
+  }
+]

@@ -1,0 +1,13 @@
+# Runtime Binaries (Prevents pushing 94MB node.exe to GitHub)
+bin/
+*.exe
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Audit test files
+plugin_report.json
+plugin_report_full.json

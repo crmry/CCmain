@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Citizen Charter Generator</title>
+    <title>Citizen Charter Builder - Corazon Locsin Montelibano Memorial Regional Hospital</title>
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
@@ -13,163 +13,231 @@
 </head>
 <body>
     <div id="wrapper">
-        <!-- Sidebar 
-        <nav class="navbar-default navbar-static-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav metismenu" id="side-menu">
-                    <li><a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a></li>
-                    <li class="active"><a href="#"><i class="fa fa-file"></i> <span class="nav-label">Citizen Charter</span></a></li>
-                    <li><a href="#"><i class="fa fa-cogs"></i> <span class="nav-label">Settings</span></a></li>
-                    <li><a href="#"><i class="fa fa-user"></i> <span class="nav-label">Profile</span></a></li>
-                    <li><a href="#"><i class="fa fa-question-circle"></i> <span class="nav-label">Help</span></a></li>
-                </ul>
-            </div>
-        </nav> -->
-
-        <!-- Main Content -->
-        <div id="page-wrapper" class="gray-bg" style="margin-left:0; width:100%;">
-            <div class="row border-bottom">
-                <nav class="navbar navbar-static-top" role="navigation">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i></a>
+        <div id="page-wrapper" class="gray-bg" style="margin-left:0; width:100%; min-height: 100vh;">
+            <!-- Top Branding Navigation -->
+            <header class="top-brand-bar">
+                <div class="top-brand-title">
+                    <i class="fa-solid fa-hospital-user fa-2x"></i>
+                    <div>
+                        <h1>CITIZEN CHARTER BUILDER</h1>
+                        <p class="top-brand-subtitle">Corazon Locsin Montelibano Memorial Regional Hospital (CLMMRH) &bull; Department of Health</p>
                     </div>
-                    <ul class="nav navbar-top-links navbar-right">
-                        <li><a href="#">Citizen Charter Generator</a></li>
-                    </ul>
-                </nav>
-            </div>
+                </div>
+                <div>
+                    <span class="top-brand-badge"><i class="fa fa-globe"></i> Client-Side Executable</span>
+                </div>
+            </header>
 
-            <div class="wrapper wrapper-content">
-                <div class="container-fluid" style="margin-left:0; width:100%;">
-                    <h1 class="h3 mb-3">CITIZEN CHARTER GENERATOR</h1>
+            <div class="wrapper wrapper-content" style="padding: 20px;">
+                <div class="container-fluid" style="margin-left:0; width:100%; max-width: 1400px; margin: 0 auto;">
+                    
+                    <!-- Quick Action & Storage Status Bar -->
+                    <div class="action-toolbar-card">
+                        <div class="toolbar-buttons">
+                            <button type="button" class="btn btn-primary" onclick="openPreview()" title="Open printable preview and save as PDF">
+                                <i class="fa fa-print"></i> Preview &amp; Print
+                            </button>
+                            <button type="button" class="btn btn-success" onclick="saveToLocalStorage(true)" title="Manually save progress to browser storage">
+                                <i class="fa fa-save"></i> Save Draft
+                            </button>
+                            <button type="button" class="btn btn-info text-white" onclick="loadSampleData(true)" title="Load realistic hospital Citizen Charter template">
+                                <i class="fa fa-clipboard-list"></i> Load Sample Charter
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="exportFormData()" title="Download as JSON file">
+                                <i class="fa fa-download"></i> Export JSON
+                            </button>
+                            <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="importFormData(event)">
+                            <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('importFileInput').click()" title="Load charter from JSON file">
+                                <i class="fa fa-upload"></i> Import JSON
+                            </button>
+                            <button type="button" class="btn btn-outline-danger" onclick="clearForm()" title="Reset form to a clean state">
+                                <i class="fa fa-trash"></i> Clear Form
+                            </button>
+                        </div>
+                        <div>
+                            <span id="saveStatusBadge" class="badge-status badge-success">
+                                <i class="fa fa-check-circle"></i> Ready
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Main Citizen Charter Form Card -->
                     <div class="ibox">
-                        <div class="ibox-content">
-                            <form id="citizenCharterForm">
-                                <div class="mb-3">
-                                    <label for="serviceNameInput" class="form-label">SERVICE NAME:</label>
-                                    <input type="text" class="form-control" id="serviceNameInput" name="serviceName" required>
+                        <div class="ibox-content" style="padding: 24px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <form id="citizenCharterForm" onsubmit="return false;">
+                                <div class="mb-4">
+                                    <label for="serviceNameInput" class="form-label" style="font-size: 1.1rem; color: #1e293b;">
+                                        <i class="fa fa-file-signature text-success"></i> SERVICE NAME:
+                                    </label>
+                                    <input type="text" class="form-control" id="serviceNameInput" name="serviceName" placeholder="e.g. ISSUANCE OF MEDICAL CERTIFICATE AND CLINICAL ABSTRACT" required style="font-size: 1.05rem; font-weight: 600;">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="description" class="form-label">DESCRIPTION:</label>
+
+                                <div class="mb-4">
+                                    <label for="editor" class="form-label" style="font-size: 1rem; color: #1e293b;">
+                                        <i class="fa fa-align-left text-success"></i> DESCRIPTION:
+                                    </label>
                                     <div id="editor" name="description"></div>
                                 </div>
 
-                            <table class="table table-bordered">
-                                <colgroup>
-                                    <col style="width: 220px;">
-                                    <col>
-                                </colgroup>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>OFFICE OR DIVISION</strong></td>
-                                        <td>
-                                            <textarea class="form-control" name="office" rows="2" required></textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>CLASSIFICATION</strong></td>
-                                        <td>
-                                            <label>
-                                                <input type="radio" name="classification" value="Simple" required> Simple
-                                            </label><br>
-                                            <label>
-                                                <input type="radio" name="classification" value="Complex"> Complex
-                                            </label><br>
-                                            <label>
-                                                <input type="radio" name="classification" value="Highly Technical"> Highly Technical
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>TYPE OF TRANSACTION</strong></td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" name="transaction_type" value="Government to Citizen (G2C)"> Government to Citizen (G2C)
-                                            </label><br>
-                                            <label>
-                                                <input type="checkbox" name="transaction_type" value="Government to Business (G2B)"> Government to Business (G2B)
-                                            </label><br>
-                                            <label>
-                                                <input type="checkbox" name="transaction_type" value="Government to Government (G2G)"> Government to Government (G2G)
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>WHO MAY AVAIL</strong></td>
-                                        <td>
-                                            <textarea class="form-control" name="who_may_avail" rows="4" required></textarea>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                                <div class="mb-3">
-                                    <h3>Requirements</h3>
-                                       <button type="button" class="btn btn-primary mb-2" onclick="addRequirementRow()">Add Requirement</button>
+                                <div class="table-responsive mb-4">
                                     <table class="table table-bordered">
-                                        <thead>
+                                        <colgroup>
+                                            <col style="width: 240px;">
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
                                             <tr>
-                                                <th colspan="2" class="text-center">CHECKLIST OF REQUIREMENTS</th>
-                                                <th colspan="3" class="text-center">WHERE TO SECURE</th>
-                                                <th class="text-center">ACTIONS</th>
+                                                <td class="align-middle"><strong>OFFICE OR DIVISION</strong></td>
+                                                <td>
+                                                    <textarea class="form-control" name="office" rows="2" placeholder="e.g. Health Information Management Department (HIMD) / Outpatient Department (OPD)" required></textarea>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody id="requirementsTableBody">
-										</tbody>
-                                    </table>
-                                </div>
-
-                                <div class="mb-3">
-                                    <h3>Process Overview</h3>
-                                    <table class="table table-bordered">
-                                        <thead>
                                             <tr>
-                                                <th style="text-align: center; page-break-inside: avoid;">CLIENT STEPS</th>
-                                                <th style="text-align: center; page-break-inside: avoid;">AGENCY ACTIONS</th>
-                                                <th style="text-align: center; page-break-inside: avoid;">FEES</th>
-                                                <th style="text-align: center; page-break-inside: avoid;">TIME</th>
-                                                <th style="text-align: center; page-break-inside: avoid;">PERSON<br>RESPONSIBLE</th>
-                                                <th style="text-align: center; page-break-inside: avoid;">ACTIONS</th>
+                                                <td class="align-middle"><strong>CLASSIFICATION</strong></td>
+                                                <td>
+                                                    <div style="display: flex; gap: 24px; flex-wrap: wrap; padding-top: 4px;">
+                                                        <label style="cursor: pointer; font-weight: 500;">
+                                                            <input type="radio" name="classification" value="Simple" checked required> Simple
+                                                        </label>
+                                                        <label style="cursor: pointer; font-weight: 500;">
+                                                            <input type="radio" name="classification" value="Complex"> Complex
+                                                        </label>
+                                                        <label style="cursor: pointer; font-weight: 500;">
+                                                            <input type="radio" name="classification" value="Highly Technical"> Highly Technical
+                                                        </label>
+                                                    </div>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody id="processOverviewTableBody">
+                                            <tr>
+                                                <td class="align-middle"><strong>TYPE OF TRANSACTION</strong></td>
+                                                <td>
+                                                    <div style="display: flex; gap: 24px; flex-wrap: wrap; padding-top: 4px;">
+                                                        <label style="cursor: pointer; font-weight: 500;">
+                                                            <input type="checkbox" name="transaction_type" value="Government to Citizen (G2C)" checked> Government to Citizen (G2C)
+                                                        </label>
+                                                        <label style="cursor: pointer; font-weight: 500;">
+                                                            <input type="checkbox" name="transaction_type" value="Government to Business (G2B)"> Government to Business (G2B)
+                                                        </label>
+                                                        <label style="cursor: pointer; font-weight: 500;">
+                                                            <input type="checkbox" name="transaction_type" value="Government to Government (G2G)"> Government to Government (G2G)
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="align-middle"><strong>WHO MAY AVAIL</strong></td>
+                                                <td>
+                                                    <textarea class="form-control" name="who_may_avail" rows="3" placeholder="e.g. All ambulatory patients, guardians, or authorized representatives..." required></textarea>
+                                                </td>
+                                            </tr>
                                         </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="2" class="text-right"><strong>TOTAL</strong></td>
-                                                <td><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid" placeholder="Total fees"></td>
-                                                <td><input type="text" class="form-control" id="ProcessingTime" name="processingTime" placeholder="Total processing time"></td>
-                                                <td colspan="2"></td>
-                                            </tr>
-                                        </tfoot>
                                     </table>
-                                     <button type="button" class="btn btn-primary mb-2" onclick="addProcessOverviewRow()">Add Process Step</button>
                                 </div>
 
-                                <div class="ibox mb-3">
-                                    <div class="ibox-content">
-                                        <div class="mb-3 text-center">
-                                            <button type="button" class="btn btn-primary" onclick="openPreview()">Preview</button>
-                                            <button type="button" class="btn btn-success" onclick="exportFormData()">Export Data</button>
-                                            <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="importFormData(event)">
-                                            <button type="button" class="btn btn-info" onclick="document.getElementById('importFileInput').click()">Import Data</button>
-                                            <button type="button" class="btn btn-danger" onclick="clearForm()">Clear Form</button>
-                                        </div>
-                                       </div>
-                                    </div>    
+                                <!-- Requirements Section -->
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                                        <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e293b; margin: 0;">
+                                            <i class="fa fa-list-check text-success"></i> Documentary Requirements
+                                        </h3>
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="addRequirementRow()">
+                                            <i class="fa fa-plus"></i> Add Requirement Row
+                                        </button>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2" class="text-center" style="background-color: #e2e8f0; font-weight: 700;">CHECKLIST OF REQUIREMENTS</th>
+                                                    <th colspan="3" class="text-center" style="background-color: #e2e8f0; font-weight: 700;">WHERE TO SECURE</th>
+                                                    <th class="text-center" style="width: 120px; background-color: #e2e8f0; font-weight: 700;">ACTIONS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="requirementsTableBody"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Process Overview Section -->
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                                        <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e293b; margin: 0;">
+                                            <i class="fa fa-tasks text-success"></i> Process Steps &amp; Timelines
+                                        </h3>
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="addProcessOverviewRow()">
+                                            <i class="fa fa-plus"></i> Add Process Step
+                                        </button>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 24%; text-align: center; background-color: #e2e8f0; font-weight: 700;">CLIENT STEPS</th>
+                                                    <th style="width: 24%; text-align: center; background-color: #e2e8f0; font-weight: 700;">AGENCY ACTIONS</th>
+                                                    <th style="width: 15%; text-align: center; background-color: #e2e8f0; font-weight: 700;">FEES TO BE PAID</th>
+                                                    <th style="width: 17%; text-align: center; background-color: #e2e8f0; font-weight: 700;">PROCESSING TIME</th>
+                                                    <th style="width: 20%; text-align: center; background-color: #e2e8f0; font-weight: 700;">PERSON RESPONSIBLE</th>
+                                                    <th style="width: 120px; text-align: center; background-color: #e2e8f0; font-weight: 700;">ACTIONS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="processOverviewTableBody"></tbody>
+                                            <tfoot>
+                                                <tr style="background-color: #f1f5f9;">
+                                                    <td colspan="2" class="text-right align-middle" style="font-weight: 700;"><strong>TOTAL:</strong></td>
+                                                    <td>
+                                                        <div id="FeesToBePaid" class="fees-editor"></div>
+                                                        <input type="hidden" id="FeesToBePaidInput" name="feesToBePaid" />
+                                                    </td>
+                                                    <td>
+                                                        <div id="ProcessingTime" class="processing-time-editor"></div>
+                                                        <input type="hidden" id="ProcessingTimeInput" name="processingTime" />
+                                                    </td>
+                                                    <td colspan="2"></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Bottom Action Bar -->
+                                <div class="action-toolbar-card mt-4">
+                                    <div class="toolbar-buttons">
+                                        <button type="button" class="btn btn-primary" onclick="openPreview()">
+                                            <i class="fa fa-print"></i> Preview &amp; Print
+                                        </button>
+                                        <button type="button" class="btn btn-success" onclick="saveToLocalStorage(true)">
+                                            <i class="fa fa-save"></i> Save Draft
+                                        </button>
+                                        <button type="button" class="btn btn-info text-white" onclick="loadSampleData(true)">
+                                            <i class="fa fa-clipboard-list"></i> Load Sample Charter
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" onclick="exportFormData()">
+                                            <i class="fa fa-download"></i> Export JSON
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('importFileInput').click()">
+                                            <i class="fa fa-upload"></i> Import JSON
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger" onclick="clearForm()">
+                                            <i class="fa fa-trash"></i> Clear Form
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Footer -->
+            <footer style="text-align: center; padding: 18px 24px; font-size: 0.85rem; color: #64748b; border-top: 1px solid #e2e8f0; background: #ffffff;">
+                <strong>Corazon Locsin Montelibano Memorial Regional Hospital</strong> &bull; Citizen Charter Builder &bull; Client-Side Static Web Application
+            </footer>
         </div>
     </div>
 
     <script src="assets/js/jquery-3.1.1.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/inspinia.js"></script>
-
-    <!-- Main Script -->
-	<script src="assets/main.js"></script>
+    <script src="assets/main.js"></script>
 </body>
 </html>
