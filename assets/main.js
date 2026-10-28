@@ -332,49 +332,88 @@
 		    previewWindow.document.write(`
         <html>
         <head>
+            <meta charset="UTF-8">
+            <title>${serviceName || "Citizen Charter"} - Preview</title>
             <style>
     @page {
-        size: A4;
+        size: A4 portrait;
         margin: 1.5in 0.5in 1in 1in;
     }
 
+    *, *:before, *:after {
+        box-sizing: border-box;
+    }
+
     body {
-        font-family: Arial, sans-serif;
-        line-height: 1.4;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        line-height: 1.45;
         margin: 0;
-        padding: 20px;
-        font-size: 12px;
+        padding: 24px;
+        font-size: 14px;
+        color: #000;
+        background: #fff;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
     }
 
     .print-warning {
-        color: red;
+        color: #cc0000;
         font-weight: bold;
-        margin-bottom: 10px;
+        font-size: 13px;
+        line-height: 1.45;
+        margin-bottom: 12px;
+        padding: 8px 12px;
+        background-color: #fff4f4;
+        border: 1px solid #ffcccc;
+        border-radius: 4px;
     }
 
     .main-header {
-        margin-bottom: 0;
+        margin-bottom: 10px;
     }
 
     .service-name {
-        font-size: 1.6em;
+        font-size: 20px;
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom: 6px;
         display: block;
+        color: #000;
+        letter-spacing: 0.2px;
     }
 
 	.service-description {
-	font-size: 12pt;
-	display: block;
+        font-size: 14px;
+        line-height: 1.5;
+        display: block;
+        color: #000;
+        margin-bottom: 10px;
+    }
+
+    .service-description p,
+    td p, th p {
+        margin: 0 0 4px 0;
+    }
+    .service-description p:last-child,
+    td p:last-child, th p:last-child {
+        margin-bottom: 0;
     }
 
     .pdf-button {
-        margin-bottom: 0;
-        padding: 8px 12px;
+        margin-bottom: 16px;
+        padding: 9px 18px;
         font-size: 14px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
         cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
-
+    .pdf-button:hover {
+        background-color: #0056b3;
+    }
 
     table {
         width: 100%;
@@ -382,18 +421,27 @@
         margin: 0;
         word-wrap: break-word;
         page-break-inside: auto;
+        font-size: 14px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
 
     th, td {
-        border: 1px solid #000;
-        padding: 6px;
+        border: 1.5px solid #000;
+        padding: 8px 10px;
         text-align: left;
         vertical-align: top;
         word-break: break-word;
+        font-size: 14px;
+        line-height: 1.45;
+        color: #000;
     }
 
     th {
-        background-color: #8eaadb;
+        background-color: #8eaadb !important;
+        font-weight: bold;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 
     table + div table tr:first-child th {
@@ -401,7 +449,7 @@
     }
 	table + div + div table tr:first-child th {
         border-top: none !important;
-        }
+    }
 
     .requirements-table-wrapper,
     .process-table-wrapper {
@@ -416,17 +464,24 @@
         body {
             margin: 0;
             padding: 0;
+            font-size: 14px;
+            color: #000;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
         .print-warning,
         .pdf-button {
-            display: none;
+            display: none !important;
         }
 
         table {
             border-collapse: collapse;
             page-break-inside: auto;
             margin: 0;
+            font-size: 14px;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
         thead {
@@ -441,6 +496,28 @@
             page-break-inside: avoid;
         }
 
+        th, td {
+            border: 1.5px solid #000 !important;
+            font-size: 14px !important;
+            padding: 7px 8px !important;
+            color: #000 !important;
+        }
+
+        th {
+            background-color: #8eaadb !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .service-name {
+            font-size: 20px !important;
+            color: #000 !important;
+        }
+
+        .service-description {
+            font-size: 14px !important;
+            color: #000 !important;
+        }
 
         .requirements-table-wrapper,
         .process-table-wrapper {
@@ -454,15 +531,15 @@
 
     @media screen and (max-width: 768px) {
         body {
-            font-size: 1.0037500100375em;
+            font-size: 14px;
         }
 
         .service-name {
-            font-size: 1.16em;
+            font-size: 18px;
         }
 
         .pdf-button {
-            font-size: 12px;
+            font-size: 13px;
         }
     }
 </style>
