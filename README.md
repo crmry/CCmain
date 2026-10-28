@@ -61,10 +61,6 @@ Access and run the Citizen Charter Builder directly in any web browser without i
 
 ---
 
-## 💻 Offline / Local Workstation Usage
+## 💻 Local / Offline Usage
 
-If running on an offline workstation without internet:
-1. Double-click `start-server.bat` in the repository root.
-2. The bundled hardened server will start on dedicated port `6767`.
-3. Open `http://localhost:6767/ccmain/index.html` in your browser.
-4. When finished, double-click `stop-server.bat` to terminate background processes.
+Simply double-click `index.html` in the repository root to run the application in any modern web browser (Google Chrome, Microsoft Edge, Safari, Firefox). No web server, database, Node.js, or internet connection is required for authoring and saving Citizen Charters.
