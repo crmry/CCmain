@@ -98,17 +98,25 @@ table th, table td {
     text-align: left;
     vertical-align: top;
     box-sizing: border-box;
-    word-break: break-all;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
     hyphens: auto;
-    min-width: 0;
-    max-width: 0;
 }
 
 .requirements-table th,
 table th {
     background-color: #e9ecef;
     font-weight: bold;
+}
+
+/* Ensure Action Column does not squish */
+th.actions-col, td.actions-col {
+    width: 130px !important;
+    min-width: 130px !important;
+    max-width: 130px !important;
+    white-space: nowrap !important;
+    word-break: normal !important;
+    text-align: center !important;
+    vertical-align: middle !important;
 }
 
 /* Button Styles */
@@ -135,7 +143,7 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Override button styles for action buttons (no background override so color classes apply) */
+/* Override button styles for action buttons */
 button.action-btn {
     padding: 7px 11px;
     margin: 0;
@@ -149,7 +157,7 @@ button.action-btn {
 .ck-editor__editable {
     min-height: 100px !important;
     font-size: 1rem;
-    color: #111 !important; /* or #000 for pure black */
+    color: #111 !important;
 }
 
 /* Delete Button */
@@ -183,6 +191,7 @@ button.action-btn {
 .insert-btn:hover {
     background-color: #138496;
 }
+
 /* Professional Action Button Group */
 .btn-group {
     display: inline-flex;
@@ -207,7 +216,6 @@ button.action-btn {
     box-shadow: none;
 }
 
-/* Ensure action buttons are centered within their table cell */
 td .btn-group {
     display: inline-flex;
     align-items: center;
@@ -271,125 +279,3 @@ td .btn-group {
 .fees-editor {
     min-height: 40px;
 }
-
-/* Top App Header & Branding Bar */
-.top-brand-bar {
-    background: linear-gradient(135deg, #1f7d45 0%, #166534 100%);
-    color: #ffffff;
-    padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.top-brand-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.top-brand-title h1 {
-    font-size: 1.35rem;
-    font-weight: 700;
-    margin: 0;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-}
-
-.top-brand-subtitle {
-    font-size: 0.8rem;
-    color: #d1fae5;
-    margin: 0;
-}
-
-.top-brand-badge {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-/* Quick Action Toolbar */
-.action-toolbar-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 12px 18px;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.toolbar-buttons {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.toolbar-buttons .btn {
-    padding: 8px 16px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    border-radius: 6px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s ease-in-out;
-}
-
-.toolbar-buttons .btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.12);
-}
-
-.badge-status {
-    padding: 6px 12px;
-    border-radius: 12px;
-    font-size: 0.825rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.badge-success {
-    background-color: #dcfce7;
-    color: #15803d;
-    border: 1px solid #86efac;
-}
-
-.badge-info {
-    background-color: #e0f2fe;
-    color: #0369a1;
-    border: 1px solid #7dd3fc;
-}
-
-.badge-primary {
-    background-color: #e0e7ff;
-    color: #4338ca;
-    border: 1px solid #a5b4fc;
-}
-
-.badge-warning {
-    background-color: #fef3c7;
-    color: #b45309;
-    border: 1px solid #fcd34d;
-}
-
-.badge-danger {
-    background-color: #fee2e2;
-    color: #b91c1c;
-    border: 1px solid #fca5a5;
-}
-
