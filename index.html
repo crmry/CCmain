@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Citizen Charter Builder</title>
+    <title>Citizen Charter Generator</title>
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
@@ -21,14 +21,14 @@
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i></a>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
-                        <li><a href="#">Citizen Charter Builder</a></li>
+                        <li><a href="#">Citizen Charter Generator</a></li>
                     </ul>
                 </nav>
             </div>
 
             <div class="wrapper wrapper-content">
                 <div class="container-fluid" style="margin-left:0; width:100%;">
-                    <h1 class="h3 mb-3">CITIZEN CHARTER BUILDER</h1>
+                    <h1 class="h3 mb-3">CITIZEN CHARTER GENERATOR</h1>
                     <div class="ibox">
                         <div class="ibox-content">
                             <form id="citizenCharterForm">
@@ -98,7 +98,7 @@
                                             <tr>
                                                 <th colspan="2" class="text-center">CHECKLIST OF REQUIREMENTS</th>
                                                 <th colspan="3" class="text-center">WHERE TO SECURE</th>
-                                                <th class="text-center actions-col">ACTIONS</th>
+                                                <th class="text-center">ACTIONS</th>
                                             </tr>
                                         </thead>
                                         <tbody id="requirementsTableBody">
@@ -108,7 +108,6 @@
 
                                 <div class="mb-3">
                                     <h3>Process Overview</h3>
-                                    <button type="button" class="btn btn-primary mb-2" onclick="addProcessOverviewRow()">Add Process Step</button>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
@@ -117,7 +116,7 @@
                                                 <th style="text-align: center; page-break-inside: avoid;">FEES</th>
                                                 <th style="text-align: center; page-break-inside: avoid;">TIME</th>
                                                 <th style="text-align: center; page-break-inside: avoid;">PERSON<br>RESPONSIBLE</th>
-                                                <th style="text-align: center; page-break-inside: avoid;" class="actions-col">ACTIONS</th>
+                                                <th style="text-align: center; page-break-inside: avoid;">ACTIONS</th>
                                             </tr>
                                         </thead>
                                         <tbody id="processOverviewTableBody">
@@ -125,18 +124,13 @@
                                         <tfoot>
                                             <tr>
                                                 <td colspan="2" class="text-right"><strong>TOTAL</strong></td>
-                                                <td>
-                                                    <div id="FeesToBePaid" class="fees-editor"></div>
-                                                    <input type="hidden" id="FeesToBePaidInput" name="feesToBePaid" />
-                                                </td>
-                                                <td>
-                                                    <div id="ProcessingTime" class="processing-time-editor"></div>
-                                                    <input type="hidden" id="ProcessingTimeInput" name="processingTime" />
-                                                </td>
+                                                <td><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid" placeholder="Total fees"></td>
+                                                <td><input type="text" class="form-control" id="ProcessingTime" name="processingTime" placeholder="Total processing time"></td>
                                                 <td colspan="2"></td>
                                             </tr>
                                         </tfoot>
                                     </table>
+                                    <button type="button" class="btn btn-primary mb-2" onclick="addProcessOverviewRow()">Add Process Step</button>
                                 </div>
 
                                 <div class="ibox mb-3">
@@ -148,8 +142,8 @@
                                             <button type="button" class="btn btn-info" onclick="document.getElementById('importFileInput').click()">Import Data</button>
                                             <button type="button" class="btn btn-danger" onclick="clearForm()">Clear Form</button>
                                         </div>
-                                       </div>
-                                    </div>    
+                                    </div>
+                                </div>    
                             </form>
                         </div>
                     </div>

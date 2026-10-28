@@ -98,8 +98,11 @@ table th, table td {
     text-align: left;
     vertical-align: top;
     box-sizing: border-box;
-    overflow-wrap: break-word;
+    word-break: break-all;
+    overflow-wrap: anywhere;
     hyphens: auto;
+    min-width: 0;
+    max-width: 0;
 }
 
 .requirements-table th,
@@ -108,15 +111,15 @@ table th {
     font-weight: bold;
 }
 
-/* Ensure Action Column does not squish */
-th.actions-col, td.actions-col {
-    width: 130px !important;
-    min-width: 130px !important;
-    max-width: 130px !important;
+/* Ensure Actions column has appropriate fixed width and does not collapse or wrap */
+table th:last-child,
+table td:last-child {
+    width: 120px !important;
+    min-width: 120px !important;
+    max-width: 120px !important;
+    text-align: center !important;
     white-space: nowrap !important;
     word-break: normal !important;
-    text-align: center !important;
-    vertical-align: middle !important;
 }
 
 /* Button Styles */
@@ -143,21 +146,11 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Override button styles for action buttons */
-button.action-btn {
-    padding: 7px 11px;
-    margin: 0;
-    margin-top: 0;
-    margin-left: 0;
-    border: none !important;
-    box-shadow: none !important;
-}
-
 /* CKEditor Editable Area */
 .ck-editor__editable {
     min-height: 100px !important;
     font-size: 1rem;
-    color: #111 !important;
+    color: #111 !important; /* or #000 for pure black */
 }
 
 /* Delete Button */
@@ -169,113 +162,9 @@ button.action-btn {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-left: 10px;
+    margin-left: 0;
 }
 
 .delete-btn:hover {
     background-color: #c82333;
-}
-
-/* Insert Above/Below Button */
-.insert-btn {
-    display: inline-block;
-    background-color: #17a2b8; /* Bootstrap info color */
-    color: white;
-    padding: 4px 8px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-.insert-btn:hover {
-    background-color: #138496;
-}
-
-/* Professional Action Button Group */
-.btn-group {
-    display: inline-flex;
-    gap: 6px;
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-    align-items: center;
-    justify-content: center;
-}
-
-.action-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 7px 11px;
-    border: none !important;
-    cursor: pointer;
-    font-size: 13px;
-    transition: all 0.25s ease;
-    outline: none;
-    box-shadow: none;
-}
-
-td .btn-group {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
-
-.action-btn:last-child {
-    border-right: none !important;
-}
-
-.action-btn:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-.action-btn:active {
-    box-shadow: none;
-}
-
-.action-btn i {
-    margin: 0;
-}
-
-.action-btn-info {
-    background-color: #17a2b8;
-    color: white;
-}
-
-.action-btn-info:hover {
-    background-color: #138496;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-}
-
-.action-btn-info:active {
-    transform: translateY(0);
-}
-
-.action-btn-danger {
-    background-color: #dc3545;
-    color: white;
-}
-
-.action-btn-danger:hover {
-    background-color: #c82333;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-}
-
-.action-btn-danger:active {
-    transform: translateY(0);
-}
-
-/* Small editor used for Total Processing Time */
-.processing-time-editor {
-    min-height: 40px;
-}
-
-/* Small editor used for Total Fees */
-.fees-editor {
-    min-height: 40px;
 }

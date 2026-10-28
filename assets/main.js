@@ -3,152 +3,40 @@
 		let processOverviewEditors = [];
 		let editorCounter = 0;
 		let ckeditorInstance;
-		let processingTimeEditor = null;
-		let feesEditor = null;
 		let previewWindow = null;
 
-		// Global helper to (re)create the Processing Time CKEditor
-		function createProcessingTimeEditor(initialData = '') {
-			ClassicEditor.create(document.querySelector('#ProcessingTime'), {
-				toolbar: ['bold', 'italic'],
-				removePlugins: ['Autoformat']
-			}).then(ed => {
-				processingTimeEditor = ed;
-				if (initialData) processingTimeEditor.setData(initialData);
-
-				// keep hidden input in sync for form POSTs
-				ed.model.document.on('change:data', () => {
-					const val = ed.getData() || '';
-					const hidden = document.getElementById('ProcessingTimeInput');
-					if (hidden) hidden.value = val;
-				});
-			}).catch(err => console.error('ProcessingTime editor init error:', err));
-		}
-
-		// Global helper to (re)create the Total Fees CKEditor
-		function createFeesEditor(initialData = '') {
-			ClassicEditor.create(document.querySelector('#FeesToBePaid'), {
-				toolbar: ['bold', 'italic'],
-				removePlugins: ['Autoformat']
-			}).then(ed => {
-				feesEditor = ed;
-				if (initialData) feesEditor.setData(initialData);
-
-				// keep hidden input in sync for form POSTs
-				ed.model.document.on('change:data', () => {
-					const val = ed.getData() || '';
-					const hidden = document.getElementById('FeesToBePaidInput');
-					if (hidden) hidden.value = val;
-				});
-			}).catch(err => console.error('Fees editor init error:', err));
-		}
-
 		document.addEventListener("DOMContentLoaded", () => {
-			const defaultEditorConfig = {
-				toolbar: ['bold', 'italic'],
-				removePlugins: ['Autoformat']
-			};
+		    ClassicEditor.create(document.querySelector("#editor")).then(e => {
+		        ckeditorInstance = e;
+		    }).catch(error => {
+		        console.error('Error initializing main editor:', error);
+		    });
 
-			ClassicEditor.create(document.querySelector("#editor"), defaultEditorConfig).then(e => {
-				ckeditorInstance = e;
-			}).catch(error => {
-				console.error('Error initializing main editor:', error);
-			});
-
-			addRequirementRow();
-			addProcessOverviewRow();
-
-			// Initialize Processing Time and Fees editors
-			createProcessingTimeEditor('');
-			createFeesEditor('');
-
-			// Event delegation for requirements table actions
-			document.getElementById('requirementsTableBody').addEventListener('click', (e) => {
-				const btn = e.target.closest('button');
-				if (!btn) return;
-				// only handle our action buttons
-				if (!btn.classList.contains('action-btn')) return;
-
-				e.preventDefault();
-				e.stopPropagation();
-
-				const scrollPos = window.scrollY;
-				const rowIndex = btn.getAttribute('data-row-index');
-				const row = document.querySelector(`#requirementsTableBody tr[data-row-index="${rowIndex}"]`);
-
-				if (btn.classList.contains('insert-above-btn')) {
-					insertRequirementRow(row, 'above');
-					setTimeout(() => window.scrollTo(0, scrollPos), 50);
-				} else if (btn.classList.contains('insert-below-btn')) {
-					insertRequirementRow(row, 'below');
-					setTimeout(() => window.scrollTo(0, scrollPos), 50);
-				} else if (btn.classList.contains('delete-requirement-btn')) {
-					deleteRequirementRow(row);
-					setTimeout(() => window.scrollTo(0, scrollPos), 50);
-				}
-			});
-
-			// Event delegation for process overview table actions
-			document.getElementById('processOverviewTableBody').addEventListener('click', (e) => {
-				const btn = e.target.closest('button');
-				if (!btn) return;
-				if (!btn.classList.contains('action-btn')) return;
-
-				e.preventDefault();
-				e.stopPropagation();
-
-				const scrollPos = window.scrollY;
-				const rowIndex = btn.getAttribute('data-row-index');
-				const row = document.querySelector(`#processOverviewTableBody tr[data-row-index="${rowIndex}"]`);
-
-				if (btn.classList.contains('insert-above-btn')) {
-					insertProcessOverviewRow(row, 'above');
-					setTimeout(() => window.scrollTo(0, scrollPos), 50);
-				} else if (btn.classList.contains('insert-below-btn')) {
-					insertProcessOverviewRow(row, 'below');
-					setTimeout(() => window.scrollTo(0, scrollPos), 50);
-				} else if (btn.classList.contains('delete-process-btn')) {
-					deleteProcessOverviewRow(row);
-					setTimeout(() => window.scrollTo(0, scrollPos), 50);
-				}
-			});
+		    addRequirementRow();
+		    addProcessOverviewRow();
 		});
 
-function addRequirementRow(requirementValue = '', whereValue = '', referenceRow = null, insertBefore = true) {
-            const tableBody = document.getElementById('requirementsTableBody');
-            const newRow = document.createElement('tr');
-            const rowIndex = editorCounter++;
+		function addRequirementRow(requirementValue = '', whereValue = '') {
+		    const tableBody = document.getElementById('requirementsTableBody');
+		    const newRow = document.createElement('tr');
+		    const rowIndex = editorCounter++;
 
-            newRow.setAttribute('data-row-index', rowIndex);
-            newRow.innerHTML = `
+		    newRow.innerHTML = `
         <td colspan="2">
             <div id="requirement-${rowIndex}"></div>
         </td>
         <td colspan="3">
             <div id="whereToSecure-${rowIndex}"></div>
         </td>
-		<td class="actions-col">
-            <div class="btn-group" role="group">
-                <button type="button" class="action-btn action-btn-info insert-above-btn" data-row-index="${rowIndex}" data-action="insert-above" title="Insert row above"><i class="fas fa-arrow-up"></i></button>
-                <button type="button" class="action-btn action-btn-info insert-below-btn" data-row-index="${rowIndex}" data-action="insert-below" title="Insert row below"><i class="fas fa-arrow-down"></i></button>
-                <button type="button" class="action-btn action-btn-danger delete-requirement-btn" data-row-index="${rowIndex}" data-action="delete" title="Delete row"><i class="fas fa-trash-alt"></i></button>
-            </div>
+        <td style="text-align: center;">
+            <button class="delete-btn" onclick="deleteRequirementRow(this.parentNode.parentNode)">Delete</button>
         </td>
     `;
-            if (referenceRow) {
-                if (insertBefore) {
-                    tableBody.insertBefore(newRow, referenceRow);
-                } else {
-                    tableBody.insertBefore(newRow, referenceRow.nextSibling);
-                }
-            } else {
-                tableBody.appendChild(newRow);
-            }
+		    tableBody.appendChild(newRow);
 
-			const editorConfig = {
-				toolbar: ['bold', 'italic'],
-				removePlugins: ['Autoformat']
-			};
+		    const editorConfig = {
+		        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
+		    };
 
 		    ClassicEditor.create(document.querySelector(`#requirement-${rowIndex}`), editorConfig)
 		        .then(editorInstance => {
@@ -186,39 +74,24 @@ function addRequirementRow(requirementValue = '', whereValue = '', referenceRow 
 		}
 
 
-function addProcessOverviewRow(clientSteps = '', agencyActions = '', fees = '', time = '', person = '', referenceRow = null, insertBefore = true) {
-            const tableBody = document.getElementById('processOverviewTableBody');
-            const newRow = document.createElement('tr');
-            const rowIndex = editorCounter++;
-			newRow.setAttribute('data-row-index', rowIndex);
-            newRow.innerHTML = `
+		function addProcessOverviewRow(clientSteps = '', agencyActions = '', fees = '', time = '', person = '') {
+		    const tableBody = document.getElementById('processOverviewTableBody');
+		    const newRow = document.createElement('tr');
+		    const rowIndex = editorCounter++;
+
+		    newRow.innerHTML = `
         <td><div id="clientSteps-${rowIndex}"></div></td>
         <td><div id="agencyActions-${rowIndex}"></div></td>
         <td><div id="feesToBePaid-${rowIndex}"></div></td>
         <td><div id="processingTime-${rowIndex}"></div></td>
         <td><div id="personResponsible-${rowIndex}"></div></td>
-		<td class="actions-col">
-            <div class="btn-group" role="group">
-                <button type="button" class="action-btn action-btn-info insert-above-btn" data-row-index="${rowIndex}" data-action="insert-above" title="Insert row above"><i class="fas fa-arrow-up"></i></button>
-                <button type="button" class="action-btn action-btn-info insert-below-btn" data-row-index="${rowIndex}" data-action="insert-below" title="Insert row below"><i class="fas fa-arrow-down"></i></button>
-                <button type="button" class="action-btn action-btn-danger delete-process-btn" data-row-index="${rowIndex}" data-action="delete" title="Delete row"><i class="fas fa-trash-alt"></i></button>
-            </div>
-        </td>
+        <td style="text-align: center;"><button class="delete-btn" onclick="deleteProcessOverviewRow(this.parentNode.parentNode)">Delete</button></td>
     `;
-            if (referenceRow) {
-                if (insertBefore) {
-                    tableBody.insertBefore(newRow, referenceRow);
-                } else {
-                    tableBody.insertBefore(newRow, referenceRow.nextSibling);
-                }
-            } else {
-                tableBody.appendChild(newRow);
-            }
+		    tableBody.appendChild(newRow);
 
-			const editorConfig = {
-				toolbar: ['bold', 'italic'],
-				removePlugins: ['Autoformat']
-			};
+		    const editorConfig = {
+		        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
+		    };
 
 		    const fields = [{
 		            type: 'clientSteps',
@@ -263,21 +136,15 @@ function addProcessOverviewRow(clientSteps = '', agencyActions = '', fees = '', 
 		}
 
 		function deleteRequirementRow(row) {
-		    const div = row.querySelector('div');
-		    const rowIndex = div ? div.id.split('-')[1] : null;
 		    row.remove();
-		    if (rowIndex !== null) {
-		        requirementEditors = requirementEditors.filter(editor => editor.index !== parseInt(rowIndex));
-		    }
+		    const rowIndex = row.querySelector('div').id.split('-')[1];
+		    requirementEditors = requirementEditors.filter(editor => editor.index !== parseInt(rowIndex));
 		}
 
 		function deleteProcessOverviewRow(row) {
-		    const div = row.querySelector('div');
-		    const rowIndex = div ? div.id.split('-')[1] : null;
 		    row.remove();
-		    if (rowIndex !== null) {
-		        processOverviewEditors = processOverviewEditors.filter(editor => editor.index !== parseInt(rowIndex));
-		    }
+		    const rowIndex = row.querySelector('div').id.split('-')[1];
+		    processOverviewEditors = processOverviewEditors.filter(editor => editor.index !== parseInt(rowIndex));
 		}
 
 		function clearForm() {
@@ -286,20 +153,6 @@ function addProcessOverviewRow(clientSteps = '', agencyActions = '', fees = '', 
 		    if (ckeditorInstance) {
 		        ckeditorInstance.setData('');
 		    }
-
-		    // clear total fees and processing time editors
-		    if (feesEditor) {
-		        feesEditor.setData('');
-		    }
-		    if (processingTimeEditor) {
-		        processingTimeEditor.setData('');
-		    }
-
-		    // ensure hidden inputs are cleared for any server POSTs
-		    const feesHidden = document.getElementById('FeesToBePaidInput');
-		    if (feesHidden) feesHidden.value = '';
-		    const timeHidden = document.getElementById('ProcessingTimeInput');
-		    if (timeHidden) timeHidden.value = '';
 		    requirementEditors.forEach(e => e.editor.destroy());
 		    requirementEditors = [];
 		    document.getElementById('requirementsTableBody').innerHTML = '';
@@ -317,29 +170,17 @@ function addProcessOverviewRow(clientSteps = '', agencyActions = '', fees = '', 
 		    }
 		}
 
-        // insert helper: position can be 'above' or 'below'
-        function insertRequirementRow(referenceRow, position) {
-            const before = position === 'above';
-            addRequirementRow('', '', referenceRow, before);
-        }
-
-        function insertProcessOverviewRow(referenceRow, position) {
-            const before = position === 'above';
-            addProcessOverviewRow('', '', '', '', '', referenceRow, before);
-        }
-
-        // primary export helper collects all form data and downloads JSON
-        function exportFormData() {
-            const form = document.getElementById('citizenCharterForm');
-            const formData = new FormData(form);
-            const data = {
+		function exportFormData() {
+		    const form = document.getElementById('citizenCharterForm');
+		    const formData = new FormData(form);
+		    const data = {
 		        serviceName: formData.get('serviceName'),
 		        office: formData.get('office'),
 		        classification: formData.get('classification'),
 		        transaction_type: formData.getAll('transaction_type'),
 		        who_may_avail: formData.get('who_may_avail'),
-				feesToBePaid: (feesEditor ? feesEditor.getData() : (document.getElementById('FeesToBePaidInput') ? document.getElementById('FeesToBePaidInput').value : '')),
-				processingTime: (processingTimeEditor ? processingTimeEditor.getData() : (document.getElementById('ProcessingTimeInput') ? document.getElementById('ProcessingTimeInput').value : '')),
+		        feesToBePaid: formData.get('feesToBePaid'),
+		        processingTime: formData.get('processingTime'),
 		        description: ckeditorInstance ? ckeditorInstance.getData() : '',
 		        requirements: [],
 		        processOverview: []
@@ -397,17 +238,8 @@ function addProcessOverviewRow(clientSteps = '', agencyActions = '', fees = '', 
 		        document.getElementById('serviceNameInput').value = data.serviceName || '';
 		        document.querySelector('textarea[name="office"]').value = data.office || '';
 		        document.querySelector('textarea[name="who_may_avail"]').value = data.who_may_avail || '';
-				if (feesEditor) {
-					feesEditor.setData(data.feesToBePaid || '');
-				} else if (document.getElementById('FeesToBePaidInput')) {
-					document.getElementById('FeesToBePaidInput').value = data.feesToBePaid || '';
-				}
-
-				if (processingTimeEditor) {
-					processingTimeEditor.setData(data.processingTime || '');
-				} else if (document.getElementById('ProcessingTimeInput')) {
-					document.getElementById('ProcessingTimeInput').value = data.processingTime || '';
-				}
+		        document.getElementById('FeesToBePaid').value = data.feesToBePaid || '';
+		        document.getElementById('ProcessingTime').value = data.processingTime || '';
 		        ckeditorInstance.setData(data.description || '');
 
 		        document.querySelectorAll('input[name="classification"]').forEach(el => {
@@ -440,8 +272,8 @@ function addProcessOverviewRow(clientSteps = '', agencyActions = '', fees = '', 
 		function openPreview() {
 		    console.log("Preview button clicked");
 
-			const FeesToBePaid = (feesEditor ? (feesEditor.getData() || '') : (document.getElementById('FeesToBePaidInput') ? document.getElementById('FeesToBePaidInput').value : '')) || "N/A";
-			const ProcessingTime = (processingTimeEditor ? (processingTimeEditor.getData() || '') : (document.getElementById('ProcessingTime') ? document.getElementById('ProcessingTime').textContent : '')) || "N/A";
+		    const FeesToBePaid = document.getElementById('FeesToBePaid').value || "N/A";
+		    const ProcessingTime = document.getElementById('ProcessingTime').value || "N/A";
 		    const serviceName = document.getElementById('serviceNameInput').value;
 		    const description = ckeditorInstance ? ckeditorInstance.getData() : '';
 		    const office = document.querySelector('textarea[name="office"]').value;
@@ -493,6 +325,10 @@ function addProcessOverviewRow(clientSteps = '', agencyActions = '', fees = '', 
 
 		function displayPreview(serviceName, description, office, classification, transactionTypes, whoMayAvail, requirements, processOverview, FeesToBePaid, ProcessingTime) {
 		    let previewWindow = window.open('', '', 'width=816px,height=1056px');
+		    if (!previewWindow) {
+		        alert("Please allow popups for this site to view the preview.");
+		        return;
+		    }
 		    previewWindow.document.write(`
         <html>
         <head>
