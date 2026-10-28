@@ -14,6 +14,17 @@
 
 		    addRequirementRow();
 		    addProcessOverviewRow();
+
+		    // Interactive sync for custom option cards (radio & checkbox)
+		    document.addEventListener("change", (e) => {
+		        if (e.target.matches('.custom-option-card input[type="radio"]')) {
+		            document.querySelectorAll(`input[name="${e.target.name}"]`).forEach(r => {
+		                r.closest('.custom-option-card')?.classList.toggle('active', r.checked);
+		            });
+		        } else if (e.target.matches('.custom-option-card input[type="checkbox"]')) {
+		            e.target.closest('.custom-option-card')?.classList.toggle('active', e.target.checked);
+		        }
+		    });
 		});
 
 		function addRequirementRow(requirementValue = '', whereValue = '') {
@@ -28,8 +39,10 @@
         <td colspan="3">
             <div id="whereToSecure-${rowIndex}"></div>
         </td>
-        <td style="text-align: center;">
-            <button class="delete-btn" onclick="deleteRequirementRow(this.parentNode.parentNode)">Delete</button>
+        <td style="text-align: center; vertical-align: middle;">
+            <button class="delete-btn" onclick="deleteRequirementRow(this.parentNode.parentNode)">
+                <i class="fa fa-trash-alt mr-1"></i> Delete
+            </button>
         </td>
     `;
 		    tableBody.appendChild(newRow);
@@ -85,7 +98,11 @@
         <td><div id="feesToBePaid-${rowIndex}"></div></td>
         <td><div id="processingTime-${rowIndex}"></div></td>
         <td><div id="personResponsible-${rowIndex}"></div></td>
-        <td style="text-align: center;"><button class="delete-btn" onclick="deleteProcessOverviewRow(this.parentNode.parentNode)">Delete</button></td>
+        <td style="text-align: center; vertical-align: middle;">
+            <button class="delete-btn" onclick="deleteProcessOverviewRow(this.parentNode.parentNode)">
+                <i class="fa fa-trash-alt mr-1"></i> Delete
+            </button>
+        </td>
     `;
 		    tableBody.appendChild(newRow);
 
@@ -149,6 +166,7 @@
 
 		function clearForm() {
 		    document.getElementById('citizenCharterForm').reset();
+		    document.querySelectorAll('.custom-option-card').forEach(c => c.classList.remove('active'));
 
 		    if (ckeditorInstance) {
 		        ckeditorInstance.setData('');
@@ -244,10 +262,12 @@
 
 		        document.querySelectorAll('input[name="classification"]').forEach(el => {
 		            el.checked = (el.value === data.classification);
+		            el.closest('.custom-option-card')?.classList.toggle('active', el.checked);
 		        });
 
 		        document.querySelectorAll('input[name="transaction_type"]').forEach(el => {
-		            el.checked = data.transaction_type.includes(el.value);
+		            el.checked = data.transaction_type && data.transaction_type.includes(el.value);
+		            el.closest('.custom-option-card')?.classList.toggle('active', el.checked);
 		        });
 
 		        requirementEditors.forEach(e => e.editor.destroy());

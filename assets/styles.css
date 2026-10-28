@@ -1,188 +1,436 @@
 /* Layout and Container Styles */
-html, body, #wrapper, #page-wrapper, .container-fluid, .wrapper-content {
-    width: 100vw;
-    max-width: 100vw;
+html, body {
     margin: 0;
-    padding: 20;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
 }
 
 body {
     overflow-x: hidden;
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
     line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-    background-color: #f8f9fa; /* AdminKit background color */
+    background-color: #f1f5f9;
     font-size: 14px;
-    color: #111;
+    color: #1e293b;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
 }
 
-.ibox, .ibox-content {
-    margin: 0;
-    padding-left: 20px;
-    padding-right: 20px;
+.wrapper-content {
+    padding: 24px 20px;
 }
 
 .container-fluid {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-}
-
-.container {
-    max-width: 1000px;
+    max-width: 1320px;
     margin: 0 auto;
-    background-color: #ffffff; /* AdminKit card background color */
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05); /* AdminKit card shadow */
+    padding: 0 15px !important;
 }
 
-/* Typography */
-h1, h2, h3 {
+/* Card Container */
+.ibox {
+    margin-bottom: 25px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.ibox-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border: none;
+}
+
+/* Typography & Headings */
+h1, h2, h3, h4 {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #000;
+    color: #0f172a;
 }
 
-h2 {
-    color: #000000; /* AdminKit text color */
-    border-bottom: 2px solid #343a40;
-    padding-bottom: 10px;
+.page-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #010101;
+.page-subtitle {
     font-size: 14px;
+    color: #64748b;
+    margin-bottom: 24px;
 }
 
-/* Form Elements */
-.form-group {
-    margin-bottom: 15px;
-}
-
-input[type="text"], textarea, select {
-    width: 100%;
-    padding: 0.55em 0.75em;
-    font-size: 14px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    box-sizing: border-box;
-    line-height: 1.5;
-    color: #111;
-}
-
-/* Checkbox Group */
-.checkbox-group {
-    margin-top: 5px;
-}
-
-.checkbox-group div {
-    margin-bottom: 5px;
+.form-section-label {
     display: flex;
     align-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
 }
 
-.checkbox-group input[type="checkbox"] {
-    margin-right: 5px;
-    transform: scale(1);
+/* Form Inputs & Textareas */
+.form-control {
+    font-size: 14px;
+    color: #0f172a;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 9px 13px;
+    line-height: 1.5;
+    transition: all 0.15s ease-in-out;
+    background-color: #ffffff;
+}
+
+.form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    outline: none;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Main Details Table */
+.main-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    table-layout: fixed;
+}
+
+.main-details-table td:first-child {
+    width: 240px;
+    background-color: #f8fafc;
+    font-weight: 700;
+    color: #334155;
+    vertical-align: middle;
+    padding: 14px 18px;
+    border: 1px solid #e2e8f0;
+    font-size: 13px;
+    letter-spacing: 0.4px;
+}
+
+.main-details-table td:last-child {
+    background-color: #ffffff;
+    padding: 14px 18px;
+    border: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+/* Interactive Option Grid & Cards for Classification and Transaction Types */
+.option-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+}
+
+.custom-option-card {
+    position: relative;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    margin: 0 !important;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
     cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    transition: all 0.15s ease-in-out;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
 }
 
-/* Table Styles */
-.requirements-table,
-table {
+.custom-option-card:hover {
+    border-color: #3b82f6;
+    background-color: #f8faff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.08);
+}
+
+/* Hide native browser radio and checkbox */
+.custom-option-card input[type="radio"],
+.custom-option-card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    margin: 0;
+}
+
+/* Custom Radio Circle */
+.custom-radio-circle {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #94a3b8;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: #ffffff;
+    transition: all 0.15s ease;
+}
+
+.custom-radio-circle::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-option-card input[type="radio"]:checked + .custom-radio-circle {
+    border-color: #2563eb;
+    background-color: #2563eb;
+}
+
+.custom-option-card input[type="radio"]:checked + .custom-radio-circle::after {
+    transform: scale(1);
+}
+
+/* Custom Checkbox Square */
+.custom-checkbox-square {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #94a3b8;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: #ffffff;
+    transition: all 0.15s ease;
+}
+
+.custom-checkbox-square::after {
+    content: "";
+    width: 5px;
+    height: 9px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) scale(0);
+    margin-top: -2px;
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-option-card input[type="checkbox"]:checked + .custom-checkbox-square {
+    border-color: #2563eb;
+    background-color: #2563eb;
+}
+
+.custom-option-card input[type="checkbox"]:checked + .custom-checkbox-square::after {
+    transform: rotate(45deg) scale(1);
+}
+
+.custom-option-card input:checked ~ .option-label-text {
+    color: #1d4ed8;
+    font-weight: 600;
+}
+
+.custom-option-card:has(input:checked),
+.custom-option-card.active {
+    border-color: #2563eb;
+    background-color: #eff6ff;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* Requirements & Process Overview Tables */
+table.table-bordered {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    margin-bottom: 25px;
     table-layout: fixed;
-    font-size: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.requirements-table th, .requirements-table td,
-table th, table td {
-    border: 1px solid #dee2e6;
-    padding: 8px 10px;
+table.table-bordered th {
+    background-color: #f1f5f9;
+    color: #1e293b;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.4px;
+    padding: 11px 12px;
+    border: 1px solid #cbd5e1;
+    text-align: center;
+    vertical-align: middle;
+}
+
+table.table-bordered td {
+    border: 1px solid #e2e8f0;
+    padding: 10px 12px;
     text-align: left;
     vertical-align: top;
-    box-sizing: border-box;
-    word-break: break-all;
-    overflow-wrap: anywhere;
-    hyphens: auto;
-    min-width: 0;
-    max-width: 0;
     font-size: 14px;
     line-height: 1.5;
 }
 
-.requirements-table th,
-table th {
-    background-color: #e9ecef;
-    font-weight: bold;
-}
-
-/* Ensure Actions column has appropriate fixed width and does not collapse or wrap */
-table th:last-child,
-table td:last-child {
+/* Actions Column Protection */
+table.table-bordered th:last-child,
+table.table-bordered td:last-child {
     width: 120px !important;
     min-width: 120px !important;
     max-width: 120px !important;
     text-align: center !important;
+    vertical-align: middle !important;
     white-space: nowrap !important;
     word-break: normal !important;
 }
 
-/* Button Styles */
-.button-container {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    margin-left: 10px;
-}
-
-button {
-    background-color: #007bff; /* AdminKit primary button color */
-    color: white;
-    padding: 9px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-size: 14px;
-    margin-left: 10px;
-    font-weight: 500;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-/* CKEditor Editable Area */
+/* CKEditor In-Table Editable Area */
 .ck-editor__editable {
-    min-height: 100px !important;
+    min-height: 80px !important;
     font-size: 14px !important;
     line-height: 1.5 !important;
-    color: #111 !important; /* or #000 for pure black */
+    color: #0f172a !important;
+    border-radius: 6px !important;
+    background-color: #ffffff !important;
 }
 
-/* Delete Button */
+.ck.ck-toolbar {
+    border-top-left-radius: 6px !important;
+    border-top-right-radius: 6px !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* Row Action Buttons */
 .delete-btn {
-    display: inline-block;
-    background-color: #dc3545; /* AdminKit danger button color */
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    padding: 6px 14px;
+    border-radius: 6px;
     font-size: 13px;
-    margin-left: 0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin: 0;
 }
 
 .delete-btn:hover {
-    background-color: #c82333;
+    background-color: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(220, 38, 38, 0.2);
+}
+
+/* Section Header Bar */
+.section-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 12px;
+}
+
+.section-header-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Bottom Actions Panel */
+.actions-panel {
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 18px 24px;
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+}
+
+.actions-panel .btn {
+    font-size: 15px;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s ease-in-out;
+}
+
+.actions-panel .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+.btn-success {
+    background-color: #16a34a;
+    border-color: #16a34a;
+    color: #ffffff;
+}
+
+.btn-success:hover {
+    background-color: #15803d;
+    border-color: #15803d;
+}
+
+.btn-info {
+    background-color: #0284c7;
+    border-color: #0284c7;
+    color: #ffffff;
+}
+
+.btn-info:hover {
+    background-color: #0369a1;
+    border-color: #0369a1;
+}
+
+.btn-outline-danger {
+    color: #dc2626;
+    border: 1.5px solid #ef4444;
+    background-color: #ffffff;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc2626;
+    border-color: #dc2626;
+    color: #ffffff;
 }
