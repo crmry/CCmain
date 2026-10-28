@@ -1,6 +1,6 @@
 # Citizen Charter Builder — Standalone & Web-Executable
 
-### Corazon Locsin Montelibano Memorial Regional Hospital (CLMMRH)
+### Department of Health — Hospital Information System
 
 A web-based Citizen's Charter authoring tool designed for hospital administration, department heads, and clinical service units to draft, standardize, export, and publish official Citizen Charters in compliance with Republic Act No. 11032 (Ease of Doing Business and Efficient Government Service Delivery Act of 2018).
 
@@ -29,7 +29,7 @@ Access and run the Citizen Charter Builder directly in any web browser without i
 - **Manual Save Draft**: Explicit 1-click button to checkpoint your changes with timestamp notification.
 
 ### 3. Pre-Loaded Hospital Sample Charter
-- 1-click **"Load Sample Charter"** button preloads standard CLMMRH Citizen Charter records (*Issuance of Medical Certificate and Clinical Abstract*), complete with documentary requirements, processing times, and responsible officers.
+- 1-click **"Load Sample Charter"** button preloads standard hospital Citizen Charter records (*Issuance of Medical Certificate and Clinical Abstract*), complete with documentary requirements, processing times, and responsible officers.
 
 ### 4. Rich Text Formatting & Editor Suite
 - **CKEditor 5** rich text editors for Service Description, Requirement Checklists, Where to Secure, Client Steps, Agency Actions, Fees, Processing Time, and Person Responsible.
@@ -40,7 +40,7 @@ Access and run the Citizen Charter Builder directly in any web browser without i
 - Safe deletion with automated editor teardown to prevent browser memory leaks.
 
 ### 6. Official A4 Print & "Save as PDF" Engine
-- **Print Preview**: Generates the official Philippine DOH / CLMMRH Citizen Charter layout.
+- **Print Preview**: Generates the official Department of Health Citizen Charter layout.
 - Styled for **A4 portrait** printing with auto-repeating headers, proper borders, and clean pagination.
 - Print guidance instructions provided (Destination: "Save as PDF", Paper: A4, check Background graphics).
 

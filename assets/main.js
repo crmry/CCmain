@@ -1,6 +1,6 @@
 /**
  * Citizen Charter Builder - Client-Side Engine
- * Corazon Locsin Montelibano Memorial Regional Hospital (CLMMRH)
+ * Department of Health - Hospital Information System
  * 
  * Features:
  *  - 100% Client-Side Execution (Runs standalone or on GitHub Pages without backend requirements)
@@ -21,7 +21,7 @@ let editorCounter = 0;
 let previewWindow = null;
 let autoSaveTimeout = null;
 
-const STORAGE_KEY = 'clmmrh_citizen_charter_draft_v1';
+const STORAGE_KEY = 'citizen_charter_draft_v1';
 
 const DEFAULT_EDITOR_CONFIG = {
     toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
@@ -212,7 +212,7 @@ function initDraftOrDefaults() {
     createProcessingTimeEditor('');
     createFeesEditor('');
 
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('clmmrh_citizen_charter_draft_v1');
     if (saved) {
         try {
             const data = JSON.parse(saved);
@@ -554,7 +554,7 @@ function saveToLocalStorage(showFeedback = true) {
 
 // Load Preconfigured Hospital Sample Charter
 function loadSampleData(showConfirm = true) {
-    if (showConfirm && !confirm('Load the standard CLMMRH hospital sample Citizen Charter? Any unsaved edits will be replaced.')) {
+    if (showConfirm && !confirm('Load standard sample Citizen Charter? Any unsaved edits will be replaced.')) {
         return;
     }
     populateFormData(SAMPLE_CHARTER);
@@ -870,8 +870,8 @@ function displayPreview(serviceName, description, office, classification, transa
     </div>
 
     <div class="hospital-header">
-        <h4>Republic of the Philippines &bull; Department of Health</h4>
-        <h2>CORAZON LOCSIN MONTELIBANO MEMORIAL REGIONAL HOSPITAL</h2>
+        <h4>Department of Health &bull; Healthcare Services</h4>
+        <h2>HOSPITAL INFORMATION SYSTEM</h2>
         <h3>CITIZEN'S CHARTER</h3>
     </div>
 
