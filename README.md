@@ -1,4 +1,4 @@
-# Citizen Charter Generator — Standalone & Web-Executable
+# Citizen Charter Builder — Standalone & Web-Executable
 
 A web-based Citizen's Charter authoring tool designed to draft, standardize, preview, export, and publish official Citizen Charters.
 
@@ -6,7 +6,7 @@ A web-based Citizen's Charter authoring tool designed to draft, standardize, pre
 
 ## 🚀 Live Link (Web-Executable)
 
-Access and run the Citizen Charter Generator directly in any web browser without installation:
+Access and run the Citizen Charter Builder directly in any web browser without installation:
 
 - **Primary Web-Executable Link:** [https://crmry.github.io/CCmain/](https://crmry.github.io/CCmain/)
 - **Alternative Mirror Link:** [https://crmry.github.io/CCmain/main.html](https://crmry.github.io/CCmain/main.html)
