@@ -815,3 +815,102 @@
     `);
 		    previewWindow.document.close();
 		}
+
+		function startSystemTour() {
+		    if (typeof window.driver === 'undefined' || !window.driver.js || !window.driver.js.driver) {
+		        console.error('Driver.js is not loaded');
+		        alert('Guided tour is loading, please try again in a moment.');
+		        return;
+		    }
+
+		    const driverFn = window.driver.js.driver;
+		    const editorEl = document.querySelector('.ck-editor') || document.querySelector('#editor') || '#serviceNameInput';
+
+		    const driverObj = driverFn({
+		        showProgress: true,
+		        animate: true,
+		        allowClose: true,
+		        overlayColor: 'rgba(15, 23, 42, 0.65)',
+		        nextBtnText: 'Next →',
+		        prevBtnText: '← Back',
+		        doneBtnText: 'Finish Tour ✓',
+		        progressText: 'Step {{current}} of {{total}}',
+		        steps: [
+		            {
+		                element: '.page-top-header',
+		                popover: {
+		                    title: 'Welcome to Citizen Charter Builder! 👋',
+		                    description: 'This interactive tour will guide you through all essential sections to quickly draft, configure, save, and print official Citizen\'s Charters.',
+		                    side: 'bottom',
+		                    align: 'start'
+		                }
+		            },
+		            {
+		                element: '#serviceNameInput',
+		                popover: {
+		                    title: '1. Service Name',
+		                    description: 'Type the official title of the government service or public transaction. This will also become the default filename when you save your charter.',
+		                    side: 'bottom',
+		                    align: 'start'
+		                }
+		            },
+		            {
+		                element: editorEl,
+		                popover: {
+		                    title: '2. Service Description',
+		                    description: 'Provide a clear overview or brief mandate for the service. You can use rich formatting such as bulleted lists, bold text, and indentation.',
+		                    side: 'top',
+		                    align: 'start'
+		                }
+		            },
+		            {
+		                element: '#mainDetailsTable',
+		                popover: {
+		                    title: '3. Office & Classification',
+		                    description: 'Specify the <strong>Office or Division</strong>, choose the transaction <strong>Classification</strong> (Simple, Complex, Highly Technical), select the <strong>Transaction Type</strong>, and specify <strong>Who May Avail</strong>.',
+		                    side: 'top',
+		                    align: 'start'
+		                }
+		            },
+		            {
+		                element: '#requirementsTable',
+		                popover: {
+		                    title: '4. Checklist of Requirements',
+		                    description: 'List each required document and where citizens can obtain it. Use the row action buttons to add (<strong>+</strong>), reorder (<strong>▲/▼</strong>), or remove (<strong>🗑</strong>) rows.',
+		                    side: 'top',
+		                    align: 'start'
+		                }
+		            },
+		            {
+		                element: '#processOverviewTable',
+		                popover: {
+		                    title: '5. Process Overview & Steps',
+		                    description: 'Map out the sequential client and agency actions, fees, processing time, and person responsible. Totals are automatically computed in the summary row.',
+		                    side: 'top',
+		                    align: 'start'
+		                }
+		            },
+		            {
+		                element: '.actions-panel',
+		                popover: {
+		                    title: '6. Action Bar (Print, Save, Open)',
+		                    description: '• <strong>Print / PDF</strong>: Opens the official, print-ready Citizen\'s Charter document for printing or saving to PDF.<br>• <strong>Save</strong>: Downloads a .json file of your work.<br>• <strong>Open</strong>: Reloads a previously saved .json file.<br>• <strong>Clear Form</strong>: Resets all fields to start over.',
+		                    side: 'top',
+		                    align: 'center'
+		                }
+		            },
+		            {
+		                element: '#startTourNavBtn',
+		                popover: {
+		                    title: 'You\'re All Set! 🚀',
+		                    description: 'You can restart this tour anytime by clicking <strong>Guided Tour</strong> in the top header or <strong>Take a Tour</strong> in the bottom action bar.',
+		                    side: 'bottom',
+		                    align: 'end'
+		                }
+		            }
+		        ]
+		    });
+
+		    driverObj.drive();
+		}
+

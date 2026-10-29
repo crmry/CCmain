@@ -725,3 +725,123 @@ table.table-bordered tfoot input.form-control {
         font-size: 18px;
     }
 }
+
+/* Page Top Header Bar */
+.page-top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.page-top-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#startTourNavBtn,
+#startTourBottomBtn {
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+#startTourNavBtn:hover,
+#startTourBottomBtn:hover {
+    transform: translateY(-1px);
+}
+
+/* Driver.js Custom Styling for Citizen Charter Builder */
+.driver-popover {
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 12px 30px -4px rgba(15, 23, 42, 0.25), 0 6px 12px -4px rgba(15, 23, 42, 0.15) !important;
+    border: 1px solid #cbd5e1 !important;
+    padding: 18px 20px !important;
+    max-width: 380px !important;
+    font-family: inherit !important;
+    z-index: 1000000 !important;
+}
+
+.driver-popover-title {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin-bottom: 8px !important;
+    line-height: 1.4 !important;
+    letter-spacing: -0.2px !important;
+}
+
+.driver-popover-description {
+    font-size: 13.5px !important;
+    line-height: 1.6 !important;
+    color: #334155 !important;
+    margin-bottom: 14px !important;
+}
+
+.driver-popover-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-top: 12px !important;
+    padding-top: 12px !important;
+    border-top: 1px solid #f1f5f9 !important;
+}
+
+.driver-popover-progress-text {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    background: #f1f5f9 !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+}
+
+.driver-popover-footer button {
+    border-radius: 6px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    padding: 6px 14px !important;
+    transition: all 0.15s ease-in-out !important;
+    cursor: pointer !important;
+    text-shadow: none !important;
+    outline: none !important;
+}
+
+.driver-popover-prev-btn {
+    background: #f8fafc !important;
+    color: #475569 !important;
+    border: 1px solid #cbd5e1 !important;
+    margin-right: 6px !important;
+}
+
+.driver-popover-prev-btn:hover {
+    background: #e2e8f0 !important;
+    color: #1e293b !important;
+}
+
+.driver-popover-next-btn {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border: 1px solid #1d4ed8 !important;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2) !important;
+}
+
+.driver-popover-next-btn:hover {
+    background: #1d4ed8 !important;
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3) !important;
+}
+
+.driver-popover-close-btn {
+    color: #94a3b8 !important;
+    font-size: 22px !important;
+    font-weight: 400 !important;
+    padding: 4px 8px !important;
+}
+
+.driver-popover-close-btn:hover {
+    color: #0f172a !important;
+}
+
