@@ -6,7 +6,25 @@
 		let previewWindow = null;
 
 		document.addEventListener("DOMContentLoaded", () => {
-		    ClassicEditor.create(document.querySelector("#editor")).then(e => {
+		    const descriptionConfig = {
+		        toolbar: [
+		            'heading',
+		            '|',
+		            'bold',
+		            'italic',
+		            '|',
+		            'bulletedList',
+		            'numberedList',
+		            '|',
+		            'outdent',
+		            'indent',
+		            '|',
+		            'undo',
+		            'redo'
+		        ]
+		    };
+
+		    ClassicEditor.create(document.querySelector("#editor"), descriptionConfig).then(e => {
 		        ckeditorInstance = e;
 		    }).catch(error => {
 		        console.error('Error initializing main editor:', error);
