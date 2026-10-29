@@ -159,9 +159,9 @@ textarea#serviceNameInput {
 
 .main-details-table td:first-child {
     width: 240px;
-    background-color: #f8fafc;
+    background-color: #8eaadb;
     font-weight: 700;
-    color: #1e293b;
+    color: #0f172a;
     vertical-align: middle;
     padding: 14px 18px;
     border: 1.5px solid #94a3b8 !important;
@@ -325,7 +325,7 @@ table.table-bordered td {
 }
 
 table.table-bordered th {
-    background-color: #f1f5f9 !important;
+    background-color: #8eaadb !important;
     color: #0f172a !important;
     font-weight: 800 !important;
     font-size: 13px !important;
@@ -345,7 +345,16 @@ table.table-bordered td {
 }
 
 /* Actions Column Protection */
-table.table-bordered th:last-child,
+table.table-bordered th:last-child {
+    width: 11% !important;
+    min-width: 95px !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 12px 14px !important;
+    background-color: #8eaadb !important;
+    color: #0f172a !important;
+}
+
 table.table-bordered td:last-child {
     width: 11% !important;
     min-width: 95px !important;
