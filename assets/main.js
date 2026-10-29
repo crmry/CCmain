@@ -51,6 +51,11 @@
 		            autoAdjustTextarea(e.target);
 		        }
 		    });
+
+		    // Initialize tooltips
+		    if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+		        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el));
+		    }
 		});
 
 		function autoAdjustTextarea(el) {
@@ -400,6 +405,7 @@
 		            addProcessOverviewRow(item.clientSteps, item.agencyActions, item.feesToBePaid, item.processingTime, item.personResponsible)
 		        );
 		        setTimeout(() => document.querySelectorAll('textarea.form-control').forEach(autoAdjustTextarea), 100);
+		        event.target.value = '';
 		    };
 		    reader.readAsText(file);
 		}
