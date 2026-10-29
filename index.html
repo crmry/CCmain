@@ -7,8 +7,8 @@
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-    <link href="assets/css/inspinia.css?v=6.6" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles.css?v=6.6">
+    <link href="assets/css/inspinia.css?v=6.7" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css?v=6.7">
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 </head>
 <body>
@@ -168,8 +168,8 @@
                                     <button type="button" class="btn btn-primary shadow-sm" onclick="openPreview()" data-bs-toggle="tooltip" data-bs-placement="top" title="Preview and save report as PDF">
                                         <i class="fa fa-eye"></i> Preview
                                     </button>
-                                    <button type="button" class="btn btn-success shadow-sm" onclick="exportFormData()" data-bs-toggle="tooltip" data-bs-placement="top" title="Export Citizen Charter data to a .json file">
-                                        <i class="fa fa-file-download"></i> Export Data
+                                    <button type="button" class="btn btn-success shadow-sm" onclick="saveFormData()" data-bs-toggle="tooltip" data-bs-placement="top" title="Save Citizen Charter to a .json file">
+                                        <i class="fa fa-save"></i> Save
                                     </button>
                                     <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="importFormData(event)">
                                     <button type="button" class="btn btn-info shadow-sm" onclick="document.getElementById('importFileInput').click()" data-bs-toggle="tooltip" data-bs-placement="top" title="Open a saved Citizen Charter (.json) file">
@@ -192,6 +192,6 @@
     <script src="assets/js/inspinia.js"></script>
 
     <!-- Main Script -->
-    <script src="assets/main.js?v=6.6"></script>
+    <script src="assets/main.js?v=6.7"></script>
 </body>
 </html>

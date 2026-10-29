@@ -4,6 +4,7 @@
 		let editorCounter = 0;
 		let ckeditorInstance;
 		let previewWindow = null;
+		let currentOpenedFileName = '';
 
 		document.addEventListener("DOMContentLoaded", () => {
 		    const descriptionConfig = {
@@ -306,9 +307,12 @@
 		        previewWindow.close();
 		        previewWindow = null;
 		    }
+		    currentOpenedFileName = '';
+		    const importInput = document.getElementById('importFileInput');
+		    if (importInput) importInput.value = '';
 		}
 
-		function exportFormData() {
+		function saveFormData() {
 		    const form = document.getElementById('citizenCharterForm');
 		    const formData = new FormData(form);
 		    const data = {
@@ -356,18 +360,55 @@
 		        }
 		    });
 
+		    // Determine a clean, valid file name for saving
+		    let fileName = '';
+		    const rawServiceName = (data.serviceName || '').trim();
+
+		    if (rawServiceName) {
+		        // Sanitize: strip newlines, slashes, and invalid filesystem characters: \ / : * ? " < > |
+		        let clean = rawServiceName
+		            .replace(/[\r\n\t]+/g, ' ')
+		            .replace(/[\\/:*?"<>|]+/g, '_')
+		            .replace(/\s+/g, ' ')
+		            .trim();
+		        // Truncate to reasonable length to prevent OS filesystem errors
+		        if (clean.length > 120) {
+		            clean = clean.substring(0, 120).trim();
+		        }
+		        if (clean) {
+			            fileName = clean + (clean.toLowerCase().endsWith('.json') ? '' : '.json');
+		        }
+		    }
+
+		    if (!fileName && currentOpenedFileName) {
+		        fileName = currentOpenedFileName;
+		        if (!fileName.toLowerCase().endsWith('.json')) {
+		            fileName += '.json';
+		        }
+		    }
+
+		    if (!fileName) {
+		        fileName = 'citizen_charter.json';
+		    }
+
 		    const blob = new Blob([JSON.stringify(data, null, 2)], {
 		        type: "application/json"
 		    });
 		    const a = document.createElement("a");
 		    a.href = URL.createObjectURL(blob);
-		    a.download = (data.serviceName || "citizen_charter") + ".json";
+		    a.download = fileName;
+		    document.body.appendChild(a);
 		    a.click();
+		    document.body.removeChild(a);
+		    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 		}
+		const exportFormData = saveFormData;
 
 		function importFormData(event) {
 		    const file = event.target.files[0];
 		    if (!file) return;
+
+		    currentOpenedFileName = file.name;
 
 		    const reader = new FileReader();
 		    reader.onload = function(e) {
