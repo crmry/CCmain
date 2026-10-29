@@ -570,13 +570,11 @@
 		        </table>
 
 		        <table class="requirements-table">
-		            <thead>
+		            <tbody>
 		                <tr>
 		                    <th style="width: 46%; text-align: center;">CHECKLIST OF REQUIREMENTS</th>
 		                    <th style="width: 54%; text-align: center;">WHERE TO SECURE</th>
 		                </tr>
-		            </thead>
-		            <tbody>
 		                ${requirements && requirements.length > 0 ? requirements.map(req => `
 		                    <tr>
 		                        <td>${req.requirement}</td>
@@ -592,7 +590,7 @@
 		        </table>
 
 		        <table class="process-table">
-		            <thead>
+		            <tbody>
 		                <tr>
 		                    <th style="width: 23%; text-align: center;">CLIENT STEPS</th>
 		                    <th style="width: 23%; text-align: center;">AGENCY ACTIONS</th>
@@ -600,8 +598,6 @@
 		                    <th style="width: 19%; text-align: center;">PROCESSING TIME</th>
 		                    <th style="width: 21%; text-align: center;">PERSON RESPONSIBLE</th>
 		                </tr>
-		            </thead>
-		            <tbody>
 		                ${processOverview && processOverview.length > 0 ? processOverview.map(proc => `
 		                    <tr>
 		                        <td>${proc.clientSteps}</td>
@@ -619,8 +615,6 @@
 		                        <td style="text-align: center; font-style: italic;">N/A</td>
 		                    </tr>
 		                `}
-		            </tbody>
-		            <tfoot>
 		                <tr>
 		                    <td style="background-color: #8eaadb;"></td>
 		                    <th style="text-align:right;">TOTAL</th>
@@ -628,7 +622,7 @@
 		                    <th style="text-align:center;">${(ProcessingTime || 'N/A').toUpperCase()}</th>
 		                    <td style="background-color: #8eaadb;"></td>
 		                </tr>
-		            </tfoot>
+		            </tbody>
 		        </table>
 		    `;
 		}
