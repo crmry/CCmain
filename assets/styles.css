@@ -366,12 +366,14 @@ table.table-bordered td:last-child {
 
 /* Table Footer Grid Alignment */
 table.table-bordered tfoot tr {
-    background-color: #f8fafc !important;
+    background-color: #8eaadb !important;
 }
 
 table.table-bordered tfoot td {
     vertical-align: middle !important;
-    background-color: #f8fafc !important;
+    background-color: #8eaadb !important;
+    color: #0f172a !important;
+    font-weight: 700 !important;
     padding: 8px 10px !important;
 }
 
