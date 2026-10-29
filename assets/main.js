@@ -970,15 +970,11 @@
     }
 
     thead {
-        display: table-header-group !important;
-        break-after: avoid;
-        page-break-after: avoid;
+        display: table-row-group !important;
     }
 
     tfoot {
-        display: table-footer-group !important;
-        break-inside: avoid;
-        page-break-inside: avoid;
+        display: table-row-group !important;
     }
 
     tbody {
@@ -1021,15 +1017,11 @@
         }
 
         thead {
-            display: table-header-group !important;
-            break-after: avoid;
-            page-break-after: avoid;
+            display: table-row-group !important;
         }
 
         tfoot {
-            display: table-footer-group !important;
-            break-inside: avoid;
-            page-break-inside: avoid;
+            display: table-row-group !important;
         }
 
         tbody {
