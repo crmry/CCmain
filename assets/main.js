@@ -6,11 +6,15 @@
 		let previewWindow = null;
 		let currentOpenedFileName = '';
 
-		// Auto-Save Draft Constants and State
+		// Auto-Save Draft Constants and State (Session-only: released when browser is closed, preserved across page refreshes)
 		const DRAFT_CACHE_KEY = 'cc_builder_draft_cache';
-		const DRAFT_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours
 		let autoSaveTimer = null;
 		let isRestoringDraft = false;
+
+		// Clean up any residual localStorage from previous versions
+		try {
+		    localStorage.removeItem(DRAFT_CACHE_KEY);
+		} catch (e) {}
 
 		function hasSubstantialData(data) {
 		    if (!data) return false;
@@ -39,14 +43,10 @@
 
 		function hasValidDraft() {
 		    try {
-		        const raw = localStorage.getItem(DRAFT_CACHE_KEY);
+		        const raw = sessionStorage.getItem(DRAFT_CACHE_KEY);
 		        if (!raw) return false;
 		        const payload = JSON.parse(raw);
-		        if (!payload || !payload.timestamp || !payload.data) return false;
-		        if (Date.now() - payload.timestamp > DRAFT_EXPIRY_MS) {
-		            localStorage.removeItem(DRAFT_CACHE_KEY);
-		            return false;
-		        }
+		        if (!payload || !payload.data) return false;
 		        return hasSubstantialData(payload.data);
 		    } catch (e) {
 		        return false;
@@ -64,25 +64,25 @@
 		    if (state === 'saving') {
 		        badge.classList.add('saving');
 		        icon.className = 'fa fa-spinner fa-spin text-warning';
-		        text.textContent = 'Saving draft...';
+		        text.textContent = 'Saving...';
 		    } else if (state === 'saved') {
 		        badge.classList.add('saved');
 		        icon.className = 'fa fa-check-circle text-success';
-		        text.textContent = 'Draft auto-saved (cached 24 hrs)';
+		        text.textContent = 'Draft auto-saved';
 		    } else if (state === 'cleared') {
 		        badge.classList.add('cleared');
 		        icon.className = 'fa fa-redo text-muted';
-		        text.textContent = 'Draft cleared';
+		        text.textContent = 'Form reset';
 		        setTimeout(() => {
 		            if (badge.classList.contains('cleared')) {
 		                badge.classList.remove('cleared');
-		                icon.className = 'fa fa-cloud text-muted';
-		                text.textContent = 'Auto-save enabled (24h cache)';
+		                icon.className = 'fa fa-check-circle text-success';
+		                text.textContent = 'Draft auto-saved';
 		            }
-		        }, 3000);
+		        }, 2000);
 		    } else {
-		        icon.className = 'fa fa-cloud text-muted';
-		        text.textContent = 'Auto-save enabled (24h cache)';
+		        icon.className = 'fa fa-check-circle text-success';
+		        text.textContent = 'Draft auto-saved';
 		    }
 		}
 
@@ -102,7 +102,7 @@
 		        if (!data) return;
 
 		        if (!hasSubstantialData(data)) {
-		            localStorage.removeItem(DRAFT_CACHE_KEY);
+		            sessionStorage.removeItem(DRAFT_CACHE_KEY);
 		            updateAutoSaveStatus('idle');
 		            return;
 		        }
@@ -111,42 +111,27 @@
 		            timestamp: Date.now(),
 		            data: data
 		        };
-		        localStorage.setItem(DRAFT_CACHE_KEY, JSON.stringify(payload));
+		        sessionStorage.setItem(DRAFT_CACHE_KEY, JSON.stringify(payload));
 		        updateAutoSaveStatus('saved');
 		    } catch (err) {
-		        console.warn('Draft auto-save warning (localStorage quota or disabled):', err);
+		        console.warn('Draft auto-save warning (sessionStorage quota or disabled):', err);
 		        updateAutoSaveStatus('idle');
-		    }
-		}
-
-		function showDraftRestoredNotification(timeText) {
-		    const banner = document.getElementById('draftRestoredBanner');
-		    const timeSpan = document.getElementById('draftRestoredTime');
-		    if (banner) {
-		        if (timeSpan) timeSpan.textContent = timeText;
-		        banner.style.display = 'flex';
 		    }
 		}
 
 		function checkAndRestoreDraft() {
 		    try {
-		        const raw = localStorage.getItem(DRAFT_CACHE_KEY);
+		        const raw = sessionStorage.getItem(DRAFT_CACHE_KEY);
 		        if (!raw) return;
 
 		        const payload = JSON.parse(raw);
-		        if (!payload || !payload.timestamp || !payload.data) {
-		            localStorage.removeItem(DRAFT_CACHE_KEY);
-		            return;
-		        }
-
-		        const ageMs = Date.now() - payload.timestamp;
-		        if (ageMs > DRAFT_EXPIRY_MS) {
-		            localStorage.removeItem(DRAFT_CACHE_KEY);
+		        if (!payload || !payload.data) {
+		            sessionStorage.removeItem(DRAFT_CACHE_KEY);
 		            return;
 		        }
 
 		        if (!hasSubstantialData(payload.data)) {
-		            localStorage.removeItem(DRAFT_CACHE_KEY);
+		            sessionStorage.removeItem(DRAFT_CACHE_KEY);
 		            return;
 		        }
 
@@ -154,10 +139,6 @@
 		        applyFormData(payload.data);
 		        isRestoringDraft = false;
 
-		        const minsAgo = Math.max(1, Math.round(ageMs / 60000));
-		        const timeText = minsAgo < 60 ? `${minsAgo} min${minsAgo > 1 ? 's' : ''} ago` : `${Math.round(minsAgo / 60)} hr${Math.round(minsAgo / 60) > 1 ? 's' : ''} ago`;
-
-		        showDraftRestoredNotification(timeText);
 		        updateAutoSaveStatus('saved');
 		    } catch (err) {
 		        console.error('Error restoring draft:', err);
@@ -485,13 +466,11 @@
 
 		function clearForm() {
 		    try {
+		        sessionStorage.removeItem(DRAFT_CACHE_KEY);
 		        localStorage.removeItem(DRAFT_CACHE_KEY);
 		    } catch (e) {
-		        console.warn('Could not remove localStorage draft:', e);
+		        console.warn('Could not remove draft storage:', e);
 		    }
-
-		    const banner = document.getElementById('draftRestoredBanner');
-		    if (banner) banner.style.display = 'none';
 
 		    document.getElementById('citizenCharterForm').reset();
 		    document.querySelectorAll('.custom-option-card').forEach(c => c.classList.remove('active'));
