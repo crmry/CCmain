@@ -742,19 +742,11 @@ table.table-bordered tfoot input.form-control {
     margin-bottom: 20px;
 }
 
-.page-top-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-#startTourNavBtn,
 #startTourBottomBtn {
     font-weight: 600;
     transition: all 0.2s ease;
 }
 
-#startTourNavBtn:hover,
 #startTourBottomBtn:hover {
     transform: translateY(-1px);
 }

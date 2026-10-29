@@ -940,11 +940,11 @@
 		                }
 		            },
 		            {
-		                element: '#startTourNavBtn',
+		                element: '#startTourBottomBtn',
 		                popover: {
 		                    title: 'You\'re Ready for ARTA Compliance! 🇵🇭',
-		                    description: 'Your Citizen\'s Charter is the frontline pledge of your agency to the Filipino people.<br><br>Whenever you need to refresh your understanding of ARTA rules, click <strong>Take a Tour</strong> in the top header or in the bottom action bar anytime.',
-		                    side: 'bottom',
+		                    description: 'Your Citizen\'s Charter is the frontline pledge of your agency to the Filipino people.<br><br>Whenever you need to review ARTA rules again, click <strong>Take a Tour</strong> here in the action bar anytime.',
+		                    side: 'top',
 		                    align: 'end'
 		                }
 		            }
