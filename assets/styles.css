@@ -347,13 +347,11 @@ table.table-bordered td {
 /* Actions Column Protection */
 table.table-bordered th:last-child,
 table.table-bordered td:last-child {
-    width: 10% !important;
-    min-width: 140px !important;
+    width: 11% !important;
+    min-width: 95px !important;
     text-align: center !important;
     vertical-align: middle !important;
-    white-space: nowrap !important;
-    word-break: normal !important;
-    padding: 8px 10px !important;
+    padding: 6px 4px !important;
     background-color: #fcfcfc;
 }
 
@@ -418,28 +416,38 @@ table.table-bordered tfoot input.form-control {
 
 /* Row Action Buttons */
 .table-actions-btns {
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 5px;
     margin: 0 auto;
+    width: 100%;
+}
+
+.table-actions-btns .add-btn,
+.table-actions-btns .delete-btn {
+    width: 100%;
+    max-width: 82px;
+    box-sizing: border-box;
 }
 
 .add-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 4px;
     background-color: #dbeafe;
     color: #1d4ed8;
     border: 1px solid #bfdbfe;
-    padding: 6px 11px;
+    padding: 5px 8px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.15s ease;
     white-space: nowrap;
+    max-width: 82px;
 }
 
 .add-btn:hover {
@@ -454,18 +462,19 @@ table.table-bordered tfoot input.form-control {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 4px;
     background-color: #fee2e2;
     color: #dc2626;
     border: 1px solid #fecaca;
-    padding: 6px 11px;
+    padding: 5px 8px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease;
     margin: 0 auto;
     white-space: nowrap;
+    max-width: 82px;
 }
 
 .delete-btn:hover {
@@ -502,6 +511,7 @@ table.table-bordered tfoot input.form-control {
     border-radius: 12px;
     padding: 18px 24px;
     margin-top: 30px;
+    margin-bottom: 36px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
