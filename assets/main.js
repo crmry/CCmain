@@ -217,7 +217,43 @@
 		    if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
 		        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el));
 		    }
+
+		    // Check and display Data Privacy Statement modal on first visit
+		    checkAndShowPrivacyNoticeOnVisit();
 		});
+
+		function openPrivacyNoticeModal() {
+		    const modalEl = document.getElementById('privacyNoticeModal');
+		    if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+		        const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+		        modal.show();
+		    }
+		}
+
+		function acknowledgePrivacyNotice() {
+		    const checkbox = document.getElementById('dontShowPrivacyAgain');
+		    if (checkbox && checkbox.checked) {
+		        try {
+		            localStorage.setItem('cc_privacy_acknowledged', 'true');
+		        } catch (e) {}
+		    }
+		    const modalEl = document.getElementById('privacyNoticeModal');
+		    if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+		        const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+		        modal.hide();
+		    }
+		}
+
+		function checkAndShowPrivacyNoticeOnVisit() {
+		    try {
+		        const acknowledged = localStorage.getItem('cc_privacy_acknowledged');
+		        if (acknowledged !== 'true') {
+		            setTimeout(() => {
+		                openPrivacyNoticeModal();
+		            }, 400);
+		        }
+		    } catch (e) {}
+		}
 
 		function autoAdjustTextarea(el) {
 		    if (!el) return;

@@ -27,9 +27,14 @@
                         </div>
                         <div class="d-flex flex-column align-items-end text-end">
                             <p class="page-subtitle mb-2 text-end">Standard Citizen's Charter Authoring &amp; Publishing System</p>
-                            <button type="button" id="startTourNavBtn" class="btn btn-outline-primary btn-sm shadow-sm" onclick="startSystemTour()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Take an interactive guided tour of the system">
-                                <i class="fa fa-compass me-1"></i> Take a Tour
-                            </button>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" id="privacyNoticeBtn" class="btn btn-outline-secondary btn-sm shadow-sm" onclick="openPrivacyNoticeModal()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View Data Privacy &amp; Security Statement">
+                                    <i class="fa fa-shield-alt me-1"></i> Privacy Notice
+                                </button>
+                                <button type="button" id="startTourNavBtn" class="btn btn-outline-primary btn-sm shadow-sm" onclick="startSystemTour()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Take an interactive guided tour of the system">
+                                    <i class="fa fa-compass me-1"></i> Take a Tour
+                                </button>
+                            </div>
                         </div>
                     </div>
                     
@@ -204,7 +209,7 @@
                     <!-- Creator Attribution Footer (Protected) -->
                     <footer id="appCreatorFooter" class="app-creator-footer" data-creator="crmry" data-protected="true">
                         <div class="creator-footer-content">
-                            <span>&copy; 2026 <strong>Citizen Charter Builder</strong> &bull; Created by <a href="https://github.com/crmry" target="_blank" rel="noopener noreferrer" class="creator-link">crmry</a></span>
+                            <span>&copy; 2026 <strong>Citizen Charter Builder</strong> &bull; Created by <a href="https://github.com/crmry" target="_blank" rel="noopener noreferrer" class="creator-link">crmry</a> &bull; <a href="javascript:void(0)" onclick="openPrivacyNoticeModal()" class="creator-link text-decoration-underline"><i class="fa fa-shield-alt me-1"></i>Data Privacy</a></span>
                         </div>
                     </footer>
                 </div>
@@ -222,7 +227,89 @@
     <!-- Direct PDF Generation Library -->
     <script src="assets/js/html2pdf.bundle.min.js"></script>
 
+    <!-- Data Privacy & Security Statement Modal -->
+    <div class="modal fade" id="privacyNoticeModal" tabindex="-1" aria-labelledby="privacyNoticeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 14px; overflow: hidden;">
+                <div class="modal-header text-white" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); padding: 18px 24px; border-bottom: none;">
+                    <div class="d-flex align-items-center gap-3">
+                        <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fa fa-shield-halved fa-lg"></i>
+                        </div>
+                        <div>
+                            <h5 class="modal-title mb-0 fw-bold" id="privacyNoticeModalLabel" style="font-size: 19px; letter-spacing: -0.2px;">Data Privacy &amp; Security Statement</h5>
+                            <div style="opacity: 0.9; font-size: 12.5px; margin-top: 2px;">In compliance with RA 10173 (Data Privacy Act of 2012) &amp; ARTA Standards</div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" style="font-size: 14.5px; line-height: 1.6; color: #334155;">
+                    <div class="alert alert-primary d-flex align-items-center mb-4 py-2 px-3" style="background-color: #eff6ff; border-color: #bfdbfe; color: #1e40af; border-radius: 8px;">
+                        <i class="fa fa-lock fa-lg me-3 text-primary"></i>
+                        <div>
+                            <strong>100% Client-Side Architecture:</strong> This application executes entirely within your local browser. No data is uploaded, collected, or stored on external cloud servers or databases.
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-2">
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded-3 h-100" style="background: #f8fafc; border-color: #e2e8f0 !important;">
+                                <h6 class="fw-bold text-dark d-flex align-items-center mb-2" style="font-size: 15px;">
+                                    <i class="fa fa-cloud-slash text-danger me-2"></i> Zero External Transmission
+                                </h6>
+                                <p class="small text-muted mb-0" style="line-height: 1.5;">
+                                    There are no remote databases or tracking telemetry. All encoded service details, checklists, fees, and employee designations remain strictly on your local device.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded-3 h-100" style="background: #f8fafc; border-color: #e2e8f0 !important;">
+                                <h6 class="fw-bold text-dark d-flex align-items-center mb-2" style="font-size: 15px;">
+                                    <i class="fa fa-clock-rotate-left text-primary me-2"></i> Volatile Session Memory
+                                </h6>
+                                <p class="small text-muted mb-0" style="line-height: 1.5;">
+                                    Drafts are held only in temporary tab memory (<code>sessionStorage</code>) to survive accidental page refreshes, and are <strong>automatically wiped and released as soon as you close your browser</strong>.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded-3 h-100" style="background: #f8fafc; border-color: #e2e8f0 !important;">
+                                <h6 class="fw-bold text-dark d-flex align-items-center mb-2" style="font-size: 15px;">
+                                    <i class="fa fa-file-shield text-success me-2"></i> Complete Local Custody
+                                </h6>
+                                <p class="small text-muted mb-0" style="line-height: 1.5;">
+                                    Generated PDF reports and exported <code>.json</code> backup files are downloaded directly to your workstation under your exclusive control.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded-3 h-100" style="background: #f8fafc; border-color: #e2e8f0 !important;">
+                                <h6 class="fw-bold text-dark d-flex align-items-center mb-2" style="font-size: 15px;">
+                                    <i class="fa fa-scale-balanced text-warning me-2"></i> Regulatory Compliant
+                                </h6>
+                                <p class="small text-muted mb-0" style="line-height: 1.5;">
+                                    Designed to support national agencies and LGUs in authoring compliant Citizen's Charters under RA 11032 while safeguarding data integrity and privacy.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light px-4 py-3 border-top d-flex justify-content-between align-items-center">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="dontShowPrivacyAgain" checked>
+                        <label class="form-check-label small text-muted user-select-none" for="dontShowPrivacyAgain">
+                            Do not show this notice automatically on future visits
+                        </label>
+                    </div>
+                    <button type="button" class="btn btn-primary px-4 fw-bold shadow-sm" onclick="acknowledgePrivacyNotice()">
+                        <i class="fa fa-check-circle me-1"></i> I Understand &amp; Proceed
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Script -->
-    <script src="assets/main.js?v=9.5"></script>
+    <script src="assets/main.js?v=9.6"></script>
 </body>
 </html>
