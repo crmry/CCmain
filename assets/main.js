@@ -817,6 +817,7 @@
 		}
 
 		let tourRunning = false;
+		let activeDriverInstance = null;
 
 		function startSystemTour() {
 		    if (typeof window.driver === 'undefined' || !window.driver.js || !window.driver.js.driver) {
@@ -836,8 +837,14 @@
 		        prevBtnText: '← Back',
 		        doneBtnText: 'Finish Tour ✓',
 		        progressText: 'Step {{current}} of {{total}}',
-		        onDestroyStarted: () => {
+		        onCloseClick: () => {
+		            if (driverObj) {
+		                driverObj.destroy();
+		            }
+		        },
+		        onDestroyed: () => {
 		            tourRunning = false;
+		            activeDriverInstance = null;
 		        },
 		        steps: [
 		            {
@@ -952,8 +959,20 @@
 		    });
 
 		    tourRunning = true;
+		    activeDriverInstance = driverObj;
 		    driverObj.drive();
 		}
+
+		// Direct event delegation fallback to guarantee tour closes when clicking close button (×)
+		document.addEventListener('click', (e) => {
+		    if (e.target && (e.target.matches('.driver-popover-close-btn') || e.target.closest('.driver-popover-close-btn'))) {
+		        e.preventDefault();
+		        e.stopPropagation();
+		        if (activeDriverInstance) {
+		            activeDriverInstance.destroy();
+		        }
+		    }
+		}, true);
 
 		// Always automatically activate tour on visiting or refreshing the page
 		(function setupAutoTourActivation() {

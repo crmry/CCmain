@@ -852,14 +852,25 @@ table.table-bordered tfoot input.form-control {
 }
 
 .driver-popover-close-btn {
-    color: #94a3b8 !important;
+    color: #64748b !important;
     font-size: 22px !important;
-    font-weight: 400 !important;
-    padding: 4px 8px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    z-index: 10 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 6px !important;
+    transition: all 0.15s ease !important;
+    outline: none !important;
 }
 
 .driver-popover-close-btn:hover {
     color: #0f172a !important;
+    background-color: #f1f5f9 !important;
 }
 
 /* Creator Attribution Footer (Protected) */
