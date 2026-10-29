@@ -73,6 +73,7 @@
 
 		function addRequirementRow(requirementValue = '', whereValue = '') {
 		    const tableBody = document.getElementById('requirementsTableBody');
+		    const isFirstRow = (tableBody.rows.length === 0);
 		    const newRow = document.createElement('tr');
 		    const rowIndex = editorCounter++;
 
@@ -88,9 +89,10 @@
                 <button type="button" class="add-btn" onclick="addRequirementRow()" title="Add Additional Row">
                     <i class="fa fa-plus"></i> ADD
                 </button>
+                ${!isFirstRow ? `
                 <button type="button" class="delete-btn" onclick="deleteRequirementRow(this.closest('tr'))" title="Delete Row">
                     <i class="fa fa-trash-alt"></i> Delete
-                </button>
+                </button>` : ''}
             </div>
         </td>
     `;
@@ -138,6 +140,7 @@
 
 		function addProcessOverviewRow(clientSteps = '', agencyActions = '', fees = '', time = '', person = '') {
 		    const tableBody = document.getElementById('processOverviewTableBody');
+		    const isFirstRow = (tableBody.rows.length === 0);
 		    const newRow = document.createElement('tr');
 		    const rowIndex = editorCounter++;
 
@@ -152,9 +155,10 @@
                 <button type="button" class="add-btn" onclick="addProcessOverviewRow()" title="Add Additional Row">
                     <i class="fa fa-plus"></i> ADD
                 </button>
+                ${!isFirstRow ? `
                 <button type="button" class="delete-btn" onclick="deleteProcessOverviewRow(this.closest('tr'))" title="Delete Row">
                     <i class="fa fa-trash-alt"></i> Delete
-                </button>
+                </button>` : ''}
             </div>
         </td>
     `;
@@ -208,22 +212,52 @@
 
 		function deleteRequirementRow(row) {
 		    if (!row) return;
+		    const tableBody = document.getElementById('requirementsTableBody');
+		    if (tableBody.rows.length <= 1 || row === tableBody.rows[0]) {
+		        return; // Prevent deleting the first permanent row
+		    }
 		    const editorDiv = row.querySelector('[id^="requirement-"]');
 		    if (editorDiv) {
 		        const rowIndex = editorDiv.id.split('-')[1];
 		        requirementEditors = requirementEditors.filter(editor => editor.index !== parseInt(rowIndex));
 		    }
 		    row.remove();
+		    updateRequirementTableActions();
 		}
 
 		function deleteProcessOverviewRow(row) {
 		    if (!row) return;
+		    const tableBody = document.getElementById('processOverviewTableBody');
+		    if (tableBody.rows.length <= 1 || row === tableBody.rows[0]) {
+		        return; // Prevent deleting the first permanent row
+		    }
 		    const editorDiv = row.querySelector('[id^="clientSteps-"]');
 		    if (editorDiv) {
 		        const rowIndex = editorDiv.id.split('-')[1];
 		        processOverviewEditors = processOverviewEditors.filter(editor => editor.index !== parseInt(rowIndex));
 		    }
 		    row.remove();
+		    updateProcessOverviewTableActions();
+		}
+
+		function updateRequirementTableActions() {
+		    const tableBody = document.getElementById('requirementsTableBody');
+		    Array.from(tableBody.rows).forEach((r, idx) => {
+		        const deleteBtn = r.querySelector('.delete-btn');
+		        if (idx === 0 && deleteBtn) {
+		            deleteBtn.remove();
+		        }
+		    });
+		}
+
+		function updateProcessOverviewTableActions() {
+		    const tableBody = document.getElementById('processOverviewTableBody');
+		    Array.from(tableBody.rows).forEach((r, idx) => {
+		        const deleteBtn = r.querySelector('.delete-btn');
+		        if (idx === 0 && deleteBtn) {
+		            deleteBtn.remove();
+		        }
+		    });
 		}
 
 		function clearForm() {
