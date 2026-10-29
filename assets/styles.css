@@ -131,7 +131,15 @@ h1, h2, h3, h4 {
 
 textarea.form-control {
     resize: vertical;
-    min-height: 80px;
+    min-height: 52px;
+    overflow-y: hidden;
+    line-height: 1.5;
+}
+
+textarea#serviceNameInput {
+    min-height: 42px;
+    font-weight: 700;
+    resize: vertical;
 }
 
 /* Main Details Table */

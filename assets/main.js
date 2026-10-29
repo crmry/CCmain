@@ -25,7 +25,21 @@
 		            e.target.closest('.custom-option-card')?.classList.toggle('active', e.target.checked);
 		        }
 		    });
+
+		    // Auto-adjust height for textareas as content is typed
+		    document.querySelectorAll('textarea.form-control').forEach(autoAdjustTextarea);
+		    document.addEventListener('input', (e) => {
+		        if (e.target.tagName === 'TEXTAREA' && e.target.classList.contains('form-control')) {
+		            autoAdjustTextarea(e.target);
+		        }
+		    });
 		});
+
+		function autoAdjustTextarea(el) {
+		    if (!el) return;
+		    el.style.height = 'auto';
+		    el.style.height = Math.max(el.scrollHeight + 2, 42) + 'px';
+		}
 
 		function addNewRowFromActionPanel() {
 		    addProcessOverviewRowAndScroll();
@@ -229,6 +243,7 @@
 		    editorCounter = 0;
 		    addRequirementRow();
 		    addProcessOverviewRow();
+		    setTimeout(() => document.querySelectorAll('textarea.form-control').forEach(autoAdjustTextarea), 50);
 
 		    if (previewWindow && !previewWindow.closed) {
 		        previewWindow.close();
@@ -332,6 +347,7 @@
 		        data.processOverview.forEach(item =>
 		            addProcessOverviewRow(item.clientSteps, item.agencyActions, item.feesToBePaid, item.processingTime, item.personResponsible)
 		        );
+		        setTimeout(() => document.querySelectorAll('textarea.form-control').forEach(autoAdjustTextarea), 100);
 		    };
 		    reader.readAsText(file);
 		}
