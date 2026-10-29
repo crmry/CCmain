@@ -175,7 +175,10 @@
 
                                 <div class="actions-panel">
                                     <button type="button" class="btn btn-primary shadow-sm" onclick="openPreview()" data-bs-toggle="tooltip" data-bs-placement="top" title="View printable report and save as PDF">
-                                        <i class="fa fa-print"></i> Print / PDF
+                                        <i class="fa fa-print"></i> Print / Preview
+                                    </button>
+                                    <button type="button" id="directDownloadPdfBtn" class="btn btn-danger shadow-sm" onclick="downloadDirectPDF()" data-bs-toggle="tooltip" data-bs-placement="top" title="Directly generate and download .pdf file to your computer without opening printer dialog">
+                                        <i class="fa fa-file-pdf"></i> Download PDF
                                     </button>
                                     <button type="button" class="btn btn-success shadow-sm" onclick="saveFormData()" data-bs-toggle="tooltip" data-bs-placement="top" title="Save Citizen Charter to a .json file">
                                         <i class="fa fa-save"></i> Save
@@ -210,7 +213,10 @@
     <!-- Guided Tour Library -->
     <script src="assets/js/driver.js"></script>
 
+    <!-- Direct PDF Generation Library -->
+    <script src="assets/js/html2pdf.bundle.min.js"></script>
+
     <!-- Main Script -->
-    <script src="assets/main.js?v=8.8"></script>
+    <script src="assets/main.js?v=8.9"></script>
 </body>
 </html>

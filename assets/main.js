@@ -470,9 +470,7 @@
 		}
 
 
-		function openPreview() {
-		    console.log("Preview button clicked");
-
+		function getCitizenCharterData() {
 		    const FeesToBePaid = document.getElementById('FeesToBePaid').value || "N/A";
 		    const ProcessingTime = document.getElementById('ProcessingTime').value || "N/A";
 		    const serviceName = document.getElementById('serviceNameInput').value;
@@ -519,22 +517,243 @@
 		        }
 		    });
 
-		    displayPreview(serviceName, description, office, classification, transactionTypes, whoMayAvail, requirements, processOverview, FeesToBePaid, ProcessingTime);
+		    return {
+		        serviceName,
+		        description,
+		        office,
+		        classification,
+		        transactionTypes,
+		        whoMayAvail,
+		        requirements,
+		        processOverview,
+		        FeesToBePaid,
+		        ProcessingTime
+		    };
 		}
 
+		function generateReportHtml(data) {
+		    const {
+		        serviceName,
+		        description,
+		        office,
+		        classification,
+		        transactionTypes,
+		        whoMayAvail,
+		        requirements,
+		        processOverview,
+		        FeesToBePaid,
+		        ProcessingTime
+		    } = data;
 
+		    return `
+		        <div class="main-header">
+		            <span class="service-name">${serviceName || "Citizen's Charter"}</span>
+		            <div class="service-description">${description || ""}</div>
+		        </div>
+		        <table class="info-table">
+		            <tr>
+		                <th style="width: 28%;">Office or Division</th>
+		                <td style="width: 72%;">${office || ""}</td>
+		            </tr>
+		            <tr>
+		                <th>Classification:</th>
+		                <td>${classification || ""}</td>
+		            </tr>
+		            <tr>
+		                <th>Type of Transaction:</th>
+		                <td>${transactionTypes || ""}</td>
+		            </tr>
+		            <tr>
+		                <th>Who may avail:</th>
+		                <td>${whoMayAvail || ""}</td>
+		            </tr>
+		        </table>
 
-		function displayPreview(serviceName, description, office, classification, transactionTypes, whoMayAvail, requirements, processOverview, FeesToBePaid, ProcessingTime) {
-		    let previewWindow = window.open('', '', 'width=816px,height=1056px');
+		        <table class="requirements-table">
+		            <thead>
+		                <tr>
+		                    <th style="width: 46%; text-align: center;">CHECKLIST OF REQUIREMENTS</th>
+		                    <th style="width: 54%; text-align: center;">WHERE TO SECURE</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                ${requirements && requirements.length > 0 ? requirements.map(req => `
+		                    <tr>
+		                        <td>${req.requirement}</td>
+		                        <td>${req.whereToSecure}</td>
+		                    </tr>
+		                `).join('') : `
+		                    <tr>
+		                        <td style="text-align: center; font-style: italic;">None</td>
+		                        <td style="text-align: center; font-style: italic;">N/A</td>
+		                    </tr>
+		                `}
+		            </tbody>
+		        </table>
+
+		        <table class="process-table">
+		            <thead>
+		                <tr>
+		                    <th style="width: 23%; text-align: center;">CLIENT STEPS</th>
+		                    <th style="width: 23%; text-align: center;">AGENCY ACTIONS</th>
+		                    <th style="width: 14%; text-align: center;">FEES TO BE PAID</th>
+		                    <th style="width: 19%; text-align: center;">PROCESSING TIME</th>
+		                    <th style="width: 21%; text-align: center;">PERSON RESPONSIBLE</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                ${processOverview && processOverview.length > 0 ? processOverview.map(proc => `
+		                    <tr>
+		                        <td>${proc.clientSteps}</td>
+		                        <td>${proc.agencyActions}</td>
+		                        <td style="text-align: center;">${proc.feesToBePaid}</td>
+		                        <td style="text-align: center;">${proc.processingTime}</td>
+		                        <td>${proc.personResponsible}</td>
+		                    </tr>
+		                `).join('') : `
+		                    <tr>
+		                        <td style="text-align: center; font-style: italic;">None</td>
+		                        <td style="text-align: center; font-style: italic;">None</td>
+		                        <td style="text-align: center; font-style: italic;">None</td>
+		                        <td style="text-align: center; font-style: italic;">N/A</td>
+		                        <td style="text-align: center; font-style: italic;">N/A</td>
+		                    </tr>
+		                `}
+		            </tbody>
+		            <tfoot>
+		                <tr>
+		                    <td style="background-color: #8eaadb;"></td>
+		                    <th style="text-align:right;">TOTAL</th>
+		                    <th style="text-align:center;">${(FeesToBePaid || 'NONE').toUpperCase()}</th>
+		                    <th style="text-align:center;">${(ProcessingTime || 'N/A').toUpperCase()}</th>
+		                    <td style="background-color: #8eaadb;"></td>
+		                </tr>
+		            </tfoot>
+		        </table>
+		    `;
+		}
+
+		function openPreview() {
+		    console.log("Preview button clicked");
+		    const data = getCitizenCharterData();
+		    displayPreview(data);
+		}
+
+		function downloadDirectPDF() {
+		    const data = getCitizenCharterData();
+		    const safeTitle = (data.serviceName || 'Citizen_Charter')
+		        .replace(/[/\\?%*:|"<>]/g, '_')
+		        .trim()
+		        .slice(0, 80);
+		    const safeFilename = `${safeTitle} - Citizen Charter.pdf`;
+
+		    const btn = document.getElementById('directDownloadPdfBtn');
+		    let originalHtml = '';
+		    if (btn) {
+		        originalHtml = btn.innerHTML;
+		        btn.disabled = true;
+		        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generating PDF...';
+		    }
+
+		    const container = document.createElement('div');
+		    container.id = 'directPdfExportContainer';
+		    container.style.position = 'fixed';
+		    container.style.left = '-9999px';
+		    container.style.top = '0';
+		    container.style.width = '794px';
+		    container.style.background = '#ffffff';
+		    container.style.padding = '20px';
+		    container.style.fontFamily = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
+		    container.style.color = '#000000';
+		    container.style.boxSizing = 'border-box';
+
+		    const styleTag = document.createElement('style');
+		    styleTag.innerHTML = `
+		        .main-header { margin-bottom: 10px; }
+		        .service-name { font-size: 20px; font-weight: bold; margin-bottom: 6px; display: block; color: #000; }
+		        .service-description { font-size: 14px; line-height: 1.5; margin-bottom: 10px; color: #000; }
+		        table { width: 100%; border-collapse: collapse; margin-top: -1.5px; font-size: 14px; }
+		        th, td { border: 1.5px solid #000; padding: 7px 8px; text-align: left; vertical-align: top; font-size: 14px; line-height: 1.45; word-break: break-word; }
+		        th { background-color: #8eaadb !important; font-weight: bold; }
+		    `;
+		    container.appendChild(styleTag);
+
+		    const contentWrapper = document.createElement('div');
+		    contentWrapper.innerHTML = generateReportHtml(data);
+		    container.appendChild(contentWrapper);
+		    document.body.appendChild(container);
+
+		    const opt = {
+		        margin: [15, 12, 15, 12],
+		        filename: safeFilename,
+		        image: { type: 'jpeg', quality: 0.98 },
+		        html2canvas: { scale: 2, useCORS: true, logging: false },
+		        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+		        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+		    };
+
+		    if (typeof html2pdf !== 'undefined') {
+		        html2pdf().set(opt).from(container).save().then(() => {
+		            document.body.removeChild(container);
+		            if (btn) {
+		                btn.disabled = false;
+		                btn.innerHTML = originalHtml;
+		            }
+		        }).catch(err => {
+		            console.error('Direct PDF error:', err);
+		            document.body.removeChild(container);
+		            if (btn) {
+		                btn.disabled = false;
+		                btn.innerHTML = originalHtml;
+		            }
+		            alert('Direct PDF generation error. Opening print preview dialog instead.');
+		            openPreview();
+		        });
+		    } else {
+		        document.body.removeChild(container);
+		        if (btn) {
+		            btn.disabled = false;
+		            btn.innerHTML = originalHtml;
+		        }
+		        openPreview();
+		    }
+		}
+
+		function displayPreview(data) {
+		    const {
+		        serviceName,
+		        description,
+		        office,
+		        classification,
+		        transactionTypes,
+		        whoMayAvail,
+		        requirements,
+		        processOverview,
+		        FeesToBePaid,
+		        ProcessingTime
+		    } = data;
+
+		    const safeTitle = (serviceName || 'Citizen_Charter')
+		        .replace(/[/\\?%*:|"<>]/g, '_')
+		        .trim()
+		        .slice(0, 80);
+		    const safeFilename = `${safeTitle} - Citizen Charter.pdf`;
+
+		    let previewWindow = window.open('', '', 'width=900px,height=1056px');
 		    if (!previewWindow) {
 		        alert("Please allow popups for this site to view the preview.");
 		        return;
 		    }
+
+		    const reportHtml = generateReportHtml(data);
+
 		    previewWindow.document.write(`
         <html>
         <head>
             <meta charset="UTF-8">
             <title>${serviceName || "Citizen Charter"} - Preview</title>
+            <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.css">
+            <script src="assets/js/html2pdf.bundle.min.js"></script>
             <style>
     @page {
         size: A4 portrait;
@@ -558,18 +777,133 @@
         text-rendering: optimizeLegibility;
     }
 
-    .print-warning {
-        color: #cc0000;
-        font-weight: bold;
-        font-size: 13px;
-        line-height: 1.45;
-        margin-bottom: 12px;
-        padding: 8px 12px;
-        background-color: #fff4f4;
-        border: 1px solid #ffcccc;
-        border-radius: 4px;
+    /* Prominent Instruction & Action Banner */
+    .preview-instruction-card {
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 16px 18px;
+        margin-bottom: 22px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
 
+    .preview-instruction-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .preview-instruction-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .instruction-option-box {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 12px 14px;
+    }
+
+    .option-tag {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 3px 8px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+
+    .option-tag-direct {
+        background: #ecfdf5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+    }
+
+    .option-tag-print {
+        background: #eff6ff;
+        color: #1e40af;
+        border: 1px solid #bfdbfe;
+    }
+
+    .option-desc {
+        font-size: 13px;
+        line-height: 1.5;
+        color: #334155;
+        margin: 0;
+    }
+
+    .preview-buttons-bar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .btn-pdf-download {
+        background: #dc2626;
+        color: #ffffff;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+        transition: background 0.15s ease;
+    }
+    .btn-pdf-download:hover {
+        background: #b91c1c;
+    }
+
+    .btn-pdf-print {
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        transition: background 0.15s ease;
+    }
+    .btn-pdf-print:hover {
+        background: #1d4ed8;
+    }
+
+    .btn-pdf-close {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+        padding: 9px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s ease;
+    }
+    .btn-pdf-close:hover {
+        background: #e2e8f0;
+    }
+
+    /* Report Content Styles */
     .main-header {
         margin-bottom: 10px;
     }
@@ -583,7 +917,7 @@
         letter-spacing: 0.2px;
     }
 
-	.service-description {
+    .service-description {
         font-size: 14px;
         line-height: 1.5;
         display: block;
@@ -598,22 +932,6 @@
     .service-description p:last-child,
     td p:last-child, th p:last-child {
         margin-bottom: 0;
-    }
-
-    .pdf-button {
-        margin-bottom: 16px;
-        padding: 9px 18px;
-        font-size: 14px;
-        font-weight: bold;
-        color: #fff;
-        background-color: #007bff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-    }
-    .pdf-button:hover {
-        background-color: #0056b3;
     }
 
     table {
@@ -683,8 +1001,7 @@
             print-color-adjust: exact !important;
         }
 
-        .print-warning,
-        .pdf-button {
+        .preview-instruction-card {
             display: none !important;
         }
 
@@ -758,101 +1075,92 @@
             font-size: 18px;
         }
 
-        .pdf-button {
-            font-size: 13px;
+        .preview-instruction-grid {
+            grid-template-columns: 1fr;
         }
     }
 </style>
-
-
-
         </head>
         <body>
-            <button class="pdf-button" onclick="window.print()">Save as PDF</button>
-            <div class="main-header">
-                <span class="service-name">${serviceName}</span>
-                <div class="service-description">${description}</div>
+            <!-- Instruction Banner Card -->
+            <div class="preview-instruction-card">
+                <div class="preview-instruction-header">
+                    <i class="fa fa-info-circle text-primary"></i> How to Output Directly as PDF
+                </div>
+                <div class="preview-instruction-grid">
+                    <div class="instruction-option-box">
+                        <span class="option-tag option-tag-direct"><i class="fa fa-bolt"></i> Option 1: Direct Download (Recommended)</span>
+                        <p class="option-desc">
+                            Click <strong>"Direct Download PDF"</strong> below. It automatically creates and saves the <code>.pdf</code> file straight to your computer's <strong>Downloads</strong> folder — <strong>completely bypassing any printer selection!</strong>
+                        </p>
+                    </div>
+                    <div class="instruction-option-box">
+                        <span class="option-tag option-tag-print"><i class="fa fa-print"></i> Option 2: Browser Print Dialog</span>
+                        <p class="option-desc">
+                            If you click <strong>"Open Print Dialog"</strong> and your browser defaults to your physical printer (e.g., Epson / Network), simply click the <strong>"Destination" / "Printer"</strong> dropdown and change it to <strong>"Save as PDF"</strong>.
+                        </p>
+                    </div>
+                </div>
+                <div class="preview-buttons-bar">
+                    <button type="button" class="btn-pdf-download" onclick="window.downloadFromPreview()">
+                        <i class="fa fa-download"></i> Direct Download PDF
+                    </button>
+                    <button type="button" class="btn-pdf-print" onclick="window.print()">
+                        <i class="fa fa-print"></i> Open Print Dialog (Ctrl+P)
+                    </button>
+                    <button type="button" class="btn-pdf-close" onclick="window.close()">
+                        <i class="fa fa-times"></i> Close Preview
+                    </button>
+                </div>
             </div>
-            <table class="info-table">
-                <tr>
-                    <th style="width: 28%;">Office or Division</th>
-                    <td style="width: 72%;">${office}</td>
-                </tr>
-                <tr>
-                    <th>Classification:</th>
-                    <td>${classification}</td>
-                </tr>
-                <tr>
-                    <th>Type of Transaction:</th>
-                    <td>${transactionTypes}</td>
-                </tr>
-                <tr>
-                    <th>Who may avail:</th>
-                    <td>${whoMayAvail}</td>
-                </tr>
-            </table>
 
-            <table class="requirements-table">
-                <thead>
-                    <tr>
-                        <th style="width: 46%; text-align: center;">CHECKLIST OF REQUIREMENTS</th>
-                        <th style="width: 54%; text-align: center;">WHERE TO SECURE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${requirements.length > 0 ? requirements.map(req => `
-                        <tr>
-                            <td>${req.requirement}</td>
-                            <td>${req.whereToSecure}</td>
-                        </tr>
-                    `).join('') : `
-                        <tr>
-                            <td style="text-align: center; font-style: italic;">None</td>
-                            <td style="text-align: center; font-style: italic;">N/A</td>
-                        </tr>
-                    `}
-                </tbody>
-            </table>
+            <!-- Printable Report Container -->
+            <div id="printableReportArea">
+                ${reportHtml}
+            </div>
 
-            <table class="process-table">
-                <thead>
-                    <tr>
-                        <th style="width: 23%; text-align: center;">CLIENT STEPS</th>
-                        <th style="width: 23%; text-align: center;">AGENCY ACTIONS</th>
-                        <th style="width: 14%; text-align: center;">FEES TO BE PAID</th>
-                        <th style="width: 19%; text-align: center;">PROCESSING TIME</th>
-                        <th style="width: 21%; text-align: center;">PERSON RESPONSIBLE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${processOverview.length > 0 ? processOverview.map(proc => `
-                        <tr>
-                            <td>${proc.clientSteps}</td>
-                            <td>${proc.agencyActions}</td>
-                            <td style="text-align: center;">${proc.feesToBePaid}</td>
-                            <td style="text-align: center;">${proc.processingTime}</td>
-                            <td>${proc.personResponsible}</td>
-                        </tr>
-                    `).join('') : `
-                        <tr>
-                            <td style="text-align: center; font-style: italic;">None</td>
-                            <td style="text-align: center; font-style: italic;">None</td>
-                            <td style="text-align: center; font-style: italic;">None</td>
-                            <td style="text-align: center; font-style: italic;">N/A</td>
-                            <td style="text-align: center; font-style: italic;">N/A</td>
-                        </tr>
-                    `}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td style="background-color: #8eaadb;"></td>
-                        <th style="text-align:right;">TOTAL</th>
-                        <th style="text-align:center;">${FeesToBePaid.toUpperCase()}</th>
-                        <th style="text-align:center;">${ProcessingTime.toUpperCase()}</th>
-                        <td style="background-color: #8eaadb;"></td>
-                    </tr>
-                </tfoot>
-            </table>
+            <script>
+                window.downloadFromPreview = function() {
+                    const el = document.getElementById('printableReportArea');
+                    const btn = document.querySelector('.btn-pdf-download');
+                    const originalHtml = btn ? btn.innerHTML : '';
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generating PDF...';
+                    }
+
+                    const opt = {
+                        margin: [15, 12, 15, 12],
+                        filename: ${JSON.stringify(safeFilename)},
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2, useCORS: true, logging: false },
+                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                    };
+
+                    if (typeof html2pdf !== 'undefined') {
+                        html2pdf().set(opt).from(el).save().then(() => {
+                            if (btn) {
+                                btn.disabled = false;
+                                btn.innerHTML = originalHtml;
+                            }
+                        }).catch(err => {
+                            console.error('Preview direct PDF error:', err);
+                            if (btn) {
+                                btn.disabled = false;
+                                btn.innerHTML = originalHtml;
+                            }
+                            alert('Direct download encountered an issue. Please use "Open Print Dialog" to save as PDF.');
+                        });
+                    } else {
+                        if (btn) {
+                            btn.disabled = false;
+                            btn.innerHTML = originalHtml;
+                        }
+                        alert('PDF generator library loading. Please use "Open Print Dialog".');
+                    }
+                };
+            </script>
         </body>
         </html>
     `);
@@ -1002,8 +1310,8 @@
 		            {
 		                element: '.actions-panel',
 		                popover: {
-		                    title: '10. Print / PDF, Save & Compliance Export',
-		                    description: '• <strong>Print / PDF:</strong> Generates the official, ARTA-compliant print view with clean borders and <code>#8eaadb</code> headers for billboard posting or PDF publication.<br>• <strong>Save:</strong> Exports a standard <code>.json</code> data backup for recordkeeping and mandatory annual updates (required by March 31 annually).<br>• <strong>Open:</strong> Loads an existing <code>.json</code> file to modify or review.<br>• <strong>Clear Form:</strong> Resets fields to draft a new charter.',
+		                    title: '10. PDF Export, Print & Compliance Actions',
+		                    description: '• <strong>Download PDF:</strong> Directly generates and downloads the official ARTA-compliant PDF to your computer (bypasses printer dialogs entirely).<br>• <strong>Print / Preview:</strong> Opens the printable report with clear instructions on switching to "Save as PDF".<br>• <strong>Save:</strong> Exports a standard <code>.json</code> data backup for recordkeeping and mandatory annual updates (required by March 31 annually).<br>• <strong>Open:</strong> Loads an existing <code>.json</code> file to modify or review.<br>• <strong>Clear Form:</strong> Resets fields to draft a new charter.',
 		                    side: 'top',
 		                    align: 'center'
 		                }
