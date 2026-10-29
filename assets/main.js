@@ -23,7 +23,7 @@
 		            'undo',
 		            'redo'
 		        ],
-		        placeholder: 'Input Description of the Service.'
+		        placeholder: 'Provide a concise statement on the service purpose, statutory legal mandate/basis, and qualification criteria (e.g., This process covers the verification, evaluation, and issuance of official certifications/permits for eligible clients pursuant to RA 11032)...'
 		    };
 
 		    ClassicEditor.create(document.querySelector("#editor"), descriptionConfig).then(e => {
@@ -125,12 +125,12 @@
 
 		    const reqConfig = {
 		        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
-		        placeholder: 'Input Checklist of Requirements'
+		        placeholder: 'Document Name (# of copies, original/photocopy) — e.g., Duly accomplished application form (1 original copy), Valid Government-issued ID (1 photocopy)'
 		    };
 
 		    const whereConfig = {
 		        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
-		        placeholder: 'Input Where to Secure'
+		        placeholder: 'Specific issuing office, division, desk, or portal (e.g., Agency Receiving Section / Issuing Government Agency / Online Portal)'
 		    };
 
 		    ClassicEditor.create(document.querySelector(`#requirement-${rowIndex}`), reqConfig)
@@ -200,11 +200,11 @@
 		    };
 
 		    const stepPlaceholders = {
-		        clientSteps: 'Input Client Step',
-		        agencyActions: 'Input Agency Action',
-		        feesToBePaid: 'Input Fees to be Paid',
-		        processingTime: 'Input Processing Time',
-		        personResponsible: 'Input Person Responsible'
+		        clientSteps: 'Numbered step & location (e.g., 1. Submit complete checklist of requirements and valid ID to Receiving Section)',
+		        agencyActions: 'Numbered action per step (e.g., 1.1 Receive documents, verify completeness against checklist, and issue acknowledgment receipt)',
+		        feesToBePaid: 'Type of Fee: Currency Amount (e.g., Certification Fee: PHP 50.00) or "None" (Ranging is prohibited)',
+		        processingTime: 'Exact duration: # Day/s, # Hour/s, # Minute/s (e.g., 15 minutes or 1 Day, 2 Hours) (Ranging is prohibited)',
+		        personResponsible: 'Designation and Office (e.g., Administrative Officer V, Cashier Section). If rotating, use Immediate Supervisor\'s Designation and Office'
 		    };
 
 		    const fields = [{

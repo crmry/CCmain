@@ -10,8 +10,8 @@
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-    <link href="assets/css/inspinia.css?v=8.6" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles.css?v=8.6">
+    <link href="assets/css/inspinia.css?v=8.7" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css?v=8.7">
     <link rel="stylesheet" href="assets/css/driver.css">
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 </head>
@@ -40,7 +40,7 @@
                                     <label for="serviceNameInput" class="form-section-label">
                                         <i class="fa fa-id-card text-primary mr-2"></i> SERVICE NAME:
                                     </label>
-                                    <textarea class="form-control" id="serviceNameInput" name="serviceName" rows="1" placeholder="Input Name of Service" required></textarea>
+                                    <textarea class="form-control" id="serviceNameInput" name="serviceName" rows="2" placeholder="Official title describing totality of service (e.g., ISSUANCE OF CLEARANCE AND OFFICIAL CERTIFICATION)" required></textarea>
                                 </div>
                                 <div class="mb-4">
                                     <label for="description" class="form-section-label">
@@ -58,7 +58,7 @@
                                         <tr>
                                             <td><strong>OFFICE OR DIVISION</strong></td>
                                             <td>
-                                                <textarea class="form-control" name="office" rows="2" placeholder="Input Office or Division" required></textarea>
+                                                <textarea class="form-control" name="office" rows="2" placeholder="Official name of office/division providing the service. If inter-office, enumerate all participating units in sequence (e.g., Administrative Division / Records and Archives Section)" required></textarea>
                                             </td>
                                         </tr>
                                         <tr>
@@ -108,7 +108,7 @@
                                         <tr>
                                             <td><strong>WHO MAY AVAIL</strong></td>
                                             <td>
-                                                <textarea class="form-control" name="who_may_avail" rows="2" placeholder="Input Who May Avail" required></textarea>
+                                                <textarea class="form-control" name="who_may_avail" rows="2" placeholder='Write "All" if unrestricted, or enumerate specific authorized client groups without abbreviations (e.g., All eligible citizens, registered applicants, or authorized representatives)' required></textarea>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -165,8 +165,8 @@
                                     <tfoot>
                                         <tr style="background-color: #8eaadb;">
                                             <td colspan="2" class="text-right" style="vertical-align: middle; font-weight: 700; color: #0f172a;">TOTAL</td>
-                                            <td><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid" placeholder="Input Total Fees"></td>
-                                            <td><input type="text" class="form-control" id="ProcessingTime" name="processingTime" placeholder="Input Total Processing Time"></td>
+                                            <td><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid" placeholder="e.g., Total: PHP 50.00 or None"></td>
+                                            <td><input type="text" class="form-control" id="ProcessingTime" name="processingTime" placeholder="e.g., Total: 2 Days, 3 Hours (1 Day = 8 hrs)"></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
@@ -211,6 +211,6 @@
     <script src="assets/js/driver.js"></script>
 
     <!-- Main Script -->
-    <script src="assets/main.js?v=8.6"></script>
+    <script src="assets/main.js?v=8.7"></script>
 </body>
 </html>
