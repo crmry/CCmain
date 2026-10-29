@@ -63,7 +63,7 @@ body {
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.07);
-    border: 1px solid #e2e8f0;
+    border: 1.5px solid #cbd5e1;
     overflow: hidden;
     position: relative;
     box-sizing: border-box !important;
@@ -115,8 +115,8 @@ h1, h2, h3, h4 {
 .form-control {
     font-size: 14px;
     color: #0f172a;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 8px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 6px;
     padding: 9px 13px;
     line-height: 1.5;
     transition: all 0.15s ease-in-out;
@@ -125,7 +125,7 @@ h1, h2, h3, h4 {
 
 .form-control:focus {
     border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
     outline: none;
 }
 
@@ -137,23 +137,26 @@ textarea.form-control {
 /* Main Details Table */
 .main-details-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse !important;
     margin-top: 15px;
     margin-bottom: 25px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #e2e8f0;
+    border: 1.5px solid #94a3b8 !important;
     table-layout: fixed;
+    box-sizing: border-box;
+}
+
+.main-details-table tr {
+    border-bottom: 1.5px solid #94a3b8 !important;
 }
 
 .main-details-table td:first-child {
     width: 240px;
     background-color: #f8fafc;
     font-weight: 700;
-    color: #334155;
+    color: #1e293b;
     vertical-align: middle;
     padding: 14px 18px;
-    border: 1px solid #e2e8f0;
+    border: 1.5px solid #94a3b8 !important;
     font-size: 13px;
     letter-spacing: 0.4px;
 }
@@ -161,7 +164,7 @@ textarea.form-control {
 .main-details-table td:last-child {
     background-color: #ffffff;
     padding: 14px 18px;
-    border: 1px solid #e2e8f0;
+    border: 1.5px solid #94a3b8 !important;
     vertical-align: middle;
 }
 
@@ -182,7 +185,7 @@ textarea.form-control {
     padding: 8px 14px;
     margin: 0 !important;
     background: #ffffff;
-    border: 1.5px solid #cbd5e1;
+    border: 1.5px solid #94a3b8;
     border-radius: 8px;
     cursor: pointer;
     user-select: none;
@@ -293,34 +296,44 @@ textarea.form-control {
 /* Requirements & Process Overview Tables */
 table.table-bordered {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse !important;
     margin-top: 10px;
     margin-bottom: 25px;
     table-layout: fixed;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    overflow: hidden;
+    border: 1.5px solid #94a3b8 !important;
+    box-sizing: border-box;
+}
+
+table.table-bordered,
+table.table-bordered > thead > tr > th,
+table.table-bordered > tbody > tr > th,
+table.table-bordered > tfoot > tr > th,
+table.table-bordered > thead > tr > td,
+table.table-bordered > tbody > tr > td,
+table.table-bordered > tfoot > tr > td,
+table.table-bordered th,
+table.table-bordered td {
+    border: 1.5px solid #94a3b8 !important;
 }
 
 table.table-bordered th {
-    background-color: #f1f5f9;
-    color: #1e293b;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.4px;
-    padding: 11px 12px;
-    border: 1px solid #cbd5e1;
-    text-align: center;
-    vertical-align: middle;
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    font-weight: 800 !important;
+    font-size: 13px !important;
+    letter-spacing: 0.5px !important;
+    padding: 12px 14px !important;
+    text-align: center !important;
+    vertical-align: middle !important;
 }
 
 table.table-bordered td {
-    border: 1px solid #e2e8f0;
-    padding: 10px 12px;
+    padding: 10px 12px !important;
     text-align: left;
     vertical-align: top;
     font-size: 14px;
     line-height: 1.5;
+    background-color: #ffffff;
 }
 
 /* Actions Column Protection */
@@ -333,22 +346,66 @@ table.table-bordered td:last-child {
     white-space: nowrap !important;
     word-break: normal !important;
     padding: 8px 10px !important;
+    background-color: #fcfcfc;
 }
 
-/* CKEditor In-Table Editable Area */
-.ck-editor__editable {
+/* Table Footer Grid Alignment */
+table.table-bordered tfoot tr {
+    background-color: #f8fafc !important;
+}
+
+table.table-bordered tfoot td {
+    vertical-align: middle !important;
+    background-color: #f8fafc !important;
+    padding: 8px 10px !important;
+}
+
+table.table-bordered tfoot input.form-control {
+    border: 1.5px solid #94a3b8 !important;
+    border-radius: 6px !important;
+    background-color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 6px 10px !important;
+}
+
+/* CKEditor Unified Box Styling */
+.ck.ck-editor {
+    width: 100% !important;
+    position: relative;
+    border: 1.5px solid #94a3b8 !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+}
+
+.ck.ck-toolbar {
+    border: none !important;
+    border-bottom: 1.5px solid #94a3b8 !important;
+    border-radius: 0 !important;
+    background: #f8fafc !important;
+    padding: 2px 4px !important;
+}
+
+.ck-editor__editable,
+.ck.ck-editor__main > .ck-editor__editable {
     min-height: 80px !important;
     font-size: 14px !important;
     line-height: 1.5 !important;
     color: #0f172a !important;
-    border-radius: 6px !important;
+    border: none !important;
+    border-radius: 0 !important;
     background-color: #ffffff !important;
+    padding: 8px 12px !important;
 }
 
-.ck.ck-toolbar {
-    border-top-left-radius: 6px !important;
-    border-top-right-radius: 6px !important;
-    border-color: #cbd5e1 !important;
+.ck.ck-editor:focus-within {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25) !important;
+}
+
+.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 /* Row Action Buttons */
@@ -433,7 +490,7 @@ table.table-bordered td:last-child {
 /* Bottom Actions Panel */
 .actions-panel {
     background: #f8fafc;
-    border: 1.5px solid #e2e8f0;
+    border: 1.5px solid #94a3b8;
     border-radius: 12px;
     padding: 18px 24px;
     margin-top: 30px;
