@@ -777,130 +777,20 @@
         text-rendering: optimizeLegibility;
     }
 
-    /* Prominent Instruction & Action Banner */
-    .preview-instruction-card {
-        background: #f8fafc;
-        border: 1px solid #cbd5e1;
-        border-radius: 8px;
-        padding: 16px 18px;
-        margin-bottom: 22px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    }
-
-    .preview-instruction-header {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 15px;
-        font-weight: 700;
-        color: #0f172a;
-        margin-bottom: 12px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid #e2e8f0;
-    }
-
-    .preview-instruction-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
+    .pdf-button {
         margin-bottom: 16px;
-    }
-
-    .instruction-option-box {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        padding: 12px 14px;
-    }
-
-    .option-tag {
-        display: inline-block;
-        font-size: 11px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        padding: 3px 8px;
+        padding: 9px 18px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
         border-radius: 4px;
-        margin-bottom: 8px;
-    }
-
-    .option-tag-direct {
-        background: #ecfdf5;
-        color: #065f46;
-        border: 1px solid #a7f3d0;
-    }
-
-    .option-tag-print {
-        background: #eff6ff;
-        color: #1e40af;
-        border: 1px solid #bfdbfe;
-    }
-
-    .option-desc {
-        font-size: 13px;
-        line-height: 1.5;
-        color: #334155;
-        margin: 0;
-    }
-
-    .preview-buttons-bar {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-
-    .btn-pdf-download {
-        background: #dc2626;
-        color: #ffffff;
-        border: none;
-        padding: 9px 18px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 700;
         cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
-        transition: background 0.15s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
-    .btn-pdf-download:hover {
-        background: #b91c1c;
-    }
-
-    .btn-pdf-print {
-        background: #2563eb;
-        color: #ffffff;
-        border: none;
-        padding: 9px 18px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
-        transition: background 0.15s ease;
-    }
-    .btn-pdf-print:hover {
-        background: #1d4ed8;
-    }
-
-    .btn-pdf-close {
-        background: #f1f5f9;
-        color: #475569;
-        border: 1px solid #cbd5e1;
-        padding: 9px 16px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.15s ease;
-    }
-    .btn-pdf-close:hover {
-        background: #e2e8f0;
+    .pdf-button:hover {
+        background-color: #0056b3;
     }
 
     /* Report Content Styles */
@@ -997,7 +887,7 @@
             print-color-adjust: exact !important;
         }
 
-        .preview-instruction-card {
+        .pdf-button {
             display: none !important;
         }
 
@@ -1067,92 +957,17 @@
             font-size: 18px;
         }
 
-        .preview-instruction-grid {
-            grid-template-columns: 1fr;
+        .pdf-button {
+            font-size: 13px;
         }
     }
 </style>
         </head>
         <body>
-            <!-- Instruction Banner Card -->
-            <div class="preview-instruction-card">
-                <div class="preview-instruction-header">
-                    <i class="fa fa-info-circle text-primary"></i> How to Output Directly as PDF
-                </div>
-                <div class="preview-instruction-grid">
-                    <div class="instruction-option-box">
-                        <span class="option-tag option-tag-direct"><i class="fa fa-bolt"></i> Option 1: Direct Download (Recommended)</span>
-                        <p class="option-desc">
-                            Click <strong>"Direct Download PDF"</strong> below. It automatically creates and saves the <code>.pdf</code> file straight to your computer's <strong>Downloads</strong> folder — <strong>completely bypassing any printer selection!</strong>
-                        </p>
-                    </div>
-                    <div class="instruction-option-box">
-                        <span class="option-tag option-tag-print"><i class="fa fa-print"></i> Option 2: Browser Print Dialog</span>
-                        <p class="option-desc">
-                            If you click <strong>"Open Print Dialog"</strong> and your browser defaults to your physical printer (e.g., Epson / Network), simply click the <strong>"Destination" / "Printer"</strong> dropdown and change it to <strong>"Save as PDF"</strong>.
-                        </p>
-                    </div>
-                </div>
-                <div class="preview-buttons-bar">
-                    <button type="button" class="btn-pdf-download" onclick="window.downloadFromPreview()">
-                        <i class="fa fa-download"></i> Direct Download PDF
-                    </button>
-                    <button type="button" class="btn-pdf-print" onclick="window.print()">
-                        <i class="fa fa-print"></i> Open Print Dialog (Ctrl+P)
-                    </button>
-                    <button type="button" class="btn-pdf-close" onclick="window.close()">
-                        <i class="fa fa-times"></i> Close Preview
-                    </button>
-                </div>
-            </div>
-
-            <!-- Printable Report Container -->
+            <button class="pdf-button" onclick="window.print()">Save as PDF</button>
             <div id="printableReportArea">
                 ${reportHtml}
             </div>
-
-            <script>
-                window.downloadFromPreview = function() {
-                    const el = document.getElementById('printableReportArea');
-                    const btn = document.querySelector('.btn-pdf-download');
-                    const originalHtml = btn ? btn.innerHTML : '';
-                    if (btn) {
-                        btn.disabled = true;
-                        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generating PDF...';
-                    }
-
-                    const opt = {
-                        margin: [15, 12, 15, 12],
-                        filename: ${JSON.stringify(safeFilename)},
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { scale: 2, useCORS: true, logging: false },
-                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-                    };
-
-                    if (typeof html2pdf !== 'undefined') {
-                        html2pdf().set(opt).from(el).save().then(() => {
-                            if (btn) {
-                                btn.disabled = false;
-                                btn.innerHTML = originalHtml;
-                            }
-                        }).catch(err => {
-                            console.error('Preview direct PDF error:', err);
-                            if (btn) {
-                                btn.disabled = false;
-                                btn.innerHTML = originalHtml;
-                            }
-                            alert('Direct download encountered an issue. Please use "Open Print Dialog" to save as PDF.');
-                        });
-                    } else {
-                        if (btn) {
-                            btn.disabled = false;
-                            btn.innerHTML = originalHtml;
-                        }
-                        alert('PDF generator library loading. Please use "Open Print Dialog".');
-                    }
-                };
-            </script>
         </body>
         </html>
     `);
