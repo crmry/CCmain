@@ -622,14 +622,20 @@
         margin: 0;
         word-wrap: break-word;
         page-break-inside: auto;
+        break-inside: auto;
         font-size: 14px;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
 
+    .requirements-table,
+    .process-table {
+        margin-top: -1.5px;
+    }
+
     th, td {
         border: 1.5px solid #000;
-        padding: 8px 10px;
+        padding: 7px 8px;
         text-align: left;
         vertical-align: top;
         word-break: break-word;
@@ -645,20 +651,26 @@
         print-color-adjust: exact !important;
     }
 
-    table + div table tr:first-child th {
-        border-top: none !important;
-    }
-	table + div + div table tr:first-child th {
-        border-top: none !important;
+    thead {
+        display: table-header-group !important;
+        break-after: avoid;
+        page-break-after: avoid;
     }
 
-    .requirements-table-wrapper,
-    .process-table-wrapper {
-        margin: 0;
-        padding: 0;
+    tfoot {
+        display: table-footer-group !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    tbody {
         break-inside: auto;
         page-break-inside: auto;
-        page-break-before: auto;
+    }
+
+    tr {
+        page-break-inside: avoid;
+        break-inside: avoid;
     }
 
     @media print {
@@ -679,22 +691,38 @@
         table {
             border-collapse: collapse;
             page-break-inside: auto;
+            break-inside: auto;
             margin: 0;
             font-size: 14px;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
         }
 
+        .requirements-table,
+        .process-table {
+            margin-top: -1.5px;
+        }
+
         thead {
             display: table-header-group !important;
+            break-after: avoid;
+            page-break-after: avoid;
         }
 
         tfoot {
-            display: table-footer-group;
+            display: table-footer-group !important;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        tbody {
+            break-inside: auto;
+            page-break-inside: auto;
         }
 
         tr {
             page-break-inside: avoid;
+            break-inside: avoid;
         }
 
         th, td {
@@ -718,15 +746,6 @@
         .service-description {
             font-size: 14px !important;
             color: #000 !important;
-        }
-
-        .requirements-table-wrapper,
-        .process-table-wrapper {
-            break-inside: auto;
-            page-break-inside: auto;
-            page-break-before: auto;
-            margin: 0 !important;
-            padding: 0 !important;
         }
     }
 
@@ -754,10 +773,10 @@
                 <span class="service-name">${serviceName}</span>
                 <div class="service-description">${description}</div>
             </div>
-            <table>
+            <table class="info-table">
                 <tr>
-                    <th>Office or Division</th>
-                    <td>${office}</td>
+                    <th style="width: 28%;">Office or Division</th>
+                    <td style="width: 72%;">${office}</td>
                 </tr>
                 <tr>
                     <th>Classification:</th>
@@ -772,62 +791,68 @@
                     <td>${whoMayAvail}</td>
                 </tr>
             </table>
-            <div>
-                <table>
-					
-					<tbody style="page-break-inside: avoid;">
-						<tr>
-							<th style="width: 46%; text-align: center;">CHECKLIST OF REQUIREMENTS</th>
-							<th style="width: 54%; text-align: center;">WHERE TO SECURE</th>
-						</tr>
-					</tbody>
-  
-                    <tbody style="page-break-inside: avoid;">
-                        ${requirements.map(req => `
-                            <tr>
-                                <td>${req.requirement}</td>
-                                <td>${req.whereToSecure}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <table>
-    <tbody style="page-break-inside: avoid;">
-    <tr>
-      <th style="width: 23%; text-align: center;">CLIENT STEPS</th>
-      <th style="width: 23%; text-align: center;">AGENCY ACTIONS</th>
-      <th style="width: 14%; text-align: center;">FEES TO BE PAID</th>
-      <th style="width: 19%; text-align: center;">PROCESSING TIME</th>
-      <th style="width: 21%; text-align: center;">PERSON RESPONSIBLE</th>
-    </tr>
-  </tbody>
 
-    ${processOverview.map(proc => `
-        <tbody style="page-break-inside: avoid;">
-            <tr>
-                <td>${proc.clientSteps}</td>
-                <td>${proc.agencyActions}</td>
-                <td style="text-align: center;">${proc.feesToBePaid}</td>
-                <td style="text-align: center;">${proc.processingTime}</td>
-                <td>${proc.personResponsible}</td>
-            </tr>
-        </tbody>
-    `).join('')}
+            <table class="requirements-table">
+                <thead>
+                    <tr>
+                        <th style="width: 46%; text-align: center;">CHECKLIST OF REQUIREMENTS</th>
+                        <th style="width: 54%; text-align: center;">WHERE TO SECURE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${requirements.length > 0 ? requirements.map(req => `
+                        <tr>
+                            <td>${req.requirement}</td>
+                            <td>${req.whereToSecure}</td>
+                        </tr>
+                    `).join('') : `
+                        <tr>
+                            <td style="text-align: center; font-style: italic;">None</td>
+                            <td style="text-align: center; font-style: italic;">N/A</td>
+                        </tr>
+                    `}
+                </tbody>
+            </table>
 
-    <tbody style="page-break-inside: avoid;">
-        <tr>
-            <td style="background-color: #8eaadb;"></td>
-            <th style="text-align:right;">TOTAL</th>
-            <th style="text-align:center;">${FeesToBePaid.toUpperCase()}</th>
-            <th style="text-align:center;">${ProcessingTime.toUpperCase()}</th>
-            <td style="background-color: #8eaadb;"></td>
-        </tr>
-    </tbody>
-</table>
-
-            </div>
+            <table class="process-table">
+                <thead>
+                    <tr>
+                        <th style="width: 23%; text-align: center;">CLIENT STEPS</th>
+                        <th style="width: 23%; text-align: center;">AGENCY ACTIONS</th>
+                        <th style="width: 14%; text-align: center;">FEES TO BE PAID</th>
+                        <th style="width: 19%; text-align: center;">PROCESSING TIME</th>
+                        <th style="width: 21%; text-align: center;">PERSON RESPONSIBLE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${processOverview.length > 0 ? processOverview.map(proc => `
+                        <tr>
+                            <td>${proc.clientSteps}</td>
+                            <td>${proc.agencyActions}</td>
+                            <td style="text-align: center;">${proc.feesToBePaid}</td>
+                            <td style="text-align: center;">${proc.processingTime}</td>
+                            <td>${proc.personResponsible}</td>
+                        </tr>
+                    `).join('') : `
+                        <tr>
+                            <td style="text-align: center; font-style: italic;">None</td>
+                            <td style="text-align: center; font-style: italic;">None</td>
+                            <td style="text-align: center; font-style: italic;">None</td>
+                            <td style="text-align: center; font-style: italic;">N/A</td>
+                            <td style="text-align: center; font-style: italic;">N/A</td>
+                        </tr>
+                    `}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="background-color: #8eaadb;"></td>
+                        <th style="text-align:right;">TOTAL</th>
+                        <th style="text-align:center;">${FeesToBePaid.toUpperCase()}</th>
+                        <th style="text-align:center;">${ProcessingTime.toUpperCase()}</th>
+                        <td style="background-color: #8eaadb;"></td>
+                    </tr>
+                </tfoot>
+            </table>
         </body>
         </html>
     `);
