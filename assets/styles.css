@@ -19,50 +19,34 @@ body {
 }
 
 #page-wrapper.gray-bg {
-    background-color: #eaedf2 !important;
+    background-color: #f1f5f9 !important;
 }
 
 .wrapper-content {
-    padding: 28px 16px 48px;
-    min-height: calc(100vh - 60px);
-}
-
-/* Document Layout Container - Standard A4 Paper Width */
-.container-fluid {
+    padding: 24px 28px 48px;
     width: 100%;
-    max-width: 210mm;
-    margin: 0 auto;
-    padding: 0 10px !important;
     box-sizing: border-box;
 }
 
-/* A4 Dimension Indicator Badge */
-.a4-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: #475569;
-    background-color: #e2e8f0;
-    border: 1px solid #cbd5e1;
-    padding: 3px 12px;
-    border-radius: 20px;
-    margin-bottom: 8px;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
+/* Full Screen Container - Regardless of Monitor Resolution */
+.container-fluid {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 8px !important;
+    box-sizing: border-box;
 }
 
-/* Authentic A4 Paper Sheet Card */
+/* Full Screen Card Container */
 .ibox {
-    width: 100%;
-    max-width: 210mm;
-    min-height: 297mm;
-    margin: 0 auto 35px auto;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto;
+    margin: 0 0 30px 0;
     background-color: #ffffff;
-    border-radius: 4px;
-    box-shadow: 0 6px 24px rgba(15, 23, 42, 0.12), 0 2px 6px rgba(15, 23, 42, 0.06), 0 0 1px rgba(15, 23, 42, 0.15);
-    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.07);
+    border: 1px solid #e2e8f0;
     overflow: hidden;
     position: relative;
     box-sizing: border-box;
@@ -70,7 +54,7 @@ body {
 
 .ibox-content {
     background-color: #ffffff;
-    padding: 16mm 14mm 20mm 14mm;
+    padding: 30px 36px;
     border: none;
     box-sizing: border-box;
 }
@@ -83,19 +67,19 @@ h1, h2, h3, h4 {
 }
 
 .page-title {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 800;
     color: #0f172a;
     letter-spacing: 0.3px;
     margin-bottom: 4px;
-    text-align: center;
+    text-align: left;
 }
 
 .page-subtitle {
-    font-size: 13.5px;
+    font-size: 14px;
     color: #64748b;
-    margin-bottom: 22px;
-    text-align: center;
+    margin-bottom: 24px;
+    text-align: left;
 }
 
 .form-section-label {
@@ -144,12 +128,12 @@ textarea.form-control {
 }
 
 .main-details-table td:first-child {
-    width: 200px;
+    width: 240px;
     background-color: #f8fafc;
     font-weight: 700;
     color: #334155;
     vertical-align: middle;
-    padding: 12px 14px;
+    padding: 14px 18px;
     border: 1px solid #e2e8f0;
     font-size: 13px;
     letter-spacing: 0.4px;
@@ -157,7 +141,7 @@ textarea.form-control {
 
 .main-details-table td:last-child {
     background-color: #ffffff;
-    padding: 12px 14px;
+    padding: 14px 18px;
     border: 1px solid #e2e8f0;
     vertical-align: middle;
 }
@@ -323,20 +307,20 @@ table.table-bordered td {
 /* Actions Column Protection */
 table.table-bordered th:last-child,
 table.table-bordered td:last-child {
-    width: 84px !important;
-    min-width: 84px !important;
-    max-width: 90px !important;
+    width: 120px !important;
+    min-width: 120px !important;
+    max-width: 120px !important;
     text-align: center !important;
     vertical-align: middle !important;
     white-space: nowrap !important;
     word-break: normal !important;
-    padding: 6px 4px !important;
+    padding: 10px 12px !important;
 }
 
 /* CKEditor In-Table Editable Area */
 .ck-editor__editable {
-    min-height: 70px !important;
-    font-size: 13.5px !important;
+    min-height: 80px !important;
+    font-size: 14px !important;
     line-height: 1.5 !important;
     color: #0f172a !important;
     border-radius: 6px !important;
@@ -349,40 +333,18 @@ table.table-bordered td:last-child {
     border-color: #cbd5e1 !important;
 }
 
-.table-bordered .ck.ck-toolbar {
-    padding: 0 2px !important;
-}
-
-.table-bordered .ck.ck-toolbar .ck-button {
-    padding: 2px 4px !important;
-    min-width: 24px !important;
-    min-height: 24px !important;
-}
-
-.table-bordered .ck.ck-toolbar .ck-button .ck-icon {
-    font-size: 11px !important;
-    width: 12px !important;
-    height: 12px !important;
-}
-
-.table-bordered .ck-editor__editable {
-    min-height: 60px !important;
-    padding: 6px 8px !important;
-    font-size: 13px !important;
-}
-
 /* Row Action Buttons */
 .delete-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 6px;
     background-color: #fee2e2;
     color: #dc2626;
     border: 1px solid #fecaca;
-    padding: 5px 9px;
+    padding: 6px 14px;
     border-radius: 6px;
-    font-size: 11.5px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -408,7 +370,7 @@ table.table-bordered td:last-child {
 }
 
 .section-header-title {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 700;
     color: #0f172a;
     margin: 0;
@@ -421,24 +383,24 @@ table.table-bordered td:last-child {
 .actions-panel {
     background: #f8fafc;
     border: 1.5px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 14px 18px;
-    margin-top: 25px;
+    border-radius: 12px;
+    padding: 18px 24px;
+    margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
 }
 
 .actions-panel .btn {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
-    padding: 8px 18px;
-    border-radius: 6px;
+    padding: 10px 22px;
+    border-radius: 8px;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     transition: all 0.15s ease-in-out;
 }
 
