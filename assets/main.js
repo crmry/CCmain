@@ -816,18 +816,16 @@
 		    previewWindow.document.close();
 		}
 
-		let tourAutoActivated = false;
+		let tourRunning = false;
 
 		function startSystemTour() {
-		    tourAutoActivated = true;
 		    if (typeof window.driver === 'undefined' || !window.driver.js || !window.driver.js.driver) {
-		        console.warn('Driver.js is initializing, retrying tour in 300ms...');
-		        setTimeout(startSystemTour, 300);
+		        console.warn('Driver.js is initializing, retrying tour in 150ms...');
+		        setTimeout(startSystemTour, 150);
 		        return;
 		    }
 
 		    const driverFn = window.driver.js.driver;
-		    const editorEl = document.querySelector('.ck-editor') || document.querySelector('#editor') || '#serviceNameInput';
 
 		    const driverObj = driverFn({
 		        showProgress: true,
@@ -838,6 +836,9 @@
 		        prevBtnText: '← Back',
 		        doneBtnText: 'Finish Tour ✓',
 		        progressText: 'Step {{current}} of {{total}}',
+		        onDestroyStarted: () => {
+		            tourRunning = false;
+		        },
 		        steps: [
 		            {
 		                element: '.page-top-header',
@@ -858,7 +859,7 @@
 		                }
 		            },
 		            {
-		                element: editorEl,
+		                element: '.ck-editor, #editor',
 		                popover: {
 		                    title: '2. Service Description (Purpose & Scope)',
 		                    description: '<strong>ARTA Standard:</strong> Provide a concise statement informing citizens of the exact purpose of the service, statutory legal basis/mandate, and applicable qualification criteria.<br><br>• Keep language simple, clear, and citizen-friendly.<br>• Rich formatting (bullet points, bold highlights) can be used to organize multi-part scopes.',
@@ -950,17 +951,31 @@
 		        ]
 		    });
 
+		    tourRunning = true;
 		    driverObj.drive();
 		}
 
-		// Automatically activate tour once visiting the page
-		window.addEventListener('load', () => {
-		    setTimeout(() => {
-		        if (!tourAutoActivated) {
-		            startSystemTour();
-		        }
-		    }, 700);
-		});
+		// Always automatically activate tour on visiting or refreshing the page
+		(function setupAutoTourActivation() {
+		    let hasTriggered = false;
+
+		    function triggerTourOnVisit() {
+		        if (hasTriggered || tourRunning) return;
+		        hasTriggered = true;
+		        startSystemTour();
+		    }
+
+		    // Check immediate state
+		    if (document.readyState === 'complete') {
+		        setTimeout(triggerTourOnVisit, 350);
+		    } else {
+		        window.addEventListener('load', () => setTimeout(triggerTourOnVisit, 350));
+		        document.addEventListener('DOMContentLoaded', () => setTimeout(triggerTourOnVisit, 600));
+		    }
+
+		    // Universal fallback to guarantee activation on any slow or cached refresh
+		    setTimeout(triggerTourOnVisit, 850);
+		})();
 
 		/* Creator Attribution & Anti-Tamper Protection */
 		(function initCreatorAttributionProtection() {
