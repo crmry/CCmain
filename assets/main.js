@@ -33,10 +33,10 @@
 		    const rowIndex = editorCounter++;
 
 		    newRow.innerHTML = `
-        <td colspan="2">
+        <td>
             <div id="requirement-${rowIndex}"></div>
         </td>
-        <td colspan="3">
+        <td>
             <div id="whereToSecure-${rowIndex}"></div>
         </td>
         <td style="text-align: center; vertical-align: middle;">

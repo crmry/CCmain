@@ -326,8 +326,8 @@ table.table-bordered td {
 /* Actions Column Protection */
 table.table-bordered th:last-child,
 table.table-bordered td:last-child {
-    width: 120px !important;
-    min-width: 120px !important;
+    width: 10% !important;
+    min-width: 90px !important;
     max-width: 120px !important;
     text-align: center !important;
     vertical-align: middle !important;
