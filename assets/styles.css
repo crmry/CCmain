@@ -832,6 +832,8 @@ table.table-bordered tfoot input.form-control {
     color: #475569 !important;
     border: 1px solid #cbd5e1 !important;
     margin-right: 6px !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
 }
 
 .driver-popover-prev-btn:hover {
@@ -844,6 +846,8 @@ table.table-bordered tfoot input.form-control {
     color: #ffffff !important;
     border: 1px solid #1d4ed8 !important;
     box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2) !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
 }
 
 .driver-popover-next-btn:hover {

@@ -819,6 +819,28 @@
 		let tourRunning = false;
 		let activeDriverInstance = null;
 
+		function cleanupDriverTour() {
+		    tourRunning = false;
+		    if (activeDriverInstance) {
+		        try {
+		            activeDriverInstance.destroy();
+		        } catch (err) {}
+		        activeDriverInstance = null;
+		    }
+		    document.querySelectorAll('.driver-overlay, #driver-popover-content, .driver-popover, #driver-dummy-element').forEach(el => {
+		        try {
+		            el.remove();
+		        } catch (err) {}
+		    });
+		    document.body.classList.remove('driver-active', 'driver-fade', 'driver-simple');
+		    document.querySelectorAll('.driver-active-element, .driver-no-interaction').forEach(el => {
+		        el.classList.remove('driver-active-element', 'driver-no-interaction');
+		        el.removeAttribute('aria-haspopup');
+		        el.removeAttribute('aria-expanded');
+		        el.removeAttribute('aria-controls');
+		    });
+		}
+
 		function startSystemTour() {
 		    if (typeof window.driver === 'undefined' || !window.driver.js || !window.driver.js.driver) {
 		        console.warn('Driver.js is initializing, retrying tour in 150ms...');
@@ -838,13 +860,10 @@
 		        doneBtnText: 'Finish Tour ✓',
 		        progressText: 'Step {{current}} of {{total}}',
 		        onCloseClick: () => {
-		            if (driverObj) {
-		                driverObj.destroy();
-		            }
+		            cleanupDriverTour();
 		        },
 		        onDestroyed: () => {
-		            tourRunning = false;
-		            activeDriverInstance = null;
+		            cleanupDriverTour();
 		        },
 		        steps: [
 		            {
@@ -952,7 +971,11 @@
 		                    title: 'You\'re Ready for ARTA Compliance! 🇵🇭',
 		                    description: 'Your Citizen\'s Charter is the frontline pledge of your agency to the Filipino people.<br><br>Whenever you need to review ARTA rules again, click <strong>Take a Tour</strong> here in the action bar anytime.',
 		                    side: 'top',
-		                    align: 'end'
+		                    align: 'end',
+		                    doneBtnText: 'Finish Tour ✓',
+		                    onNextClick: () => {
+		                        cleanupDriverTour();
+		                    }
 		                }
 		            }
 		        ]
@@ -963,13 +986,29 @@
 		    driverObj.drive();
 		}
 
-		// Direct event delegation fallback to guarantee tour closes when clicking close button (×)
+		// Direct event delegation fallback to guarantee tour closes when clicking close button (×) or finish button
 		document.addEventListener('click', (e) => {
-		    if (e.target && (e.target.matches('.driver-popover-close-btn') || e.target.closest('.driver-popover-close-btn'))) {
+		    // 1. Close button (×)
+		    const closeBtn = e.target && (e.target.matches('.driver-popover-close-btn') || e.target.closest('.driver-popover-close-btn'));
+		    if (closeBtn) {
 		        e.preventDefault();
 		        e.stopPropagation();
-		        if (activeDriverInstance) {
-		            activeDriverInstance.destroy();
+		        cleanupDriverTour();
+		        return;
+		    }
+
+		    // 2. Finish Tour button on final step
+		    const nextBtn = e.target && (e.target.matches('.driver-popover-next-btn') || e.target.closest('.driver-popover-next-btn'));
+		    if (nextBtn) {
+		        const btnText = (nextBtn.textContent || '').trim();
+		        const isLast = (activeDriverInstance && typeof activeDriverInstance.isLastStep === 'function' && activeDriverInstance.isLastStep()) ||
+		                       btnText.includes('Finish') ||
+		                       btnText.includes('Done');
+		        if (isLast) {
+		            e.preventDefault();
+		            e.stopPropagation();
+		            cleanupDriverTour();
+		            return;
 		        }
 		    }
 		}, true);
