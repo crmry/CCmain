@@ -958,7 +958,7 @@
 </style>
         </head>
         <body>
-            <button class="pdf-button" onclick="window.print()">Save as PDF</button>
+            <button class="pdf-button" onclick="window.print()"><i class="fa fa-print"></i> Print Citizen Charter</button>
             <div id="printableReportArea">
                 ${reportHtml}
             </div>
@@ -1112,7 +1112,7 @@
 		                element: '.actions-panel',
 		                popover: {
 		                    title: '10. PDF Export, Print & Compliance Actions',
-		                    description: '• <strong>Download PDF:</strong> Directly generates and downloads the official ARTA-compliant PDF to your computer (bypasses printer dialogs entirely).<br>• <strong>Print / Preview:</strong> Opens the printable report with clear instructions on switching to "Save as PDF".<br>• <strong>Save:</strong> Exports a standard <code>.json</code> data backup for recordkeeping and mandatory annual updates (required by March 31 annually).<br>• <strong>Open:</strong> Loads an existing <code>.json</code> file to modify or review.<br>• <strong>Clear Form:</strong> Resets fields to draft a new charter.',
+		                    description: '• <strong>Download PDF:</strong> Directly generates and downloads the official ARTA-compliant PDF to your computer (bypasses printer dialogs entirely).<br>• <strong>Print / Preview:</strong> Opens the printable report to preview and print the Citizen\'s Charter.<br>• <strong>Save:</strong> Exports a standard <code>.json</code> data backup for recordkeeping and mandatory annual updates (required by March 31 annually).<br>• <strong>Open:</strong> Loads an existing <code>.json</code> file to modify or review.<br>• <strong>Clear Form:</strong> Resets fields to draft a new charter.',
 		                    side: 'top',
 		                    align: 'center'
 		                }
