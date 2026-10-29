@@ -10,7 +10,7 @@ body {
     overflow-x: hidden;
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
     line-height: 1.6;
-    background-color: #f1f5f9;
+    background-color: #eaedf2;
     font-size: 14px;
     color: #1e293b;
     -webkit-font-smoothing: antialiased;
@@ -18,30 +18,61 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+#page-wrapper.gray-bg {
+    background-color: #eaedf2 !important;
+}
+
 .wrapper-content {
-    padding: 24px 20px;
+    padding: 28px 16px 48px;
+    min-height: calc(100vh - 60px);
 }
 
+/* Document Layout Container - Standard A4 Paper Width */
 .container-fluid {
-    max-width: 1320px;
+    width: 100%;
+    max-width: 210mm;
     margin: 0 auto;
-    padding: 0 15px !important;
+    padding: 0 10px !important;
+    box-sizing: border-box;
 }
 
-/* Card Container */
+/* A4 Dimension Indicator Badge */
+.a4-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #475569;
+    background-color: #e2e8f0;
+    border: 1px solid #cbd5e1;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+/* Authentic A4 Paper Sheet Card */
 .ibox {
-    margin-bottom: 25px;
+    width: 100%;
+    max-width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto 35px auto;
     background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
-    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    box-shadow: 0 6px 24px rgba(15, 23, 42, 0.12), 0 2px 6px rgba(15, 23, 42, 0.06), 0 0 1px rgba(15, 23, 42, 0.15);
+    border: 1px solid #cbd5e1;
     overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
 }
 
 .ibox-content {
     background-color: #ffffff;
-    padding: 30px;
+    padding: 16mm 14mm 20mm 14mm;
     border: none;
+    box-sizing: border-box;
 }
 
 /* Typography & Headings */
@@ -52,17 +83,19 @@ h1, h2, h3, h4 {
 }
 
 .page-title {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 800;
     color: #0f172a;
     letter-spacing: 0.3px;
     margin-bottom: 4px;
+    text-align: center;
 }
 
 .page-subtitle {
-    font-size: 14px;
+    font-size: 13.5px;
     color: #64748b;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
+    text-align: center;
 }
 
 .form-section-label {
@@ -111,12 +144,12 @@ textarea.form-control {
 }
 
 .main-details-table td:first-child {
-    width: 240px;
+    width: 200px;
     background-color: #f8fafc;
     font-weight: 700;
     color: #334155;
     vertical-align: middle;
-    padding: 14px 18px;
+    padding: 12px 14px;
     border: 1px solid #e2e8f0;
     font-size: 13px;
     letter-spacing: 0.4px;
@@ -124,7 +157,7 @@ textarea.form-control {
 
 .main-details-table td:last-child {
     background-color: #ffffff;
-    padding: 14px 18px;
+    padding: 12px 14px;
     border: 1px solid #e2e8f0;
     vertical-align: middle;
 }
@@ -133,7 +166,7 @@ textarea.form-control {
 .option-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
     width: 100%;
 }
@@ -142,15 +175,15 @@ textarea.form-control {
     position: relative;
     display: inline-flex !important;
     align-items: center;
-    gap: 10px;
-    padding: 10px 18px;
+    gap: 8px;
+    padding: 8px 14px;
     margin: 0 !important;
     background: #ffffff;
     border: 1.5px solid #cbd5e1;
     border-radius: 8px;
     cursor: pointer;
     user-select: none;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 500;
     color: #1e293b;
     transition: all 0.15s ease-in-out;
@@ -290,19 +323,20 @@ table.table-bordered td {
 /* Actions Column Protection */
 table.table-bordered th:last-child,
 table.table-bordered td:last-child {
-    width: 120px !important;
-    min-width: 120px !important;
-    max-width: 120px !important;
+    width: 84px !important;
+    min-width: 84px !important;
+    max-width: 90px !important;
     text-align: center !important;
     vertical-align: middle !important;
     white-space: nowrap !important;
     word-break: normal !important;
+    padding: 6px 4px !important;
 }
 
 /* CKEditor In-Table Editable Area */
 .ck-editor__editable {
-    min-height: 80px !important;
-    font-size: 14px !important;
+    min-height: 70px !important;
+    font-size: 13.5px !important;
     line-height: 1.5 !important;
     color: #0f172a !important;
     border-radius: 6px !important;
@@ -315,22 +349,45 @@ table.table-bordered td:last-child {
     border-color: #cbd5e1 !important;
 }
 
+.table-bordered .ck.ck-toolbar {
+    padding: 0 2px !important;
+}
+
+.table-bordered .ck.ck-toolbar .ck-button {
+    padding: 2px 4px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+}
+
+.table-bordered .ck.ck-toolbar .ck-button .ck-icon {
+    font-size: 11px !important;
+    width: 12px !important;
+    height: 12px !important;
+}
+
+.table-bordered .ck-editor__editable {
+    min-height: 60px !important;
+    padding: 6px 8px !important;
+    font-size: 13px !important;
+}
+
 /* Row Action Buttons */
 .delete-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 4px;
     background-color: #fee2e2;
     color: #dc2626;
     border: 1px solid #fecaca;
-    padding: 6px 14px;
+    padding: 5px 9px;
     border-radius: 6px;
-    font-size: 13px;
+    font-size: 11.5px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease;
-    margin: 0;
+    margin: 0 auto;
+    white-space: nowrap;
 }
 
 .delete-btn:hover {
@@ -351,7 +408,7 @@ table.table-bordered td:last-child {
 }
 
 .section-header-title {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
     color: #0f172a;
     margin: 0;
@@ -364,24 +421,24 @@ table.table-bordered td:last-child {
 .actions-panel {
     background: #f8fafc;
     border: 1.5px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 18px 24px;
-    margin-top: 30px;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-top: 25px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
 }
 
 .actions-panel .btn {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
-    padding: 10px 22px;
-    border-radius: 8px;
+    padding: 8px 18px;
+    border-radius: 6px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     transition: all 0.15s ease-in-out;
 }
 
@@ -433,4 +490,77 @@ table.table-bordered td:last-child {
     background-color: #dc2626;
     border-color: #dc2626;
     color: #ffffff;
+}
+
+/* A4 Print Media Styles */
+@media print {
+    body,
+    #page-wrapper,
+    #page-wrapper.gray-bg {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .navbar,
+    .row.border-bottom,
+    .section-header-bar button,
+    .actions-panel,
+    .delete-btn,
+    .a4-badge {
+        display: none !important;
+    }
+
+    .wrapper-content {
+        padding: 0 !important;
+        background: #ffffff !important;
+    }
+
+    .container-fluid {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .ibox {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: auto !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+    }
+
+    .ibox-content {
+        padding: 0 !important;
+    }
+}
+
+/* Mobile & Small Screen Adaptability */
+@media screen and (max-width: 768px) {
+    .wrapper-content {
+        padding: 16px 8px 30px;
+    }
+    .container-fluid {
+        padding: 0 4px !important;
+    }
+    .ibox {
+        min-height: auto;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+    .ibox-content {
+        padding: 16px 12px;
+    }
+    .main-details-table td:first-child {
+        width: 130px;
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+    .main-details-table td:last-child {
+        padding: 10px 8px;
+    }
+    .page-title {
+        font-size: 18px;
+    }
 }
