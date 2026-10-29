@@ -731,13 +731,6 @@
 
         </head>
         <body>
-            <div class="print-warning">
-                * Before saving as PDF:<br>
-                - Destination: <strong>"Save as PDF"</strong><br>
-                - Click More Settings<br>
-                - Uncheck <strong>"Headers and footers"</strong><br>
-                - Check <strong>"Background graphics"</strong>
-            </div>
             <button class="pdf-button" onclick="window.print()">Save as PDF</button>
             <div class="main-header">
                 <span class="service-name">${serviceName}</span>
