@@ -914,3 +914,65 @@
 		    driverObj.drive();
 		}
 
+		/* Creator Attribution & Anti-Tamper Protection */
+		(function initCreatorAttributionProtection() {
+		    const REQUIRED_HANDLE = 'crmry';
+		    const REQUIRED_PROFILE = 'https://github.com/crmry';
+		    const INNER_CONTENT = '<span>&copy; 2026 <strong>Citizen Charter Builder</strong> &bull; Created by <a href="' + REQUIRED_PROFILE + '" target="_blank" rel="noopener noreferrer" class="creator-link">' + REQUIRED_HANDLE + '</a></span>';
+
+		    function enforceAttribution() {
+		        let footer = document.getElementById('appCreatorFooter');
+		        const targetParent = document.querySelector('.container-fluid') || document.querySelector('#page-wrapper') || document.body;
+
+		        if (!footer) {
+		            footer = document.createElement('footer');
+		            footer.id = 'appCreatorFooter';
+		            footer.className = 'app-creator-footer';
+		            footer.setAttribute('data-creator', REQUIRED_HANDLE);
+		            footer.setAttribute('data-protected', 'true');
+		            footer.innerHTML = '<div class="creator-footer-content">' + INNER_CONTENT + '</div>';
+		            if (targetParent) {
+		                targetParent.appendChild(footer);
+		            }
+		            return;
+		        }
+
+		        // Validate content integrity
+		        const text = footer.textContent || '';
+		        const link = footer.querySelector('a');
+		        const hasValidText = text.includes('Citizen Charter Builder') && text.includes(REQUIRED_HANDLE);
+		        const hasValidLink = link && link.getAttribute('href') === REQUIRED_PROFILE;
+
+		        if (!hasValidText || !hasValidLink) {
+		            footer.innerHTML = '<div class="creator-footer-content">' + INNER_CONTENT + '</div>';
+		        }
+
+		        // Enforce visibility
+		        if (footer.style.display === 'none' || footer.style.visibility === 'hidden' || footer.style.opacity === '0') {
+		            footer.style.display = 'block';
+		            footer.style.visibility = 'visible';
+		            footer.style.opacity = '1';
+		        }
+		    }
+
+		    if (document.readyState === 'loading') {
+		        document.addEventListener('DOMContentLoaded', enforceAttribution);
+		    } else {
+		        enforceAttribution();
+		    }
+
+		    // Mutation observer to detect and reverse tampering/removal
+		    try {
+		        const observer = new MutationObserver(() => {
+		            enforceAttribution();
+		        });
+		        observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+		    } catch (e) {
+		        console.warn('Attribution observer fallback active');
+		    }
+
+		    // Periodic verification interval
+		    setInterval(enforceAttribution, 4000);
+		})();
+
+

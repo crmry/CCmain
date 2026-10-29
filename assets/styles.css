@@ -845,3 +845,49 @@ table.table-bordered tfoot input.form-control {
     color: #0f172a !important;
 }
 
+/* Creator Attribution Footer (Protected) */
+.app-creator-footer {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    text-align: center;
+    padding: 24px 16px 36px;
+    margin-top: 10px;
+    border-top: 1px solid #e2e8f0;
+    color: #64748b;
+    font-size: 13px;
+    letter-spacing: 0.2px;
+}
+
+.app-creator-footer .creator-footer-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.app-creator-footer strong {
+    color: #334155;
+    font-weight: 600;
+}
+
+.app-creator-footer .creator-link {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.15s ease, text-decoration 0.15s ease;
+}
+
+.app-creator-footer .creator-link:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+@media print {
+    .app-creator-footer {
+        display: none !important;
+    }
+}
+
+
