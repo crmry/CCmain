@@ -10,8 +10,8 @@
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-    <link href="assets/css/inspinia.css?v=8.3" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles.css?v=8.3">
+    <link href="assets/css/inspinia.css?v=8.4" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css?v=8.4">
     <link rel="stylesheet" href="assets/css/driver.css">
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 </head>
@@ -22,7 +22,12 @@
             <div class="wrapper wrapper-content">
                 <div class="container-fluid">
                     <div class="page-top-header mb-3">
-                        <h1 class="page-title">CITIZEN CHARTER BUILDER</h1>
+                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                            <h1 class="page-title mb-0">CITIZEN CHARTER BUILDER</h1>
+                            <button type="button" id="startTourNavBtn" class="btn btn-outline-primary btn-sm shadow-sm" onclick="startSystemTour()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Take an interactive guided tour of the system">
+                                <i class="fa fa-compass me-1"></i> Take a Tour
+                            </button>
+                        </div>
                         <p class="page-subtitle mb-0">Standard Citizen's Charter Authoring &amp; Publishing System</p>
                     </div>
                     
@@ -180,10 +185,7 @@
                                     <button type="button" class="btn btn-outline-danger" onclick="clearForm()" data-bs-toggle="tooltip" data-bs-placement="top" title="Clear all form fields">
                                         <i class="fa fa-redo"></i> Clear Form
                                     </button>
-                                    <button type="button" id="startTourBottomBtn" class="btn btn-outline-primary shadow-sm" onclick="startSystemTour()" data-bs-toggle="tooltip" data-bs-placement="top" title="Take an interactive guided tour of the system">
-                                        <i class="fa fa-compass"></i> Take a Tour
-                                    </button>
-                                </div>    
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -207,6 +209,6 @@
     <script src="assets/js/driver.js"></script>
 
     <!-- Main Script -->
-    <script src="assets/main.js?v=8.3"></script>
+    <script src="assets/main.js?v=8.4"></script>
 </body>
 </html>

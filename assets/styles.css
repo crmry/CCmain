@@ -742,12 +742,12 @@ table.table-bordered tfoot input.form-control {
     margin-bottom: 20px;
 }
 
-#startTourBottomBtn {
+#startTourNavBtn {
     font-weight: 600;
     transition: all 0.2s ease;
 }
 
-#startTourBottomBtn:hover {
+#startTourNavBtn:hover {
     transform: translateY(-1px);
 }
 

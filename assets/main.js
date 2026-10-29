@@ -966,12 +966,12 @@
 		                }
 		            },
 		            {
-		                element: '#startTourBottomBtn',
+		                element: '#startTourNavBtn',
 		                popover: {
 		                    title: 'You\'re Ready for ARTA Compliance! 🇵🇭',
-		                    description: 'Your Citizen\'s Charter is the frontline pledge of your agency to the Filipino people.<br><br>Whenever you need to review ARTA rules again, click <strong>Take a Tour</strong> here in the action bar anytime.',
-		                    side: 'top',
-		                    align: 'end',
+		                    description: 'Your Citizen\'s Charter is the frontline pledge of your agency to the Filipino people.<br><br>Whenever you need to review ARTA rules again, click <strong>Take a Tour</strong> here anytime.',
+		                    side: 'bottom',
+		                    align: 'start',
 		                    doneBtnText: 'Finish Tour ✓',
 		                    onNextClick: () => {
 		                        cleanupDriverTour();
