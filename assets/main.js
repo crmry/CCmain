@@ -23,7 +23,7 @@
 		            'undo',
 		            'redo'
 		        ],
-		        placeholder: 'ARTA Standard: Provide a concise statement on the service purpose, statutory legal mandate/basis, and qualification criteria (e.g., This process covers the application, verification, and issuance of medical certificates for discharged inpatients and outpatients pursuant to RA 11032)...'
+		        placeholder: 'Input Description of the Service.'
 		    };
 
 		    ClassicEditor.create(document.querySelector("#editor"), descriptionConfig).then(e => {
@@ -125,12 +125,12 @@
 
 		    const reqConfig = {
 		        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
-		        placeholder: 'Document Name (# of copies, original/photocopy) — e.g., Duly accomplished request form (1 original copy), Valid Government-issued ID (1 photocopy)'
+		        placeholder: 'Input Checklist of Requirements'
 		    };
 
 		    const whereConfig = {
 		        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
-		        placeholder: 'Specific issuing office, division, desk, or portal (e.g., HIMD Receiving Desk / PSA Serbilis Center / Issuing Government Agency)'
+		        placeholder: 'Input Where to Secure'
 		    };
 
 		    ClassicEditor.create(document.querySelector(`#requirement-${rowIndex}`), reqConfig)
@@ -200,11 +200,11 @@
 		    };
 
 		    const stepPlaceholders = {
-		        clientSteps: 'Numbered step & location (e.g., 1. Submit complete checklist of requirements and valid ID to Receiving Desk)',
-		        agencyActions: 'Numbered action per step (e.g., 1.1 Receive documents, verify completeness against checklist, and issue acknowledgment slip)',
-		        feesToBePaid: 'Type of Fee: Currency Amount (e.g., Certification Fee: PHP 50.00) or "None". (Ranging is prohibited)',
-		        processingTime: 'Exact duration: # Day/s, # Hour/s, # Minute/s (e.g., 15 minutes or 1 Day, 2 Hours). (Ranging is prohibited)',
-		        personResponsible: 'Designation and Office (e.g., Administrative Officer V, Cashier Section). If rotating, use Immediate Supervisor\'s Designation and Office'
+		        clientSteps: 'Input Client Step',
+		        agencyActions: 'Input Agency Action',
+		        feesToBePaid: 'Input Fees to be Paid',
+		        processingTime: 'Input Processing Time',
+		        personResponsible: 'Input Person Responsible'
 		    };
 
 		    const fields = [{
