@@ -8,8 +8,8 @@ A web-based Citizen's Charter authoring tool designed to draft, standardize, pre
 
 Access and run the Citizen Charter Builder directly in any web browser without installation:
 
-- **Primary Web-Executable Link:** [https://crmry.github.io/CCmain/](https://crmry.github.io/CCmain/)
-- **Alternative Mirror Link:** [https://crmry.github.io/CCmain/main.html](https://crmry.github.io/CCmain/main.html)
+- **Primary Web-Executable Link:** [https://crmry.github.io/CCBuilder/](https://crmry.github.io/CCBuilder/)
+- **Alternative Mirror Link:** [https://crmry.github.io/CCBuilder/main.html](https://crmry.github.io/CCBuilder/main.html)
 
 *(Runs 100% client-side in Google Chrome, Microsoft Edge, Mozilla Firefox, or Apple Safari — identical architecture to the HIS Physician's Dashboard & Order Sheets)*
 
