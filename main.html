@@ -230,79 +230,94 @@
     <!-- Data Privacy & Security Statement Modal -->
     <div class="modal fade" id="privacyNoticeModal" tabindex="-1" aria-labelledby="privacyNoticeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 shadow-lg" style="border-radius: 14px; overflow: hidden;">
-                <div class="modal-header text-white" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); padding: 18px 24px; border-bottom: none;">
-                    <div class="d-flex align-items-center gap-3">
-                        <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                            <i class="fa fa-shield-halved fa-lg"></i>
-                        </div>
-                        <div>
-                            <h5 class="modal-title mb-0 fw-bold" id="privacyNoticeModalLabel" style="font-size: 19px; letter-spacing: -0.2px;">Data Privacy &amp; Security Statement</h5>
-                            <div style="opacity: 0.9; font-size: 12.5px; margin-top: 2px;">In compliance with RA 10173 (Data Privacy Act of 2012) &amp; ARTA Standards</div>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
+                <!-- Header Close Button -->
+                <div class="modal-header border-0 pb-0 pt-3 px-4 position-relative">
+                    <button type="button" class="btn btn-sm rounded-circle position-absolute d-flex align-items-center justify-content-center" style="top: 16px; right: 20px; width: 32px; height: 32px; color: #64748b; background: #f1f5f9; border: none; font-size: 14px; cursor: pointer;" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times"></i>
+                    </button>
                 </div>
-                <div class="modal-body p-4" style="font-size: 14.5px; line-height: 1.6; color: #334155;">
-                    <div class="alert alert-primary d-flex align-items-center mb-4 py-2 px-3" style="background-color: #eff6ff; border-color: #bfdbfe; color: #1e40af; border-radius: 8px;">
-                        <i class="fa fa-lock fa-lg me-3 text-primary"></i>
-                        <div>
-                            <strong>100% Client-Side Architecture:</strong> This application executes entirely within your local browser. No data is uploaded, collected, or stored on external cloud servers or databases.
-                        </div>
+
+                <!-- Body -->
+                <div class="modal-body px-4 pt-1 pb-3 text-center">
+                    <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; border-radius: 50%; background: #e0f2fe; color: #0284c7;">
+                        <i class="fa fa-shield-halved fa-2x"></i>
                     </div>
 
-                    <div class="row g-3 mb-2">
+                    <h4 class="fw-bold text-dark mb-2" id="privacyNoticeModalLabel" style="font-size: 22px;">Your Work is Private &amp; Secure</h4>
+                    <p class="text-muted mx-auto mb-4" style="max-width: 520px; font-size: 14.5px; line-height: 1.5;">
+                        This Citizen's Charter Builder runs entirely on your device. We do not collect, transmit, or store any of your data online.
+                    </p>
+
+                    <div class="row g-3 text-start mb-2">
                         <div class="col-md-6">
-                            <div class="p-3 border rounded-3 h-100" style="background: #f8fafc; border-color: #e2e8f0 !important;">
-                                <h6 class="fw-bold text-dark d-flex align-items-center mb-2" style="font-size: 15px;">
-                                    <i class="fa fa-cloud-slash text-danger me-2"></i> Zero External Transmission
-                                </h6>
-                                <p class="small text-muted mb-0" style="line-height: 1.5;">
-                                    There are no remote databases or tracking telemetry. All encoded service details, checklists, fees, and employee designations remain strictly on your local device.
-                                </p>
+                            <div class="p-3 rounded-3 h-100 d-flex gap-3 align-items-start" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                                <div class="mt-1" style="color: #0284c7; font-size: 20px; width: 24px; text-align: center;">
+                                    <i class="fa fa-laptop"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark mb-1" style="font-size: 15px;">Stays on Your Computer</div>
+                                    <div class="text-muted small" style="line-height: 1.45;">
+                                        There are no online servers or databases. All office names, service steps, and personnel details remain strictly on your screen.
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
-                            <div class="p-3 border rounded-3 h-100" style="background: #f8fafc; border-color: #e2e8f0 !important;">
-                                <h6 class="fw-bold text-dark d-flex align-items-center mb-2" style="font-size: 15px;">
-                                    <i class="fa fa-clock-rotate-left text-primary me-2"></i> Volatile Session Memory
-                                </h6>
-                                <p class="small text-muted mb-0" style="line-height: 1.5;">
-                                    Drafts are held only in temporary tab memory (<code>sessionStorage</code>) to survive accidental page refreshes, and are <strong>automatically wiped and released as soon as you close your browser</strong>.
-                                </p>
+                            <div class="p-3 rounded-3 h-100 d-flex gap-3 align-items-start" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                                <div class="mt-1" style="color: #16a34a; font-size: 20px; width: 24px; text-align: center;">
+                                    <i class="fa fa-arrows-rotate"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark mb-1" style="font-size: 15px;">Protected if Refreshed</div>
+                                    <div class="text-muted small" style="line-height: 1.45;">
+                                        If you accidentally refresh or reload the page while working, your encoded data will remain in place so you don't lose progress.
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
-                            <div class="p-3 border rounded-3 h-100" style="background: #f8fafc; border-color: #e2e8f0 !important;">
-                                <h6 class="fw-bold text-dark d-flex align-items-center mb-2" style="font-size: 15px;">
-                                    <i class="fa fa-file-shield text-success me-2"></i> Complete Local Custody
-                                </h6>
-                                <p class="small text-muted mb-0" style="line-height: 1.5;">
-                                    Generated PDF reports and exported <code>.json</code> backup files are downloaded directly to your workstation under your exclusive control.
-                                </p>
+                            <div class="p-3 rounded-3 h-100 d-flex gap-3 align-items-start" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                                <div class="mt-1" style="color: #dc2626; font-size: 20px; width: 24px; text-align: center;">
+                                    <i class="fa fa-door-closed"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark mb-1" style="font-size: 15px;">Cleared on Browser Close</div>
+                                    <div class="text-muted small" style="line-height: 1.45;">
+                                        Once you finish your work and close the browser, all temporary drafts are immediately released and erased.
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
-                            <div class="p-3 border rounded-3 h-100" style="background: #f8fafc; border-color: #e2e8f0 !important;">
-                                <h6 class="fw-bold text-dark d-flex align-items-center mb-2" style="font-size: 15px;">
-                                    <i class="fa fa-scale-balanced text-warning me-2"></i> Regulatory Compliant
-                                </h6>
-                                <p class="small text-muted mb-0" style="line-height: 1.5;">
-                                    Designed to support national agencies and LGUs in authoring compliant Citizen's Charters under RA 11032 while safeguarding data integrity and privacy.
-                                </p>
+                            <div class="p-3 rounded-3 h-100 d-flex gap-3 align-items-start" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                                <div class="mt-1" style="color: #d97706; font-size: 20px; width: 24px; text-align: center;">
+                                    <i class="fa fa-file-arrow-down"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark mb-1" style="font-size: 15px;">Direct Local Downloads</div>
+                                    <div class="text-muted small" style="line-height: 1.45;">
+                                        Generated PDFs and exported backup files save directly into your computer's downloads folder under your control.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer bg-light px-4 py-3 border-top d-flex justify-content-between align-items-center">
+
+                <!-- Footer -->
+                <div class="modal-footer border-0 px-4 pt-2 pb-4 d-flex justify-content-between align-items-center" style="background: #f8fafc;">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="dontShowPrivacyAgain" checked>
-                        <label class="form-check-label small text-muted user-select-none" for="dontShowPrivacyAgain">
-                            Do not show this notice automatically on future visits
+                        <label class="form-check-label text-muted small user-select-none" for="dontShowPrivacyAgain">
+                            Don't show this notice again
                         </label>
                     </div>
-                    <button type="button" class="btn btn-primary px-4 fw-bold shadow-sm" onclick="acknowledgePrivacyNotice()">
-                        <i class="fa fa-check-circle me-1"></i> I Understand &amp; Proceed
+                    <button type="button" class="btn btn-primary px-4 py-2 fw-semibold shadow-sm" onclick="acknowledgePrivacyNotice()" style="border-radius: 8px;">
+                        <i class="fa fa-arrow-right me-1"></i> Continue to Builder
                     </button>
                 </div>
             </div>
@@ -310,6 +325,6 @@
     </div>
 
     <!-- Main Script -->
-    <script src="assets/main.js?v=9.6"></script>
+    <script src="assets/main.js?v=9.7"></script>
 </body>
 </html>
