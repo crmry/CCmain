@@ -148,13 +148,13 @@ textarea#serviceNameInput {
     border-collapse: collapse !important;
     margin-top: 15px;
     margin-bottom: 25px;
-    border: 1.5px solid #94a3b8 !important;
+    border: 1.5px solid #000000 !important;
     table-layout: fixed;
     box-sizing: border-box;
 }
 
 .main-details-table tr {
-    border-bottom: 1.5px solid #94a3b8 !important;
+    border-bottom: 1.5px solid #000000 !important;
 }
 
 .main-details-table td:first-child {
@@ -164,7 +164,7 @@ textarea#serviceNameInput {
     color: #0f172a;
     vertical-align: middle;
     padding: 14px 18px;
-    border: 1.5px solid #94a3b8 !important;
+    border: 1.5px solid #000000 !important;
     font-size: 13px;
     letter-spacing: 0.4px;
 }
@@ -172,7 +172,7 @@ textarea#serviceNameInput {
 .main-details-table td:last-child {
     background-color: #ffffff;
     padding: 14px 18px;
-    border: 1.5px solid #94a3b8 !important;
+    border: 1.5px solid #000000 !important;
     vertical-align: middle;
 }
 
@@ -308,7 +308,7 @@ table.table-bordered {
     margin-top: 10px;
     margin-bottom: 25px;
     table-layout: fixed;
-    border: 1.5px solid #94a3b8 !important;
+    border: 1.5px solid #000000 !important;
     box-sizing: border-box;
 }
 
@@ -321,7 +321,7 @@ table.table-bordered > tbody > tr > td,
 table.table-bordered > tfoot > tr > td,
 table.table-bordered th,
 table.table-bordered td {
-    border: 1.5px solid #94a3b8 !important;
+    border: 1.5px solid #000000 !important;
 }
 
 table.table-bordered th {
@@ -333,6 +333,7 @@ table.table-bordered th {
     padding: 12px 14px !important;
     text-align: center !important;
     vertical-align: middle !important;
+    border: 1.5px solid #000000 !important;
 }
 
 table.table-bordered td {
@@ -342,6 +343,7 @@ table.table-bordered td {
     font-size: 14px;
     line-height: 1.5;
     background-color: #ffffff;
+    border: 1.5px solid #000000 !important;
 }
 
 /* Actions Column Protection */
@@ -353,6 +355,7 @@ table.table-bordered th:last-child {
     padding: 12px 14px !important;
     background-color: #8eaadb !important;
     color: #0f172a !important;
+    border: 1.5px solid #000000 !important;
 }
 
 table.table-bordered td:last-child {
@@ -362,11 +365,13 @@ table.table-bordered td:last-child {
     vertical-align: middle !important;
     padding: 6px 4px !important;
     background-color: #fcfcfc;
+    border: 1.5px solid #000000 !important;
 }
 
 /* Table Footer Grid Alignment */
 table.table-bordered tfoot tr {
     background-color: #8eaadb !important;
+    border: 1.5px solid #000000 !important;
 }
 
 table.table-bordered tfoot td {
@@ -375,10 +380,11 @@ table.table-bordered tfoot td {
     color: #0f172a !important;
     font-weight: 700 !important;
     padding: 8px 10px !important;
+    border: 1.5px solid #000000 !important;
 }
 
 table.table-bordered tfoot input.form-control {
-    border: 1.5px solid #94a3b8 !important;
+    border: 1.5px solid #000000 !important;
     border-radius: 6px !important;
     background-color: #ffffff !important;
     font-weight: 600 !important;
