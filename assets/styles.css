@@ -327,13 +327,12 @@ table.table-bordered td {
 table.table-bordered th:last-child,
 table.table-bordered td:last-child {
     width: 10% !important;
-    min-width: 90px !important;
-    max-width: 120px !important;
+    min-width: 140px !important;
     text-align: center !important;
     vertical-align: middle !important;
     white-space: nowrap !important;
     word-break: normal !important;
-    padding: 10px 12px !important;
+    padding: 8px 10px !important;
 }
 
 /* CKEditor In-Table Editable Area */
@@ -353,17 +352,50 @@ table.table-bordered td:last-child {
 }
 
 /* Row Action Buttons */
-.delete-btn {
+.table-actions-btns {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
+    margin: 0 auto;
+}
+
+.add-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: #dbeafe;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    padding: 6px 11px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.add-btn:hover {
+    background-color: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.delete-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
     background-color: #fee2e2;
     color: #dc2626;
     border: 1px solid #fecaca;
-    padding: 6px 14px;
+    padding: 6px 11px;
     border-radius: 6px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -459,6 +491,68 @@ table.table-bordered td:last-child {
 .btn-info:hover {
     background-color: #0369a1;
     border-color: #0369a1;
+}
+
+.btn-warning {
+    background-color: #f59e0b !important;
+    border-color: #d97706 !important;
+    color: #ffffff !important;
+}
+
+.btn-warning:hover,
+.btn-warning:focus,
+.btn-warning:active {
+    background-color: #d97706 !important;
+    border-color: #b45309 !important;
+    color: #ffffff !important;
+}
+
+.actions-panel .btn-group {
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.actions-panel .btn-group > .btn:first-child {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.actions-panel .btn-group > .dropdown-toggle-split {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+.dropdown-menu {
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 6px;
+}
+
+.dropdown-item {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: background-color 0.15s ease;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f5f9;
+}
+
+@keyframes rowHighlightAnim {
+    0% { background-color: #fef3c7; }
+    100% { background-color: transparent; }
+}
+
+.highlight-row {
+    animation: rowHighlightAnim 2s ease-out;
 }
 
 .btn-outline-danger {

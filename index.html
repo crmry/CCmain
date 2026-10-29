@@ -7,8 +7,8 @@
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-    <link href="assets/css/inspinia.css?v=4.0" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles.css?v=4.0">
+    <link href="assets/css/inspinia.css?v=5.0" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css?v=5.0">
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 </head>
 <body>
@@ -171,12 +171,29 @@
                                             <td colspan="2" class="text-right" style="vertical-align: middle; font-weight: 700; color: #1e293b;">TOTAL</td>
                                             <td><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid" placeholder="Total fees"></td>
                                             <td><input type="text" class="form-control" id="ProcessingTime" name="processingTime" placeholder="Total processing time"></td>
-                                            <td colspan="2"></td>
+                                            <td></td>
+                                            <td style="text-align: center; vertical-align: middle;">
+                                                <button type="button" class="add-btn" onclick="addProcessOverviewRow()" title="Add Additional Row">
+                                                    <i class="fa fa-plus"></i> ADD
+                                                </button>
+                                            </td>
                                         </tr>
                                     </tfoot>
                                 </table>
 
                                 <div class="actions-panel">
+                                    <div class="btn-group shadow-sm">
+                                        <button type="button" class="btn btn-warning font-weight-bold text-white" onclick="addNewRowFromActionPanel()" title="Add Additional Row">
+                                            <i class="fa fa-plus-circle"></i> ADD
+                                        </button>
+                                        <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split text-white shadow-sm" data-bs-toggle="dropdown" aria-expanded="false" title="Choose row type">
+                                            <span class="visually-hidden">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><button type="button" class="dropdown-item" onclick="addProcessOverviewRowAndScroll()"><i class="fa fa-stream mr-2 text-primary"></i> Add Process Step Row</button></li>
+                                            <li><button type="button" class="dropdown-item" onclick="addRequirementRowAndScroll()"><i class="fa fa-clipboard-check mr-2 text-success"></i> Add Requirement Row</button></li>
+                                        </ul>
+                                    </div>
                                     <button type="button" class="btn btn-primary shadow-sm" onclick="openPreview()">
                                         <i class="fa fa-eye"></i> Preview
                                     </button>

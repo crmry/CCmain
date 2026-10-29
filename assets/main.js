@@ -27,6 +27,36 @@
 		    });
 		});
 
+		function addNewRowFromActionPanel() {
+		    addProcessOverviewRowAndScroll();
+		}
+
+		function addProcessOverviewRowAndScroll() {
+		    addProcessOverviewRow();
+		    setTimeout(() => {
+		        const rows = document.querySelectorAll('#processOverviewTableBody tr');
+		        if (rows.length > 0) {
+		            const lastRow = rows[rows.length - 1];
+		            lastRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		            lastRow.classList.add('highlight-row');
+		            setTimeout(() => lastRow.classList.remove('highlight-row'), 2000);
+		        }
+		    }, 100);
+		}
+
+		function addRequirementRowAndScroll() {
+		    addRequirementRow();
+		    setTimeout(() => {
+		        const rows = document.querySelectorAll('#requirementsTableBody tr');
+		        if (rows.length > 0) {
+		            const lastRow = rows[rows.length - 1];
+		            lastRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		            lastRow.classList.add('highlight-row');
+		            setTimeout(() => lastRow.classList.remove('highlight-row'), 2000);
+		        }
+		    }, 100);
+		}
+
 		function addRequirementRow(requirementValue = '', whereValue = '') {
 		    const tableBody = document.getElementById('requirementsTableBody');
 		    const newRow = document.createElement('tr');
@@ -40,9 +70,14 @@
             <div id="whereToSecure-${rowIndex}"></div>
         </td>
         <td style="text-align: center; vertical-align: middle;">
-            <button class="delete-btn" onclick="deleteRequirementRow(this.parentNode.parentNode)">
-                <i class="fa fa-trash-alt mr-1"></i> Delete
-            </button>
+            <div class="table-actions-btns">
+                <button type="button" class="add-btn" onclick="addRequirementRow()" title="Add Additional Row">
+                    <i class="fa fa-plus"></i> ADD
+                </button>
+                <button type="button" class="delete-btn" onclick="deleteRequirementRow(this.closest('tr'))" title="Delete Row">
+                    <i class="fa fa-trash-alt"></i> Delete
+                </button>
+            </div>
         </td>
     `;
 		    tableBody.appendChild(newRow);
@@ -99,9 +134,14 @@
         <td><div id="processingTime-${rowIndex}"></div></td>
         <td><div id="personResponsible-${rowIndex}"></div></td>
         <td style="text-align: center; vertical-align: middle;">
-            <button class="delete-btn" onclick="deleteProcessOverviewRow(this.parentNode.parentNode)">
-                <i class="fa fa-trash-alt mr-1"></i> Delete
-            </button>
+            <div class="table-actions-btns">
+                <button type="button" class="add-btn" onclick="addProcessOverviewRow()" title="Add Additional Row">
+                    <i class="fa fa-plus"></i> ADD
+                </button>
+                <button type="button" class="delete-btn" onclick="deleteProcessOverviewRow(this.closest('tr'))" title="Delete Row">
+                    <i class="fa fa-trash-alt"></i> Delete
+                </button>
+            </div>
         </td>
     `;
 		    tableBody.appendChild(newRow);
@@ -153,15 +193,23 @@
 		}
 
 		function deleteRequirementRow(row) {
+		    if (!row) return;
+		    const editorDiv = row.querySelector('[id^="requirement-"]');
+		    if (editorDiv) {
+		        const rowIndex = editorDiv.id.split('-')[1];
+		        requirementEditors = requirementEditors.filter(editor => editor.index !== parseInt(rowIndex));
+		    }
 		    row.remove();
-		    const rowIndex = row.querySelector('div').id.split('-')[1];
-		    requirementEditors = requirementEditors.filter(editor => editor.index !== parseInt(rowIndex));
 		}
 
 		function deleteProcessOverviewRow(row) {
+		    if (!row) return;
+		    const editorDiv = row.querySelector('[id^="clientSteps-"]');
+		    if (editorDiv) {
+		        const rowIndex = editorDiv.id.split('-')[1];
+		        processOverviewEditors = processOverviewEditors.filter(editor => editor.index !== parseInt(rowIndex));
+		    }
 		    row.remove();
-		    const rowIndex = row.querySelector('div').id.split('-')[1];
-		    processOverviewEditors = processOverviewEditors.filter(editor => editor.index !== parseInt(rowIndex));
 		}
 
 		function clearForm() {
