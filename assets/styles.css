@@ -751,6 +751,16 @@ table.table-bordered tfoot input.form-control {
     transform: translateY(-1px);
 }
 
+.page-top-header .page-subtitle {
+    margin-bottom: 6px !important;
+}
+
+.ck.ck-editor__editable > .ck-placeholder::before {
+    color: #94a3b8 !important;
+    font-style: italic !important;
+    font-size: 12.5px !important;
+}
+
 /* Driver.js Custom Styling for Citizen Charter Builder */
 .driver-popover {
     background: #ffffff !important;

@@ -10,8 +10,8 @@
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-    <link href="assets/css/inspinia.css?v=8.4" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles.css?v=8.4">
+    <link href="assets/css/inspinia.css?v=8.5" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css?v=8.5">
     <link rel="stylesheet" href="assets/css/driver.css">
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 </head>
@@ -21,14 +21,16 @@
         <div id="page-wrapper" class="gray-bg" style="margin:0 !important; width:100% !important; max-width:100% !important;">
             <div class="wrapper wrapper-content">
                 <div class="container-fluid">
-                    <div class="page-top-header mb-3">
-                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <div class="page-top-header d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                        <div>
                             <h1 class="page-title mb-0">CITIZEN CHARTER BUILDER</h1>
+                        </div>
+                        <div class="d-flex flex-column align-items-end text-end">
+                            <p class="page-subtitle mb-2 text-end">Standard Citizen's Charter Authoring &amp; Publishing System</p>
                             <button type="button" id="startTourNavBtn" class="btn btn-outline-primary btn-sm shadow-sm" onclick="startSystemTour()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Take an interactive guided tour of the system">
                                 <i class="fa fa-compass me-1"></i> Take a Tour
                             </button>
                         </div>
-                        <p class="page-subtitle mb-0">Standard Citizen's Charter Authoring &amp; Publishing System</p>
                     </div>
                     
                     <div class="ibox">
@@ -38,7 +40,7 @@
                                     <label for="serviceNameInput" class="form-section-label">
                                         <i class="fa fa-id-card text-primary mr-2"></i> SERVICE NAME:
                                     </label>
-                                    <textarea class="form-control" id="serviceNameInput" name="serviceName" rows="1" placeholder="e.g., ISSUANCE OF MEDICAL CERTIFICATE AND CLINICAL ABSTRACT" required></textarea>
+                                    <textarea class="form-control" id="serviceNameInput" name="serviceName" rows="2" placeholder="Official title describing totality of service (e.g., ISSUANCE OF MEDICAL CERTIFICATE AND CLINICAL ABSTRACT)" required></textarea>
                                 </div>
                                 <div class="mb-4">
                                     <label for="description" class="form-section-label">
@@ -56,7 +58,7 @@
                                         <tr>
                                             <td><strong>OFFICE OR DIVISION</strong></td>
                                             <td>
-                                                <textarea class="form-control" name="office" rows="2" placeholder="e.g., Health Information Management Department (HIMD) / Outpatient Department (OPD)" required></textarea>
+                                                <textarea class="form-control" name="office" rows="2" placeholder="Official name of office/division providing the service. If inter-office, enumerate all participating units in sequence (e.g., Health Information Management Department (HIMD) / Outpatient Department (OPD))" required></textarea>
                                             </td>
                                         </tr>
                                         <tr>
@@ -106,7 +108,7 @@
                                         <tr>
                                             <td><strong>WHO MAY AVAIL</strong></td>
                                             <td>
-                                                <textarea class="form-control" name="who_may_avail" rows="3" placeholder="e.g., All discharged inpatients, active outpatients, or authorized representatives..." required></textarea>
+                                                <textarea class="form-control" name="who_may_avail" rows="2" placeholder='Write "All" if unrestricted, or enumerate specific authorized client groups without abbreviations (e.g., All discharged inpatients, active outpatients, or authorized representatives)' required></textarea>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -163,8 +165,8 @@
                                     <tfoot>
                                         <tr style="background-color: #8eaadb;">
                                             <td colspan="2" class="text-right" style="vertical-align: middle; font-weight: 700; color: #0f172a;">TOTAL</td>
-                                            <td><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid" placeholder="Total fees"></td>
-                                            <td><input type="text" class="form-control" id="ProcessingTime" name="processingTime" placeholder="Total processing time"></td>
+                                            <td><input type="text" class="form-control" id="FeesToBePaid" name="feesToBePaid" placeholder="e.g., Total: PHP 50.00 or None"></td>
+                                            <td><input type="text" class="form-control" id="ProcessingTime" name="processingTime" placeholder="e.g., Total: 2 Days, 3 Hours (1 Day = 8 hrs)"></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
@@ -209,6 +211,6 @@
     <script src="assets/js/driver.js"></script>
 
     <!-- Main Script -->
-    <script src="assets/main.js?v=8.4"></script>
+    <script src="assets/main.js?v=8.5"></script>
 </body>
 </html>

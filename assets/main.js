@@ -22,7 +22,8 @@
 		            '|',
 		            'undo',
 		            'redo'
-		        ]
+		        ],
+		        placeholder: 'ARTA Standard: Provide a concise statement on the service purpose, statutory legal mandate/basis, and qualification criteria (e.g., This process covers the application, verification, and issuance of medical certificates for discharged inpatients and outpatients pursuant to RA 11032)...'
 		    };
 
 		    ClassicEditor.create(document.querySelector("#editor"), descriptionConfig).then(e => {
@@ -122,11 +123,17 @@
     `;
 		    tableBody.appendChild(newRow);
 
-		    const editorConfig = {
+		    const reqConfig = {
 		        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
+		        placeholder: 'Document Name (# of copies, original/photocopy) — e.g., Duly accomplished request form (1 original copy), Valid Government-issued ID (1 photocopy)'
 		    };
 
-		    ClassicEditor.create(document.querySelector(`#requirement-${rowIndex}`), editorConfig)
+		    const whereConfig = {
+		        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
+		        placeholder: 'Specific issuing office, division, desk, or portal (e.g., HIMD Receiving Desk / PSA Serbilis Center / Issuing Government Agency)'
+		    };
+
+		    ClassicEditor.create(document.querySelector(`#requirement-${rowIndex}`), reqConfig)
 		        .then(editorInstance => {
 		            editorInstance.setData(requirementValue);
 			// Inject CSS to prevent word-break in CKEditor editable area
@@ -143,7 +150,7 @@
 		            });
 		        });
 			
-		    ClassicEditor.create(document.querySelector(`#whereToSecure-${rowIndex}`), editorConfig)
+		    ClassicEditor.create(document.querySelector(`#whereToSecure-${rowIndex}`), whereConfig)
 		        .then(editorInstance => {
 		            editorInstance.setData(whereValue);
 			// Inject CSS to prevent word-break in CKEditor editable area
@@ -192,6 +199,14 @@
 		        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList'],
 		    };
 
+		    const stepPlaceholders = {
+		        clientSteps: 'Numbered step & location (e.g., 1. Submit complete checklist of requirements and valid ID to Receiving Desk)',
+		        agencyActions: 'Numbered action per step (e.g., 1.1 Receive documents, verify completeness against checklist, and issue acknowledgment slip)',
+		        feesToBePaid: 'Type of Fee: Currency Amount (e.g., Certification Fee: PHP 50.00) or "None". (Ranging is prohibited)',
+		        processingTime: 'Exact duration: # Day/s, # Hour/s, # Minute/s (e.g., 15 minutes or 1 Day, 2 Hours). (Ranging is prohibited)',
+		        personResponsible: 'Designation and Office (e.g., Administrative Officer V, Cashier Section). If rotating, use Immediate Supervisor\'s Designation and Office'
+		    };
+
 		    const fields = [{
 		            type: 'clientSteps',
 		            value: clientSteps
@@ -215,7 +230,10 @@
 		    ];
 
 		    fields.forEach(field => {
-		        ClassicEditor.create(document.querySelector(`#${field.type}-${rowIndex}`), editorConfig)
+		        ClassicEditor.create(document.querySelector(`#${field.type}-${rowIndex}`), {
+		            ...editorConfig,
+		            placeholder: stepPlaceholders[field.type] || ''
+		        })
 		            .then(editorInstance => {
 		                editorInstance.setData(field.value);
 			// Inject CSS to prevent word-break in CKEditor editable area
@@ -971,7 +989,7 @@
 		                    title: 'You\'re Ready for ARTA Compliance! 🇵🇭',
 		                    description: 'Your Citizen\'s Charter is the frontline pledge of your agency to the Filipino people.<br><br>Whenever you need to review ARTA rules again, click <strong>Take a Tour</strong> here anytime.',
 		                    side: 'bottom',
-		                    align: 'start',
+		                    align: 'end',
 		                    doneBtnText: 'Finish Tour ✓',
 		                    onNextClick: () => {
 		                        cleanupDriverTour();
