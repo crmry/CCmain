@@ -766,7 +766,7 @@ table.table-bordered tfoot input.form-control {
     box-shadow: 0 12px 30px -4px rgba(15, 23, 42, 0.25), 0 6px 12px -4px rgba(15, 23, 42, 0.15) !important;
     border: 1px solid #cbd5e1 !important;
     padding: 18px 20px !important;
-    max-width: 380px !important;
+    max-width: 440px !important;
     font-family: inherit !important;
     z-index: 1000000 !important;
 }
@@ -785,6 +785,25 @@ table.table-bordered tfoot input.form-control {
     line-height: 1.6 !important;
     color: #334155 !important;
     margin-bottom: 14px !important;
+}
+
+.driver-popover-description code {
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.driver-popover-description strong {
+    color: #0f172a;
+}
+
+.driver-popover-description em {
+    color: #475569;
 }
 
 .driver-popover-footer {

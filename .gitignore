@@ -8,6 +8,5 @@ Thumbs.db
 *.tmp
 *.log
 
-# Audit test files
-plugin_report.json
-plugin_report_full.json
+# Scratch directory
+scratch/
