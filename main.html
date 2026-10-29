@@ -11,7 +11,7 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <link href="assets/css/inspinia.css?v=8.7" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles.css?v=8.7">
+    <link rel="stylesheet" href="assets/styles.css?v=9.4">
     <link rel="stylesheet" href="assets/css/driver.css">
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 </head>
@@ -35,6 +35,14 @@
                     
                     <div class="ibox">
                         <div class="ibox-content">
+                            <!-- Draft Restored Banner (dynamically shown if previous draft is recovered) -->
+                            <div id="draftRestoredBanner" class="draft-restored-banner" style="display: none;">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="fa fa-history text-primary"></i>
+                                    <span><strong>Draft Restored:</strong> Your previous work has been recovered (<span id="draftRestoredTime">recently</span>). You can continue editing or click "Clear Form" to start over.</span>
+                                </div>
+                                <button type="button" class="btn-close" style="font-size: 11px; cursor: pointer;" onclick="document.getElementById('draftRestoredBanner').style.display='none'" aria-label="Close"></button>
+                            </div>
                             <form id="citizenCharterForm">
                                 <div class="mb-4">
                                     <label for="serviceNameInput" class="form-section-label">
@@ -190,6 +198,12 @@
                                     <button type="button" class="btn btn-outline-danger" onclick="clearForm()" data-bs-toggle="tooltip" data-bs-placement="top" title="Clear all form fields">
                                         <i class="fa fa-redo"></i> Clear Form
                                     </button>
+                                    <div class="draft-status-container">
+                                        <div id="draftStatusBadge" class="draft-status-badge">
+                                            <i id="draftStatusIcon" class="fa fa-cloud text-muted"></i>
+                                            <span id="draftStatusText">Auto-save enabled (24h cache)</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -217,6 +231,6 @@
     <script src="assets/js/html2pdf.bundle.min.js"></script>
 
     <!-- Main Script -->
-    <script src="assets/main.js?v=9.3"></script>
+    <script src="assets/main.js?v=9.4"></script>
 </body>
 </html>

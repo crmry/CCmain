@@ -6,6 +6,165 @@
 		let previewWindow = null;
 		let currentOpenedFileName = '';
 
+		// Auto-Save Draft Constants and State
+		const DRAFT_CACHE_KEY = 'cc_builder_draft_cache';
+		const DRAFT_EXPIRY_MS = 24 * 60 * 60 * 1000; // 24 hours
+		let autoSaveTimer = null;
+		let isRestoringDraft = false;
+
+		function hasSubstantialData(data) {
+		    if (!data) return false;
+		    if (data.serviceName && data.serviceName.trim()) return true;
+		    if (data.office && data.office.trim()) return true;
+		    if (data.description && data.description.replace(/<[^>]*>/g, '').trim()) return true;
+		    if (data.classification && data.classification !== 'Not selected' && data.classification !== '') return true;
+		    if (data.transaction_type && data.transaction_type.length > 0) return true;
+		    if (data.who_may_avail && data.who_may_avail.trim()) return true;
+		    if (data.feesToBePaid && data.feesToBePaid.trim()) return true;
+		    if (data.processingTime && data.processingTime.trim()) return true;
+
+		    if (data.requirements && data.requirements.some(r => 
+		        (r.checklist && r.checklist.replace(/<[^>]*>/g, '').trim()) || 
+		        (r.where && r.where.replace(/<[^>]*>/g, '').trim())
+		    )) return true;
+
+		    if (data.processOverview && data.processOverview.some(p => 
+		        (p.clientSteps && p.clientSteps.replace(/<[^>]*>/g, '').trim()) ||
+		        (p.agencyActions && p.agencyActions.replace(/<[^>]*>/g, '').trim()) ||
+		        (p.personResponsible && p.personResponsible.replace(/<[^>]*>/g, '').trim())
+		    )) return true;
+
+		    return false;
+		}
+
+		function hasValidDraft() {
+		    try {
+		        const raw = localStorage.getItem(DRAFT_CACHE_KEY);
+		        if (!raw) return false;
+		        const payload = JSON.parse(raw);
+		        if (!payload || !payload.timestamp || !payload.data) return false;
+		        if (Date.now() - payload.timestamp > DRAFT_EXPIRY_MS) {
+		            localStorage.removeItem(DRAFT_CACHE_KEY);
+		            return false;
+		        }
+		        return hasSubstantialData(payload.data);
+		    } catch (e) {
+		        return false;
+		    }
+		}
+
+		function updateAutoSaveStatus(state) {
+		    const badge = document.getElementById('draftStatusBadge');
+		    const icon = document.getElementById('draftStatusIcon');
+		    const text = document.getElementById('draftStatusText');
+		    if (!badge || !icon || !text) return;
+
+		    badge.classList.remove('saving', 'saved', 'cleared');
+
+		    if (state === 'saving') {
+		        badge.classList.add('saving');
+		        icon.className = 'fa fa-spinner fa-spin text-warning';
+		        text.textContent = 'Saving draft...';
+		    } else if (state === 'saved') {
+		        badge.classList.add('saved');
+		        icon.className = 'fa fa-check-circle text-success';
+		        text.textContent = 'Draft auto-saved (cached 24 hrs)';
+		    } else if (state === 'cleared') {
+		        badge.classList.add('cleared');
+		        icon.className = 'fa fa-redo text-muted';
+		        text.textContent = 'Draft cleared';
+		        setTimeout(() => {
+		            if (badge.classList.contains('cleared')) {
+		                badge.classList.remove('cleared');
+		                icon.className = 'fa fa-cloud text-muted';
+		                text.textContent = 'Auto-save enabled (24h cache)';
+		            }
+		        }, 3000);
+		    } else {
+		        icon.className = 'fa fa-cloud text-muted';
+		        text.textContent = 'Auto-save enabled (24h cache)';
+		    }
+		}
+
+		function scheduleAutoSave() {
+		    if (isRestoringDraft) return;
+		    updateAutoSaveStatus('saving');
+		    if (autoSaveTimer) clearTimeout(autoSaveTimer);
+		    autoSaveTimer = setTimeout(() => {
+		        performAutoSave();
+		    }, 600);
+		}
+
+		function performAutoSave() {
+		    if (isRestoringDraft) return;
+		    try {
+		        const data = collectCurrentFormData();
+		        if (!data) return;
+
+		        if (!hasSubstantialData(data)) {
+		            localStorage.removeItem(DRAFT_CACHE_KEY);
+		            updateAutoSaveStatus('idle');
+		            return;
+		        }
+
+		        const payload = {
+		            timestamp: Date.now(),
+		            data: data
+		        };
+		        localStorage.setItem(DRAFT_CACHE_KEY, JSON.stringify(payload));
+		        updateAutoSaveStatus('saved');
+		    } catch (err) {
+		        console.warn('Draft auto-save warning (localStorage quota or disabled):', err);
+		        updateAutoSaveStatus('idle');
+		    }
+		}
+
+		function showDraftRestoredNotification(timeText) {
+		    const banner = document.getElementById('draftRestoredBanner');
+		    const timeSpan = document.getElementById('draftRestoredTime');
+		    if (banner) {
+		        if (timeSpan) timeSpan.textContent = timeText;
+		        banner.style.display = 'flex';
+		    }
+		}
+
+		function checkAndRestoreDraft() {
+		    try {
+		        const raw = localStorage.getItem(DRAFT_CACHE_KEY);
+		        if (!raw) return;
+
+		        const payload = JSON.parse(raw);
+		        if (!payload || !payload.timestamp || !payload.data) {
+		            localStorage.removeItem(DRAFT_CACHE_KEY);
+		            return;
+		        }
+
+		        const ageMs = Date.now() - payload.timestamp;
+		        if (ageMs > DRAFT_EXPIRY_MS) {
+		            localStorage.removeItem(DRAFT_CACHE_KEY);
+		            return;
+		        }
+
+		        if (!hasSubstantialData(payload.data)) {
+		            localStorage.removeItem(DRAFT_CACHE_KEY);
+		            return;
+		        }
+
+		        isRestoringDraft = true;
+		        applyFormData(payload.data);
+		        isRestoringDraft = false;
+
+		        const minsAgo = Math.max(1, Math.round(ageMs / 60000));
+		        const timeText = minsAgo < 60 ? `${minsAgo} min${minsAgo > 1 ? 's' : ''} ago` : `${Math.round(minsAgo / 60)} hr${Math.round(minsAgo / 60) > 1 ? 's' : ''} ago`;
+
+		        showDraftRestoredNotification(timeText);
+		        updateAutoSaveStatus('saved');
+		    } catch (err) {
+		        console.error('Error restoring draft:', err);
+		        isRestoringDraft = false;
+		    }
+		}
+
 		document.addEventListener("DOMContentLoaded", () => {
 		    const descriptionConfig = {
 		        toolbar: [
@@ -26,14 +185,24 @@
 		        placeholder: 'Provide a concise statement on the service purpose, statutory legal mandate/basis, and qualification criteria (e.g., This process covers the verification, evaluation, and issuance of official certifications/permits for eligible clients pursuant to RA 11032)...'
 		    };
 
+		    const draftExists = hasValidDraft();
+		    if (!draftExists) {
+		        addRequirementRow();
+		        addProcessOverviewRow();
+		    }
+
 		    ClassicEditor.create(document.querySelector("#editor"), descriptionConfig).then(e => {
 		        ckeditorInstance = e;
+		        ckeditorInstance.model.document.on('change:data', () => scheduleAutoSave());
+		        if (draftExists) {
+		            checkAndRestoreDraft();
+		        }
 		    }).catch(error => {
 		        console.error('Error initializing main editor:', error);
+		        if (draftExists) {
+		            checkAndRestoreDraft();
+		        }
 		    });
-
-		    addRequirementRow();
-		    addProcessOverviewRow();
 
 		    // Interactive sync for custom option cards (radio & checkbox)
 		    document.addEventListener("change", (e) => {
@@ -41,10 +210,19 @@
 		            document.querySelectorAll(`input[name="${e.target.name}"]`).forEach(r => {
 		                r.closest('.custom-option-card')?.classList.toggle('active', r.checked);
 		            });
+		            scheduleAutoSave();
 		        } else if (e.target.matches('.custom-option-card input[type="checkbox"]')) {
 		            e.target.closest('.custom-option-card')?.classList.toggle('active', e.target.checked);
+		            scheduleAutoSave();
 		        }
 		    });
+
+		    // Auto-save listeners on form inputs
+		    const form = document.getElementById('citizenCharterForm');
+		    if (form) {
+		        form.addEventListener('input', () => scheduleAutoSave());
+		        form.addEventListener('change', () => scheduleAutoSave());
+		    }
 
 		    // Auto-adjust height for textareas as content is typed
 		    document.querySelectorAll('textarea.form-control').forEach(autoAdjustTextarea);
@@ -72,6 +250,7 @@
 
 		function addProcessOverviewRowAndScroll() {
 		    addProcessOverviewRow();
+		    scheduleAutoSave();
 		    setTimeout(() => {
 		        const rows = document.querySelectorAll('#processOverviewTableBody tr');
 		        if (rows.length > 0) {
@@ -85,6 +264,7 @@
 
 		function addRequirementRowAndScroll() {
 		    addRequirementRow();
+		    scheduleAutoSave();
 		    setTimeout(() => {
 		        const rows = document.querySelectorAll('#requirementsTableBody tr');
 		        if (rows.length > 0) {
@@ -111,7 +291,7 @@
         </td>
         <td style="text-align: center; vertical-align: middle;">
             <div class="table-actions-btns">
-                <button type="button" class="add-btn" onclick="addRequirementRow()" title="Add Additional Row">
+                <button type="button" class="add-btn" onclick="addRequirementRow(); scheduleAutoSave();" title="Add Additional Row">
                     <i class="fa fa-plus"></i> ADD
                 </button>
                 ${!isFirstRow ? `
@@ -136,38 +316,37 @@
 		    ClassicEditor.create(document.querySelector(`#requirement-${rowIndex}`), reqConfig)
 		        .then(editorInstance => {
 		            editorInstance.setData(requirementValue);
-			// Inject CSS to prevent word-break in CKEditor editable area
-            editorInstance.editing.view.change(writer => {
-                writer.setStyle('word-break', 'keep-all', editorInstance.editing.view.document.getRoot());
-                writer.setStyle('overflow-wrap', 'break-word', editorInstance.editing.view.document.getRoot());
-                writer.setStyle('white-space', 'normal', editorInstance.editing.view.document.getRoot());
-				writer.setStyle('hyphens', 'none', editorInstance.editing.view.document.getRoot());
-            });
+		            editorInstance.editing.view.change(writer => {
+		                writer.setStyle('word-break', 'keep-all', editorInstance.editing.view.document.getRoot());
+		                writer.setStyle('overflow-wrap', 'break-word', editorInstance.editing.view.document.getRoot());
+		                writer.setStyle('white-space', 'normal', editorInstance.editing.view.document.getRoot());
+		                writer.setStyle('hyphens', 'none', editorInstance.editing.view.document.getRoot());
+		            });
 		            requirementEditors.push({
 		                type: 'requirement',
 		                index: rowIndex,
 		                editor: editorInstance
 		            });
+		            editorInstance.model.document.on('change:data', () => scheduleAutoSave());
 		        });
 			
 		    ClassicEditor.create(document.querySelector(`#whereToSecure-${rowIndex}`), whereConfig)
 		        .then(editorInstance => {
 		            editorInstance.setData(whereValue);
-			// Inject CSS to prevent word-break in CKEditor editable area
-            editorInstance.editing.view.change(writer => {
-                writer.setStyle('word-break', 'keep-all', editorInstance.editing.view.document.getRoot());
-                writer.setStyle('overflow-wrap', 'break-word', editorInstance.editing.view.document.getRoot());
-                writer.setStyle('white-space', 'normal', editorInstance.editing.view.document.getRoot());
-				writer.setStyle('hyphens', 'none', editorInstance.editing.view.document.getRoot());
-            });
+		            editorInstance.editing.view.change(writer => {
+		                writer.setStyle('word-break', 'keep-all', editorInstance.editing.view.document.getRoot());
+		                writer.setStyle('overflow-wrap', 'break-word', editorInstance.editing.view.document.getRoot());
+		                writer.setStyle('white-space', 'normal', editorInstance.editing.view.document.getRoot());
+		                writer.setStyle('hyphens', 'none', editorInstance.editing.view.document.getRoot());
+		            });
 		            requirementEditors.push({
 		                type: 'whereToSecure',
 		                index: rowIndex,
 		                editor: editorInstance
 		            });
+		            editorInstance.model.document.on('change:data', () => scheduleAutoSave());
 		        });
 		}
-
 
 		function addProcessOverviewRow(clientSteps = '', agencyActions = '', fees = '', time = '', person = '') {
 		    const tableBody = document.getElementById('processOverviewTableBody');
@@ -183,7 +362,7 @@
         <td><div id="personResponsible-${rowIndex}"></div></td>
         <td style="text-align: center; vertical-align: middle;">
             <div class="table-actions-btns">
-                <button type="button" class="add-btn" onclick="addProcessOverviewRow()" title="Add Additional Row">
+                <button type="button" class="add-btn" onclick="addProcessOverviewRow(); scheduleAutoSave();" title="Add Additional Row">
                     <i class="fa fa-plus"></i> ADD
                 </button>
                 ${!isFirstRow ? `
@@ -236,18 +415,18 @@
 		        })
 		            .then(editorInstance => {
 		                editorInstance.setData(field.value);
-			// Inject CSS to prevent word-break in CKEditor editable area
-            editorInstance.editing.view.change(writer => {
-                writer.setStyle('word-break', 'keep-all', editorInstance.editing.view.document.getRoot());
-                writer.setStyle('overflow-wrap', 'break-word', editorInstance.editing.view.document.getRoot());
-                writer.setStyle('white-space', 'normal', editorInstance.editing.view.document.getRoot());
-				writer.setStyle('hyphens', 'none', editorInstance.editing.view.document.getRoot());
-            });
+		                editorInstance.editing.view.change(writer => {
+		                    writer.setStyle('word-break', 'keep-all', editorInstance.editing.view.document.getRoot());
+		                    writer.setStyle('overflow-wrap', 'break-word', editorInstance.editing.view.document.getRoot());
+		                    writer.setStyle('white-space', 'normal', editorInstance.editing.view.document.getRoot());
+		                    writer.setStyle('hyphens', 'none', editorInstance.editing.view.document.getRoot());
+		                });
 		                processOverviewEditors.push({
 		                    type: field.type,
 		                    index: rowIndex,
 		                    editor: editorInstance
 		                });
+		                editorInstance.model.document.on('change:data', () => scheduleAutoSave());
 		            });
 		    });
 		}
@@ -265,6 +444,7 @@
 		    }
 		    row.remove();
 		    updateRequirementTableActions();
+		    scheduleAutoSave();
 		}
 
 		function deleteProcessOverviewRow(row) {
@@ -280,6 +460,7 @@
 		    }
 		    row.remove();
 		    updateProcessOverviewTableActions();
+		    scheduleAutoSave();
 		}
 
 		function updateRequirementTableActions() {
@@ -303,18 +484,34 @@
 		}
 
 		function clearForm() {
+		    try {
+		        localStorage.removeItem(DRAFT_CACHE_KEY);
+		    } catch (e) {
+		        console.warn('Could not remove localStorage draft:', e);
+		    }
+
+		    const banner = document.getElementById('draftRestoredBanner');
+		    if (banner) banner.style.display = 'none';
+
 		    document.getElementById('citizenCharterForm').reset();
 		    document.querySelectorAll('.custom-option-card').forEach(c => c.classList.remove('active'));
 
 		    if (ckeditorInstance) {
 		        ckeditorInstance.setData('');
 		    }
-		    requirementEditors.forEach(e => e.editor.destroy());
+		    requirementEditors.forEach(e => {
+		        try { e.editor.destroy(); } catch (err) {}
+		    });
 		    requirementEditors = [];
-		    document.getElementById('requirementsTableBody').innerHTML = '';
-		    processOverviewEditors.forEach(e => e.editor.destroy());
+		    const reqBody = document.getElementById('requirementsTableBody');
+		    if (reqBody) reqBody.innerHTML = '';
+
+		    processOverviewEditors.forEach(e => {
+		        try { e.editor.destroy(); } catch (err) {}
+		    });
 		    processOverviewEditors = [];
-		    document.getElementById('processOverviewTableBody').innerHTML = '';
+		    const procBody = document.getElementById('processOverviewTableBody');
+		    if (procBody) procBody.innerHTML = '';
 
 		    editorCounter = 0;
 		    addRequirementRow();
@@ -328,26 +525,31 @@
 		    currentOpenedFileName = '';
 		    const importInput = document.getElementById('importFileInput');
 		    if (importInput) importInput.value = '';
+
+		    updateAutoSaveStatus('cleared');
 		}
 
-		function saveFormData() {
+		function collectCurrentFormData() {
 		    const form = document.getElementById('citizenCharterForm');
+		    if (!form) return null;
 		    const formData = new FormData(form);
 		    const data = {
-		        serviceName: formData.get('serviceName'),
-		        office: formData.get('office'),
-		        classification: formData.get('classification'),
-		        transaction_type: formData.getAll('transaction_type'),
-		        who_may_avail: formData.get('who_may_avail'),
-		        feesToBePaid: formData.get('feesToBePaid'),
-		        processingTime: formData.get('processingTime'),
+		        serviceName: formData.get('serviceName') || '',
+		        office: formData.get('office') || '',
+		        classification: formData.get('classification') || '',
+		        transaction_type: formData.getAll('transaction_type') || [],
+		        who_may_avail: formData.get('who_may_avail') || '',
+		        feesToBePaid: formData.get('feesToBePaid') || '',
+		        processingTime: formData.get('processingTime') || '',
 		        description: ckeditorInstance ? ckeditorInstance.getData() : '',
 		        requirements: [],
 		        processOverview: []
 		    };
 
 		    document.querySelectorAll('#requirementsTableBody tr').forEach(row => {
-		        const rowIndex = row.querySelector('div').id.split('-')[1];
+		        const div = row.querySelector('div');
+		        if (!div || !div.id) return;
+		        const rowIndex = div.id.split('-')[1];
 		        const requirementEditor = requirementEditors.find(editor => editor.index == rowIndex && editor.type === 'requirement');
 		        const whereToSecureEditor = requirementEditors.find(editor => editor.index == rowIndex && editor.type === 'whereToSecure');
 
@@ -360,7 +562,9 @@
 		    });
 
 		    document.querySelectorAll('#processOverviewTableBody tr').forEach(row => {
-		        const rowIndex = row.querySelector('div').id.split('-')[1];
+		        const div = row.querySelector('div');
+		        if (!div || !div.id) return;
+		        const rowIndex = div.id.split('-')[1];
 		        const clientStepsEditor = processOverviewEditors.find(editor => editor.index == rowIndex && editor.type === 'clientSteps');
 		        const agencyActionsEditor = processOverviewEditors.find(editor => editor.index == rowIndex && editor.type === 'agencyActions');
 		        const feesToBePaidEditor = processOverviewEditors.find(editor => editor.index == rowIndex && editor.type === 'feesToBePaid');
@@ -378,6 +582,80 @@
 		        }
 		    });
 
+		    return data;
+		}
+
+		function applyFormData(data) {
+		    if (!data) return;
+
+		    const serviceNameInput = document.getElementById('serviceNameInput');
+		    if (serviceNameInput) serviceNameInput.value = data.serviceName || '';
+
+		    const officeTextarea = document.querySelector('textarea[name="office"]');
+		    if (officeTextarea) officeTextarea.value = data.office || '';
+
+		    const whoMayAvailTextarea = document.querySelector('textarea[name="who_may_avail"]');
+		    if (whoMayAvailTextarea) whoMayAvailTextarea.value = data.who_may_avail || '';
+
+		    const feesInput = document.getElementById('FeesToBePaid');
+		    if (feesInput) feesInput.value = data.feesToBePaid || '';
+
+		    const processingTimeInput = document.getElementById('ProcessingTime');
+		    if (processingTimeInput) processingTimeInput.value = data.processingTime || '';
+
+		    if (ckeditorInstance) {
+		        ckeditorInstance.setData(data.description || '');
+		    }
+
+		    document.querySelectorAll('input[name="classification"]').forEach(el => {
+		        el.checked = (el.value === data.classification);
+		        el.closest('.custom-option-card')?.classList.toggle('active', el.checked);
+		    });
+
+		    document.querySelectorAll('input[name="transaction_type"]').forEach(el => {
+		        el.checked = data.transaction_type && data.transaction_type.includes(el.value);
+		        el.closest('.custom-option-card')?.classList.toggle('active', el.checked);
+		    });
+
+		    requirementEditors.forEach(e => {
+		        try { e.editor.destroy(); } catch (err) {}
+		    });
+		    requirementEditors = [];
+		    const reqBody = document.getElementById('requirementsTableBody');
+		    if (reqBody) reqBody.innerHTML = '';
+
+		    processOverviewEditors.forEach(e => {
+		        try { e.editor.destroy(); } catch (err) {}
+		    });
+		    processOverviewEditors = [];
+		    const procBody = document.getElementById('processOverviewTableBody');
+		    if (procBody) procBody.innerHTML = '';
+
+		    editorCounter = 0;
+
+		    if (data.requirements && data.requirements.length > 0) {
+		        data.requirements.forEach(item => addRequirementRow(item.checklist, item.where));
+		    } else {
+		        addRequirementRow();
+		    }
+
+		    if (data.processOverview && data.processOverview.length > 0) {
+		        data.processOverview.forEach(item =>
+		            addProcessOverviewRow(item.clientSteps, item.agencyActions, item.feesToBePaid, item.processingTime, item.personResponsible)
+		        );
+		    } else {
+		        addProcessOverviewRow();
+		    }
+
+		    setTimeout(() => {
+		        document.querySelectorAll('textarea.form-control').forEach(autoAdjustTextarea);
+		    }, 100);
+		}
+
+		function saveFormData() {
+		    const data = collectCurrentFormData();
+		    if (!data) return;
+
 		    // Determine a clean, valid file name for saving
 		    let fileName = '';
 		    const rawServiceName = (data.serviceName || '').trim();
@@ -394,7 +672,7 @@
 		            clean = clean.substring(0, 120).trim();
 		        }
 		        if (clean) {
-			            fileName = clean + (clean.toLowerCase().endsWith('.json') ? '' : '.json');
+		            fileName = clean + (clean.toLowerCase().endsWith('.json') ? '' : '.json');
 		        }
 		    }
 
@@ -430,41 +708,14 @@
 
 		    const reader = new FileReader();
 		    reader.onload = function(e) {
-		        const data = JSON.parse(e.target.result);
-
-		        document.getElementById('serviceNameInput').value = data.serviceName || '';
-		        document.querySelector('textarea[name="office"]').value = data.office || '';
-		        document.querySelector('textarea[name="who_may_avail"]').value = data.who_may_avail || '';
-		        document.getElementById('FeesToBePaid').value = data.feesToBePaid || '';
-		        document.getElementById('ProcessingTime').value = data.processingTime || '';
-		        ckeditorInstance.setData(data.description || '');
-
-		        document.querySelectorAll('input[name="classification"]').forEach(el => {
-		            el.checked = (el.value === data.classification);
-		            el.closest('.custom-option-card')?.classList.toggle('active', el.checked);
-		        });
-
-		        document.querySelectorAll('input[name="transaction_type"]').forEach(el => {
-		            el.checked = data.transaction_type && data.transaction_type.includes(el.value);
-		            el.closest('.custom-option-card')?.classList.toggle('active', el.checked);
-		        });
-
-		        requirementEditors.forEach(e => e.editor.destroy());
-		        requirementEditors = [];
-		        document.getElementById('requirementsTableBody').innerHTML = '';
-
-		        processOverviewEditors.forEach(e => e.editor.destroy());
-		        processOverviewEditors = [];
-		        document.getElementById('processOverviewTableBody').innerHTML = '';
-
-		        editorCounter = 0;
-
-		        data.requirements.forEach(item => addRequirementRow(item.checklist, item.where));
-		        data.processOverview.forEach(item =>
-		            addProcessOverviewRow(item.clientSteps, item.agencyActions, item.feesToBePaid, item.processingTime, item.personResponsible)
-		        );
-		        setTimeout(() => document.querySelectorAll('textarea.form-control').forEach(autoAdjustTextarea), 100);
-		        event.target.value = '';
+		        try {
+		            const data = JSON.parse(e.target.result);
+		            applyFormData(data);
+		            scheduleAutoSave();
+		            event.target.value = '';
+		        } catch (err) {
+		            alert('Error reading JSON file: ' + err.message);
+		        }
 		    };
 		    reader.readAsText(file);
 		}

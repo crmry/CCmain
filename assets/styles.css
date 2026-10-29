@@ -522,6 +522,58 @@ table.table-bordered tfoot input.form-control {
 }
 
 /* Bottom Actions Panel */
+/* Draft Restored Banner & Auto-Save Status Badge */
+.draft-restored-banner {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-left: 4px solid #2563eb;
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #1e3a8a;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+}
+
+.draft-status-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 6px;
+}
+
+.draft-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #475569;
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: #e2e8f0;
+    transition: all 0.25s ease;
+}
+
+.draft-status-badge.saving {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.draft-status-badge.saved {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.draft-status-badge.cleared {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
 .actions-panel {
     background: #f8fafc;
     border: 1.5px solid #94a3b8;
