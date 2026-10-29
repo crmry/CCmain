@@ -816,14 +816,17 @@
 		    previewWindow.document.close();
 		}
 
+		let tourAutoActivated = false;
+
 		function startSystemTour() {
+		    tourAutoActivated = true;
 		    if (typeof window.driver === 'undefined' || !window.driver.js || !window.driver.js.driver) {
-		        console.error('Driver.js is not loaded');
-		        alert('Guided tour is loading, please try again in a moment.');
+		        console.warn('Driver.js is initializing, retrying tour in 300ms...');
+		        setTimeout(startSystemTour, 300);
 		        return;
 		    }
 
-				    const driverFn = window.driver.js.driver;
+		    const driverFn = window.driver.js.driver;
 		    const editorEl = document.querySelector('.ck-editor') || document.querySelector('#editor') || '#serviceNameInput';
 
 		    const driverObj = driverFn({
@@ -939,7 +942,7 @@
 		                element: '#startTourNavBtn',
 		                popover: {
 		                    title: 'You\'re Ready for ARTA Compliance! 🇵🇭',
-		                    description: 'Your Citizen\'s Charter is the frontline pledge of your agency to the Filipino people.<br><br>Whenever you need to refresh your understanding of ARTA rules, click <strong>Guided Tour</strong> in the top header or <strong>Take a Tour</strong> at the bottom anytime.',
+		                    description: 'Your Citizen\'s Charter is the frontline pledge of your agency to the Filipino people.<br><br>Whenever you need to refresh your understanding of ARTA rules, click <strong>Take a Tour</strong> in the top header or in the bottom action bar anytime.',
 		                    side: 'bottom',
 		                    align: 'end'
 		                }
@@ -949,6 +952,15 @@
 
 		    driverObj.drive();
 		}
+
+		// Automatically activate tour once visiting the page
+		window.addEventListener('load', () => {
+		    setTimeout(() => {
+		        if (!tourAutoActivated) {
+		            startSystemTour();
+		        }
+		    }, 700);
+		});
 
 		/* Creator Attribution & Anti-Tamper Protection */
 		(function initCreatorAttributionProtection() {
