@@ -946,16 +946,16 @@
 		    wrapper.style.position = 'absolute';
 		    wrapper.style.left = '0';
 		    wrapper.style.top = '0';
-		    wrapper.style.width = '794px';
+		    wrapper.style.width = '700px';
 		    wrapper.style.zIndex = '-9999';
 		    wrapper.style.pointerEvents = 'none';
 		    wrapper.style.background = '#ffffff';
 
 		    const container = document.createElement('div');
 		    container.id = 'directPdfExportContainer';
-		    container.style.width = '794px';
+		    container.style.width = '700px';
 		    container.style.background = '#ffffff';
-		    container.style.padding = '24px';
+		    container.style.padding = '0';
 		    container.style.fontFamily = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
 		    container.style.color = '#000000';
 		    container.style.boxSizing = 'border-box';
@@ -967,7 +967,8 @@
 		        #directPdfExportContainer .service-description { font-size: 14px; line-height: 1.5; margin-bottom: 10px; color: #000; }
 		        #directPdfExportContainer .service-description p, #directPdfExportContainer td p, #directPdfExportContainer th p { margin: 0 0 4px 0; }
 		        #directPdfExportContainer .service-description p:last-child, #directPdfExportContainer td p:last-child, #directPdfExportContainer th p:last-child { margin-bottom: 0; }
-		        #directPdfExportContainer table { width: 100%; border-collapse: collapse; margin-top: -1.5px; font-size: 14px; }
+		        #directPdfExportContainer table { width: 100%; border-collapse: collapse; margin: 0; font-size: 14px; }
+		        #directPdfExportContainer .requirements-table, #directPdfExportContainer .process-table { margin-top: -1.5px; }
 		        #directPdfExportContainer th, #directPdfExportContainer td { border: 1.5px solid #000; padding: 7px 8px; text-align: left; vertical-align: top; font-size: 14px; line-height: 1.45; word-break: break-word; color: #000; }
 		        #directPdfExportContainer th { background-color: #8eaadb !important; font-weight: bold; }
 		        #directPdfExportContainer tr { page-break-inside: avoid; break-inside: avoid; }
@@ -990,9 +991,7 @@
 		            scale: 2,
 		            useCORS: true,
 		            logging: false,
-		            scrollY: 0,
-		            scrollX: 0,
-		            windowWidth: 1024
+		            scrollY: 0
 		        },
 		        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
 		        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
@@ -1440,9 +1439,7 @@
                             scale: 2,
                             useCORS: true,
                             logging: false,
-                            scrollY: 0,
-                            scrollX: 0,
-                            windowWidth: 1024
+                            scrollY: 0
                         },
                         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
                         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
