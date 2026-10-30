@@ -840,9 +840,13 @@
 		            <div class="service-description">${description || ""}</div>
 		        </div>
 		        <table class="info-table">
+		            <colgroup>
+		                <col style="width: 25%;">
+		                <col style="width: 75%;">
+		            </colgroup>
 		            <tr>
-		                <th style="width: 28%;">Office or Division</th>
-		                <td style="width: 72%;">${office || ""}</td>
+		                <th style="width: 25%;">Office or Division:</th>
+		                <td style="width: 75%;">${office || ""}</td>
 		            </tr>
 		            <tr>
 		                <th>Classification:</th>
@@ -859,10 +863,14 @@
 		        </table>
 
 		        <table class="requirements-table">
+		            <colgroup>
+		                <col style="width: 47%;">
+		                <col style="width: 53%;">
+		            </colgroup>
 		            <tbody>
 		                <tr>
-		                    <th style="width: 46%; text-align: center;">CHECKLIST OF REQUIREMENTS</th>
-		                    <th style="width: 54%; text-align: center;">WHERE TO SECURE</th>
+		                    <th style="width: 47%; text-align: center;">CHECKLIST OF REQUIREMENTS</th>
+		                    <th style="width: 53%; text-align: center;">WHERE TO SECURE</th>
 		                </tr>
 		                ${requirements && requirements.length > 0 ? requirements.map(req => `
 		                    <tr>
@@ -879,13 +887,20 @@
 		        </table>
 
 		        <table class="process-table">
+		            <colgroup>
+		                <col style="width: 25%;">
+		                <col style="width: 22%;">
+		                <col style="width: 15.5%;">
+		                <col style="width: 17.5%;">
+		                <col style="width: 20%;">
+		            </colgroup>
 		            <tbody>
 		                <tr>
-		                    <th style="width: 23%; text-align: center;">CLIENT STEPS</th>
-		                    <th style="width: 23%; text-align: center;">AGENCY ACTIONS</th>
-		                    <th style="width: 14%; text-align: center;">FEES TO BE PAID</th>
-		                    <th style="width: 19%; text-align: center;">PROCESSING TIME</th>
-		                    <th style="width: 21%; text-align: center;">PERSON RESPONSIBLE</th>
+		                    <th style="width: 25%; text-align: center;">CLIENT STEPS</th>
+		                    <th style="width: 22%; text-align: center;">AGENCY ACTIONS</th>
+		                    <th style="width: 15.5%; text-align: center;">FEES TO BE PAID</th>
+		                    <th style="width: 17.5%; text-align: center;">PROCESSING TIME</th>
+		                    <th style="width: 20%; text-align: center;">PERSON RESPONSIBLE</th>
 		                </tr>
 		                ${processOverview && processOverview.length > 0 ? processOverview.map(proc => `
 		                    <tr>
@@ -905,8 +920,7 @@
 		                    </tr>
 		                `}
 		                <tr>
-		                    <td style="background-color: #8eaadb;"></td>
-		                    <th style="text-align:right;">TOTAL</th>
+		                    <th colspan="2" style="text-align:right;">TOTAL:</th>
 		                    <th style="text-align:center;">${(FeesToBePaid || 'NONE').toUpperCase()}</th>
 		                    <th style="text-align:center;">${(ProcessingTime || 'N/A').toUpperCase()}</th>
 		                    <td style="background-color: #8eaadb;"></td>
@@ -1080,6 +1094,7 @@
 
     table {
         width: 100%;
+        table-layout: fixed;
         border-collapse: collapse;
         margin: 0;
         word-wrap: break-word;
@@ -1097,7 +1112,7 @@
 
     th, td {
         border: 1.5px solid #000;
-        padding: 7px 8px;
+        padding: 7px 7px;
         text-align: left;
         vertical-align: top;
         word-break: break-word;
@@ -1111,6 +1126,11 @@
         font-weight: bold;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+    }
+
+    .requirements-table th,
+    .process-table th {
+        vertical-align: middle;
     }
 
     thead {
@@ -1146,6 +1166,7 @@
         }
 
         table {
+            table-layout: fixed;
             border-collapse: collapse;
             page-break-inside: auto;
             break-inside: auto;
@@ -1181,7 +1202,7 @@
         th, td {
             border: 1.5px solid #000 !important;
             font-size: 14px !important;
-            padding: 7px 8px !important;
+            padding: 7px 7px !important;
             color: #000 !important;
         }
 
@@ -1189,6 +1210,11 @@
             background-color: #8eaadb !important;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
+        }
+
+        .requirements-table th,
+        .process-table th {
+            vertical-align: middle !important;
         }
 
         .service-name {
