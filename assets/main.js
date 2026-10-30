@@ -222,6 +222,8 @@
 		    checkAndShowPrivacyNoticeOnVisit();
 		});
 
+		let tourLaunchedOnVisit = false;
+
 		function openPrivacyNoticeModal() {
 		    const modalEl = document.getElementById('privacyNoticeModal');
 		    if (modalEl && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
@@ -242,6 +244,13 @@
 		        const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
 		        modal.hide();
 		    }
+
+		    // Activate tour only after the privacy modal closes
+		    if (!tourLaunchedOnVisit && !tourRunning) {
+		        setTimeout(() => {
+		            startSystemTour();
+		        }, 350);
+		    }
 		}
 
 		function checkAndShowPrivacyNoticeOnVisit() {
@@ -254,6 +263,20 @@
 		        }
 		    } catch (e) {}
 		}
+
+		// Ensure tour activates when privacy modal is hidden on initial visit
+		document.addEventListener('DOMContentLoaded', () => {
+		    const modalEl = document.getElementById('privacyNoticeModal');
+		    if (modalEl) {
+		        modalEl.addEventListener('hidden.bs.modal', () => {
+		            if (!tourLaunchedOnVisit && !tourRunning) {
+		                setTimeout(() => {
+		                    startSystemTour();
+		                }, 300);
+		            }
+		        });
+		    }
+		});
 
 		function autoAdjustTextarea(el) {
 		    if (!el) return;
@@ -915,53 +938,80 @@
 		        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generating PDF...';
 		    }
 
+		    // Off-screen wrapper positioned at (0, 0) with z-index: -9999 so it remains
+		    // hidden behind page content while keeping valid DOM coordinates
+		    // for html2canvas to render without clipping or producing blank output.
+		    const wrapper = document.createElement('div');
+		    wrapper.id = 'directPdfExportWrapper';
+		    wrapper.style.position = 'absolute';
+		    wrapper.style.left = '0';
+		    wrapper.style.top = '0';
+		    wrapper.style.width = '794px';
+		    wrapper.style.zIndex = '-9999';
+		    wrapper.style.pointerEvents = 'none';
+		    wrapper.style.background = '#ffffff';
+
 		    const container = document.createElement('div');
 		    container.id = 'directPdfExportContainer';
-		    container.style.position = 'fixed';
-		    container.style.left = '-9999px';
-		    container.style.top = '0';
 		    container.style.width = '794px';
 		    container.style.background = '#ffffff';
-		    container.style.padding = '20px';
+		    container.style.padding = '24px';
 		    container.style.fontFamily = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
 		    container.style.color = '#000000';
 		    container.style.boxSizing = 'border-box';
 
 		    const styleTag = document.createElement('style');
 		    styleTag.innerHTML = `
-		        .main-header { margin-bottom: 10px; }
-		        .service-name { font-size: 20px; font-weight: bold; margin-bottom: 6px; display: block; color: #000; }
-		        .service-description { font-size: 14px; line-height: 1.5; margin-bottom: 10px; color: #000; }
-		        table { width: 100%; border-collapse: collapse; margin-top: -1.5px; font-size: 14px; }
-		        th, td { border: 1.5px solid #000; padding: 7px 8px; text-align: left; vertical-align: top; font-size: 14px; line-height: 1.45; word-break: break-word; }
-		        th { background-color: #8eaadb !important; font-weight: bold; }
+		        #directPdfExportContainer .main-header { margin-bottom: 10px; }
+		        #directPdfExportContainer .service-name { font-size: 20px; font-weight: bold; margin-bottom: 6px; display: block; color: #000; letter-spacing: 0.2px; }
+		        #directPdfExportContainer .service-description { font-size: 14px; line-height: 1.5; margin-bottom: 10px; color: #000; }
+		        #directPdfExportContainer .service-description p, #directPdfExportContainer td p, #directPdfExportContainer th p { margin: 0 0 4px 0; }
+		        #directPdfExportContainer .service-description p:last-child, #directPdfExportContainer td p:last-child, #directPdfExportContainer th p:last-child { margin-bottom: 0; }
+		        #directPdfExportContainer table { width: 100%; border-collapse: collapse; margin-top: -1.5px; font-size: 14px; }
+		        #directPdfExportContainer th, #directPdfExportContainer td { border: 1.5px solid #000; padding: 7px 8px; text-align: left; vertical-align: top; font-size: 14px; line-height: 1.45; word-break: break-word; color: #000; }
+		        #directPdfExportContainer th { background-color: #8eaadb !important; font-weight: bold; }
+		        #directPdfExportContainer tr { page-break-inside: avoid; break-inside: avoid; }
+		        #directPdfExportContainer thead, #directPdfExportContainer tfoot { display: table-row-group !important; }
 		    `;
 		    container.appendChild(styleTag);
 
 		    const contentWrapper = document.createElement('div');
 		    contentWrapper.innerHTML = generateReportHtml(data);
 		    container.appendChild(contentWrapper);
-		    document.body.appendChild(container);
+
+		    wrapper.appendChild(container);
+		    document.body.appendChild(wrapper);
 
 		    const opt = {
 		        margin: [15, 12, 15, 12],
 		        filename: safeFilename,
 		        image: { type: 'jpeg', quality: 0.98 },
-		        html2canvas: { scale: 2, useCORS: true, logging: false },
+		        html2canvas: {
+		            scale: 2,
+		            useCORS: true,
+		            logging: false,
+		            scrollY: 0,
+		            scrollX: 0,
+		            windowWidth: 1024
+		        },
 		        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
 		        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
 		    };
 
 		    if (typeof html2pdf !== 'undefined') {
 		        html2pdf().set(opt).from(container).save().then(() => {
-		            document.body.removeChild(container);
+		            if (document.body.contains(wrapper)) {
+		                document.body.removeChild(wrapper);
+		            }
 		            if (btn) {
 		                btn.disabled = false;
 		                btn.innerHTML = originalHtml;
 		            }
 		        }).catch(err => {
 		            console.error('Direct PDF error:', err);
-		            document.body.removeChild(container);
+		            if (document.body.contains(wrapper)) {
+		                document.body.removeChild(wrapper);
+		            }
 		            if (btn) {
 		                btn.disabled = false;
 		                btn.innerHTML = originalHtml;
@@ -970,7 +1020,9 @@
 		            openPreview();
 		        });
 		    } else {
-		        document.body.removeChild(container);
+		        if (document.body.contains(wrapper)) {
+		            document.body.removeChild(wrapper);
+		        }
 		        if (btn) {
 		            btn.disabled = false;
 		            btn.innerHTML = originalHtml;
@@ -999,7 +1051,7 @@
 		        .slice(0, 80);
 		    const safeFilename = `${safeTitle} - Citizen Charter.pdf`;
 
-		    let previewWindow = window.open('', '', 'width=900px,height=1056px');
+		    let previewWindow = window.open('', '', 'width=950px,height=1056px');
 		    if (!previewWindow) {
 		        alert("Please allow popups for this site to view the preview.");
 		        return;
@@ -1011,7 +1063,7 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>${serviceName || "Citizen Charter"} - Preview</title>
+            <title>${serviceName || "Citizen Charter"} - Preview & Download</title>
             <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.css">
             <script src="assets/js/html2pdf.bundle.min.js"></script>
             <style>
@@ -1037,20 +1089,130 @@
         text-rendering: optimizeLegibility;
     }
 
-    .pdf-button {
-        margin-bottom: 16px;
-        padding: 9px 18px;
-        font-size: 14px;
-        font-weight: bold;
-        color: #fff;
-        background-color: #007bff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    /* Action Banner Card */
+    .preview-instruction-card {
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
-    .pdf-button:hover {
-        background-color: #0056b3;
+
+    .preview-instruction-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .preview-instruction-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 16px;
+    }
+
+    .instruction-option-box {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 12px 14px;
+    }
+
+    .option-tag {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 3px 8px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+
+    .option-tag-direct {
+        background: #ecfdf5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+    }
+
+    .option-tag-print {
+        background: #eff6ff;
+        color: #1e40af;
+        border: 1px solid #bfdbfe;
+    }
+
+    .option-desc {
+        font-size: 13px;
+        line-height: 1.5;
+        color: #334155;
+        margin: 0;
+    }
+
+    .preview-buttons-bar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .btn-pdf-download {
+        background: #dc2626;
+        color: #ffffff;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+        transition: background 0.15s ease;
+    }
+    .btn-pdf-download:hover {
+        background: #b91c1c;
+    }
+
+    .btn-pdf-print {
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        transition: background 0.15s ease;
+    }
+    .btn-pdf-print:hover {
+        background: #1d4ed8;
+    }
+
+    .btn-pdf-close {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+        padding: 9px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s ease;
+    }
+    .btn-pdf-close:hover {
+        background: #e2e8f0;
     }
 
     /* Report Content Styles */
@@ -1147,7 +1309,7 @@
             print-color-adjust: exact !important;
         }
 
-        .pdf-button {
+        .preview-instruction-card {
             display: none !important;
         }
 
@@ -1217,17 +1379,99 @@
             font-size: 18px;
         }
 
-        .pdf-button {
-            font-size: 13px;
+        .preview-instruction-grid {
+            grid-template-columns: 1fr;
         }
     }
 </style>
         </head>
         <body>
-            <button class="pdf-button" onclick="window.print()"><i class="fa fa-print"></i> Print Citizen Charter</button>
+            <div class="preview-instruction-card">
+                <div class="preview-instruction-header">
+                    <i class="fa fa-file-pdf"></i> Citizen's Charter Export & Print Options
+                </div>
+                <div class="preview-instruction-grid">
+                    <div class="instruction-option-box">
+                        <span class="option-tag option-tag-direct"><i class="fa fa-bolt"></i> Option 1: Direct Download (Instant)</span>
+                        <p class="option-desc">
+                            Click <strong>"Direct Download PDF"</strong> to save the <code>.pdf</code> file straight to your computer's <strong>Downloads</strong> folder without any printer prompt.
+                        </p>
+                    </div>
+                    <div class="instruction-option-box">
+                        <span class="option-tag option-tag-print"><i class="fa fa-print"></i> Option 2: Browser Print Dialog</span>
+                        <p class="option-desc">
+                            Click <strong>"Open Print Dialog"</strong>. If your browser defaults to a physical printer, switch the <strong>Destination</strong> dropdown to <strong>"Save as PDF"</strong>.
+                        </p>
+                    </div>
+                </div>
+                <div class="preview-buttons-bar">
+                    <button type="button" class="btn-pdf-download" onclick="downloadFromPreview()">
+                        <i class="fa fa-download"></i> Direct Download PDF
+                    </button>
+                    <button type="button" class="btn-pdf-print" onclick="window.print()">
+                        <i class="fa fa-print"></i> Open Print Dialog (Ctrl+P)
+                    </button>
+                    <button type="button" class="btn-pdf-close" onclick="window.close()">
+                        <i class="fa fa-times"></i> Close Preview
+                    </button>
+                </div>
+            </div>
+
             <div id="printableReportArea">
                 ${reportHtml}
             </div>
+
+            <script>
+                function downloadFromPreview() {
+                    const el = document.getElementById('printableReportArea');
+                    const btn = document.querySelector('.btn-pdf-download');
+                    let originalHtml = '';
+                    if (btn) {
+                        originalHtml = btn.innerHTML;
+                        btn.disabled = true;
+                        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generating PDF...';
+                    }
+
+                    const opt = {
+                        margin: [15, 12, 15, 12],
+                        filename: '${safeFilename}',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: {
+                            scale: 2,
+                            useCORS: true,
+                            logging: false,
+                            scrollY: 0,
+                            scrollX: 0,
+                            windowWidth: 1024
+                        },
+                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                    };
+
+                    if (typeof html2pdf !== 'undefined') {
+                        html2pdf().set(opt).from(el).save().then(() => {
+                            if (btn) {
+                                btn.disabled = false;
+                                btn.innerHTML = originalHtml;
+                            }
+                        }).catch(err => {
+                            console.error('Preview Direct PDF error:', err);
+                            if (btn) {
+                                btn.disabled = false;
+                                btn.innerHTML = originalHtml;
+                            }
+                            alert('Direct download error. Opening browser print dialog instead.');
+                            window.print();
+                        });
+                    } else {
+                        if (btn) {
+                            btn.disabled = false;
+                            btn.innerHTML = originalHtml;
+                        }
+                        window.print();
+                    }
+                }
+            <\/script>
         </body>
         </html>
     `);
@@ -1260,6 +1504,13 @@
 		}
 
 		function startSystemTour() {
+		    // Prevent tour from overlapping while Data Privacy modal is visible
+		    const modalEl = document.getElementById('privacyNoticeModal');
+		    if (modalEl && (modalEl.classList.contains('show') || modalEl.style.display === 'block')) {
+		        console.warn('Privacy modal is currently open. Tour will start after privacy notice is acknowledged.');
+		        return;
+		    }
+
 		    if (typeof window.driver === 'undefined' || !window.driver.js || !window.driver.js.driver) {
 		        console.warn('Driver.js is initializing, retrying tour in 150ms...');
 		        setTimeout(startSystemTour, 150);
@@ -1400,6 +1651,7 @@
 		    });
 
 		    tourRunning = true;
+		    tourLaunchedOnVisit = true;
 		    activeDriverInstance = driverObj;
 		    driverObj.drive();
 		}
@@ -1431,27 +1683,38 @@
 		    }
 		}, true);
 
-		// Always automatically activate tour on visiting or refreshing the page
-		(function setupAutoTourActivation() {
-		    let hasTriggered = false;
+		// Automatically activate tour on visiting or refreshing the page only if privacy notice is not active
+		    (function setupAutoTourActivation() {
+		        function triggerTourOnVisit() {
+		            if (tourLaunchedOnVisit || tourRunning) return;
 
-		    function triggerTourOnVisit() {
-		        if (hasTriggered || tourRunning) return;
-		        hasTriggered = true;
-		        startSystemTour();
-		    }
+		            const modalEl = document.getElementById('privacyNoticeModal');
+		            const isModalShowing = modalEl && (modalEl.classList.contains('show') || modalEl.style.display === 'block');
 
-		    // Check immediate state
-		    if (document.readyState === 'complete') {
-		        setTimeout(triggerTourOnVisit, 350);
-		    } else {
-		        window.addEventListener('load', () => setTimeout(triggerTourOnVisit, 350));
-		        document.addEventListener('DOMContentLoaded', () => setTimeout(triggerTourOnVisit, 600));
-		    }
+		            // If privacy modal has not been acknowledged yet or is currently visible, defer to privacy modal acknowledgment
+		            let acknowledged = false;
+		            try {
+		                acknowledged = (localStorage.getItem('cc_privacy_acknowledged') === 'true');
+		            } catch (e) {}
 
-		    // Universal fallback to guarantee activation on any slow or cached refresh
-		    setTimeout(triggerTourOnVisit, 850);
-		})();
+		            if (!acknowledged || isModalShowing) {
+		                return;
+		            }
+
+		            startSystemTour();
+		        }
+
+		        // Check immediate state
+		        if (document.readyState === 'complete') {
+		            setTimeout(triggerTourOnVisit, 500);
+		        } else {
+		            window.addEventListener('load', () => setTimeout(triggerTourOnVisit, 500));
+		            document.addEventListener('DOMContentLoaded', () => setTimeout(triggerTourOnVisit, 700));
+		        }
+
+		        // Universal fallback for returning visits where privacy is already acknowledged
+		        setTimeout(triggerTourOnVisit, 1000);
+		    })();
 
 		/* Creator Attribution & Anti-Tamper Protection */
 		(function initCreatorAttributionProtection() {
