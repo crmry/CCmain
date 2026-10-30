@@ -923,113 +923,7 @@
 		}
 
 		function downloadDirectPDF() {
-		    const data = getCitizenCharterData();
-		    const safeTitle = (data.serviceName || 'Citizen_Charter')
-		        .replace(/[/\\?%*:|"<>]/g, '_')
-		        .trim()
-		        .slice(0, 80);
-		    const safeFilename = `${safeTitle} - Citizen Charter.pdf`;
-
-		    const btn = document.getElementById('directDownloadPdfBtn');
-		    let originalHtml = '';
-		    if (btn) {
-		        originalHtml = btn.innerHTML;
-		        btn.disabled = true;
-		        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generating PDF...';
-		    }
-
-		    // Off-screen wrapper positioned at (0, 0) with z-index: -9999 so it remains
-		    // hidden behind page content while keeping valid DOM coordinates
-		    // for html2canvas to render without clipping or producing blank output.
-		    const wrapper = document.createElement('div');
-		    wrapper.id = 'directPdfExportWrapper';
-		    wrapper.style.position = 'absolute';
-		    wrapper.style.left = '0';
-		    wrapper.style.top = '0';
-		    wrapper.style.width = '650px';
-		    wrapper.style.zIndex = '-9999';
-		    wrapper.style.pointerEvents = 'none';
-		    wrapper.style.background = '#ffffff';
-
-		    const container = document.createElement('div');
-		    container.id = 'directPdfExportContainer';
-		    container.style.width = '650px';
-		    container.style.background = '#ffffff';
-		    container.style.padding = '0';
-		    container.style.fontFamily = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
-		    container.style.color = '#000000';
-		    container.style.boxSizing = 'border-box';
-
-		    const styleTag = document.createElement('style');
-		    styleTag.innerHTML = `
-		        #directPdfExportContainer .main-header { margin-bottom: 10px; }
-		        #directPdfExportContainer .service-name { font-size: 20px; font-weight: bold; margin-bottom: 6px; display: block; color: #000; letter-spacing: 0.2px; }
-		        #directPdfExportContainer .service-description { font-size: 14px; line-height: 1.5; margin-bottom: 10px; color: #000; }
-		        #directPdfExportContainer .service-description p, #directPdfExportContainer td p, #directPdfExportContainer th p { margin: 0 0 4px 0; }
-		        #directPdfExportContainer .service-description p:last-child, #directPdfExportContainer td p:last-child, #directPdfExportContainer th p:last-child { margin-bottom: 0; }
-		        #directPdfExportContainer table { width: 100%; border-collapse: collapse; margin: 0; font-size: 14px; }
-		        #directPdfExportContainer .requirements-table, #directPdfExportContainer .process-table { margin-top: -1.5px; }
-		        #directPdfExportContainer th, #directPdfExportContainer td { border: 1.5px solid #000; padding: 7px 8px; text-align: left; vertical-align: top; font-size: 14px; line-height: 1.45; word-break: break-word; color: #000; }
-		        #directPdfExportContainer th { background-color: #8eaadb !important; font-weight: bold; }
-		        #directPdfExportContainer tr { page-break-inside: avoid; break-inside: avoid; }
-		        #directPdfExportContainer thead, #directPdfExportContainer tfoot { display: table-row-group !important; }
-		    `;
-		    container.appendChild(styleTag);
-
-		    const contentWrapper = document.createElement('div');
-		    contentWrapper.innerHTML = generateReportHtml(data);
-		    container.appendChild(contentWrapper);
-
-		    wrapper.appendChild(container);
-		    document.body.appendChild(wrapper);
-
-		    // Match exact print margins: Top 1.5in (38.1mm), Left 1.0in (25.4mm), Bottom 1.0in (25.4mm), Right 0.5in (12.7mm)
-		    // pagebreak mode without 'avoid-all' allows table rows to flow naturally across pages without pushing whole tables
-		    const opt = {
-		        margin: [38.1, 25.4, 25.4, 12.7],
-		        filename: safeFilename,
-		        image: { type: 'jpeg', quality: 0.98 },
-		        html2canvas: {
-		            scale: 2,
-		            useCORS: true,
-		            logging: false,
-		            scrollY: 0
-		        },
-		        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-		        pagebreak: { mode: ['css', 'legacy'] }
-		    };
-
-		    if (typeof html2pdf !== 'undefined') {
-		        html2pdf().set(opt).from(container).save().then(() => {
-		            if (document.body.contains(wrapper)) {
-		                document.body.removeChild(wrapper);
-		            }
-		            if (btn) {
-		                btn.disabled = false;
-		                btn.innerHTML = originalHtml;
-		            }
-		        }).catch(err => {
-		            console.error('Direct PDF error:', err);
-		            if (document.body.contains(wrapper)) {
-		                document.body.removeChild(wrapper);
-		            }
-		            if (btn) {
-		                btn.disabled = false;
-		                btn.innerHTML = originalHtml;
-		            }
-		            alert('Direct PDF generation error. Opening print preview dialog instead.');
-		            openPreview();
-		        });
-		    } else {
-		        if (document.body.contains(wrapper)) {
-		            document.body.removeChild(wrapper);
-		        }
-		        if (btn) {
-		            btn.disabled = false;
-		            btn.innerHTML = originalHtml;
-		        }
-		        openPreview();
-		    }
+		    openPreview();
 		}
 
 		function displayPreview(data) {
@@ -1046,12 +940,6 @@
 		        ProcessingTime
 		    } = data;
 
-		    const safeTitle = (serviceName || 'Citizen_Charter')
-		        .replace(/[/\\?%*:|"<>]/g, '_')
-		        .trim()
-		        .slice(0, 80);
-		    const safeFilename = `${safeTitle} - Citizen Charter.pdf`;
-
 		    let previewWindow = window.open('', '', 'width=950px,height=1056px');
 		    if (!previewWindow) {
 		        alert("Please allow popups for this site to view the preview.");
@@ -1064,9 +952,8 @@
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>${serviceName || "Citizen Charter"} - Preview & Download</title>
+            <title>${serviceName || "Citizen Charter"} - Print / Save as PDF</title>
             <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.css">
-            <script src="assets/js/html2pdf.bundle.min.js"></script>
             <style>
     @page {
         size: A4 portrait;
@@ -1107,53 +994,16 @@
         font-size: 16px;
         font-weight: 700;
         color: #0f172a;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
         padding-bottom: 8px;
         border-bottom: 1px solid #e2e8f0;
     }
 
-    .preview-instruction-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-        margin-bottom: 16px;
-    }
-
-    .instruction-option-box {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        padding: 12px 14px;
-    }
-
-    .option-tag {
-        display: inline-block;
-        font-size: 11px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        padding: 3px 8px;
-        border-radius: 4px;
-        margin-bottom: 8px;
-    }
-
-    .option-tag-direct {
-        background: #ecfdf5;
-        color: #065f46;
-        border: 1px solid #a7f3d0;
-    }
-
-    .option-tag-print {
-        background: #eff6ff;
-        color: #1e40af;
-        border: 1px solid #bfdbfe;
-    }
-
-    .option-desc {
-        font-size: 13px;
+    .preview-instruction-desc {
+        font-size: 13.5px;
         line-height: 1.5;
         color: #334155;
-        margin: 0;
+        margin: 0 0 14px 0;
     }
 
     .preview-buttons-bar {
@@ -1161,25 +1011,6 @@
         gap: 10px;
         flex-wrap: wrap;
         align-items: center;
-    }
-
-    .btn-pdf-download {
-        background: #dc2626;
-        color: #ffffff;
-        border: none;
-        padding: 9px 18px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
-        transition: background 0.15s ease;
-    }
-    .btn-pdf-download:hover {
-        background: #b91c1c;
     }
 
     .btn-pdf-print {
@@ -1379,38 +1210,20 @@
         .service-name {
             font-size: 18px;
         }
-
-        .preview-instruction-grid {
-            grid-template-columns: 1fr;
-        }
     }
 </style>
         </head>
         <body>
             <div class="preview-instruction-card">
                 <div class="preview-instruction-header">
-                    <i class="fa fa-file-pdf"></i> Citizen's Charter Export & Print Options
+                    <i class="fa fa-print"></i> Official Citizen's Charter Print &amp; PDF Export
                 </div>
-                <div class="preview-instruction-grid">
-                    <div class="instruction-option-box">
-                        <span class="option-tag option-tag-direct"><i class="fa fa-bolt"></i> Option 1: Direct Download (Instant)</span>
-                        <p class="option-desc">
-                            Click <strong>"Direct Download PDF"</strong> to save the <code>.pdf</code> file straight to your computer's <strong>Downloads</strong> folder without any printer prompt.
-                        </p>
-                    </div>
-                    <div class="instruction-option-box">
-                        <span class="option-tag option-tag-print"><i class="fa fa-print"></i> Option 2: Browser Print Dialog</span>
-                        <p class="option-desc">
-                            Click <strong>"Open Print Dialog"</strong>. If your browser defaults to a physical printer, switch the <strong>Destination</strong> dropdown to <strong>"Save as PDF"</strong>.
-                        </p>
-                    </div>
-                </div>
+                <p class="preview-instruction-desc">
+                    To save as an official, high-quality vector PDF, click <strong>"Print / Save as PDF"</strong> below. When the printer window appears, set <strong>Destination</strong> to <strong>"Save as PDF"</strong> (Paper size: A4, Margins: Default).
+                </p>
                 <div class="preview-buttons-bar">
-                    <button type="button" class="btn-pdf-download" onclick="downloadFromPreview()">
-                        <i class="fa fa-download"></i> Direct Download PDF
-                    </button>
                     <button type="button" class="btn-pdf-print" onclick="window.print()">
-                        <i class="fa fa-print"></i> Open Print Dialog (Ctrl+P)
+                        <i class="fa fa-print"></i> Print / Save as PDF (Ctrl+P)
                     </button>
                     <button type="button" class="btn-pdf-close" onclick="window.close()">
                         <i class="fa fa-times"></i> Close Preview
@@ -1421,56 +1234,6 @@
             <div id="printableReportArea">
                 ${reportHtml}
             </div>
-
-            <script>
-                function downloadFromPreview() {
-                    const el = document.getElementById('printableReportArea');
-                    const btn = document.querySelector('.btn-pdf-download');
-                    let originalHtml = '';
-                    if (btn) {
-                        originalHtml = btn.innerHTML;
-                        btn.disabled = true;
-                        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Generating PDF...';
-                    }
-
-                    const opt = {
-                        margin: [38.1, 25.4, 25.4, 12.7],
-                        filename: '${safeFilename}',
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: {
-                            scale: 2,
-                            useCORS: true,
-                            logging: false,
-                            scrollY: 0
-                        },
-                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                        pagebreak: { mode: ['css', 'legacy'] }
-                    };
-
-                    if (typeof html2pdf !== 'undefined') {
-                        html2pdf().set(opt).from(el).save().then(() => {
-                            if (btn) {
-                                btn.disabled = false;
-                                btn.innerHTML = originalHtml;
-                            }
-                        }).catch(err => {
-                            console.error('Preview Direct PDF error:', err);
-                            if (btn) {
-                                btn.disabled = false;
-                                btn.innerHTML = originalHtml;
-                            }
-                            alert('Direct download error. Opening browser print dialog instead.');
-                            window.print();
-                        });
-                    } else {
-                        if (btn) {
-                            btn.disabled = false;
-                            btn.innerHTML = originalHtml;
-                        }
-                        window.print();
-                    }
-                }
-            <\/script>
         </body>
         </html>
     `);
@@ -1627,8 +1390,8 @@
 		            {
 		                element: '.actions-panel',
 		                popover: {
-		                    title: '10. PDF Export, Print & Compliance Actions',
-		                    description: '• <strong>Download PDF:</strong> Directly generates and downloads the official ARTA-compliant PDF to your computer (bypasses printer dialogs entirely).<br>• <strong>Print / Preview:</strong> Opens the printable report to preview and print the Citizen\'s Charter.<br>• <strong>Save:</strong> Exports a standard <code>.json</code> data backup for recordkeeping and mandatory annual updates (required by March 31 annually).<br>• <strong>Open:</strong> Loads an existing <code>.json</code> file to modify or review.<br>• <strong>Clear Form:</strong> Resets fields to draft a new charter.',
+		                    title: '10. Print, PDF Export & Compliance Actions',
+		                    description: '• <strong>Print / Save as PDF:</strong> Opens the official printable report. Select <em>"Save as PDF"</em> in your printer dialog for crisp vector output or print directly to paper.<br>• <strong>Save:</strong> Exports a standard <code>.json</code> data backup for recordkeeping and mandatory annual updates (required by March 31 annually).<br>• <strong>Open:</strong> Loads an existing <code>.json</code> file to modify or review.<br>• <strong>Clear Form:</strong> Resets fields to draft a new charter.',
 		                    side: 'top',
 		                    align: 'center'
 		                }
