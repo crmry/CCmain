@@ -841,12 +841,12 @@
 		        </div>
 		        <table class="info-table">
 		            <colgroup>
-		                <col style="width: 25%;">
-		                <col style="width: 75%;">
+		                <col style="width: 27.5%;">
+		                <col style="width: 72.5%;">
 		            </colgroup>
 		            <tr>
-		                <th style="width: 25%;">Office or Division:</th>
-		                <td style="width: 75%;">${office || ""}</td>
+		                <th style="width: 27.5%;">Office or Division:</th>
+		                <td style="width: 72.5%;">${office || ""}</td>
 		            </tr>
 		            <tr>
 		                <th>Classification:</th>
@@ -864,13 +864,13 @@
 
 		        <table class="requirements-table">
 		            <colgroup>
-		                <col style="width: 47%;">
-		                <col style="width: 53%;">
+		                <col style="width: 54%;">
+		                <col style="width: 46%;">
 		            </colgroup>
 		            <tbody>
 		                <tr>
-		                    <th style="width: 47%; text-align: center;">CHECKLIST OF REQUIREMENTS</th>
-		                    <th style="width: 53%; text-align: center;">WHERE TO SECURE</th>
+		                    <th style="width: 54%; text-align: center;">CHECKLIST OF REQUIREMENTS</th>
+		                    <th style="width: 46%; text-align: center;">WHERE TO SECURE</th>
 		                </tr>
 		                ${requirements && requirements.length > 0 ? requirements.map(req => `
 		                    <tr>
@@ -888,19 +888,19 @@
 
 		        <table class="process-table">
 		            <colgroup>
-		                <col style="width: 25%;">
-		                <col style="width: 22%;">
+		                <col style="width: 27.5%;">
+		                <col style="width: 26.5%;">
+		                <col style="width: 11.5%;">
 		                <col style="width: 15.5%;">
-		                <col style="width: 17.5%;">
-		                <col style="width: 20%;">
+		                <col style="width: 19%;">
 		            </colgroup>
 		            <tbody>
 		                <tr>
-		                    <th style="width: 25%; text-align: center;">CLIENT STEPS</th>
-		                    <th style="width: 22%; text-align: center;">AGENCY ACTIONS</th>
-		                    <th style="width: 15.5%; text-align: center;">FEES TO BE PAID</th>
-		                    <th style="width: 17.5%; text-align: center;">PROCESSING TIME</th>
-		                    <th style="width: 20%; text-align: center;">PERSON RESPONSIBLE</th>
+		                    <th style="width: 27.5%; text-align: center;">CLIENT STEPS</th>
+		                    <th style="width: 26.5%; text-align: center;">AGENCY ACTIONS</th>
+		                    <th style="width: 11.5%; text-align: center;">FEES TO BE PAID</th>
+		                    <th style="width: 15.5%; text-align: center;">PROCESSING TIME</th>
+		                    <th style="width: 19%; text-align: center;">PERSON RESPONSIBLE</th>
 		                </tr>
 		                ${processOverview && processOverview.length > 0 ? processOverview.map(proc => `
 		                    <tr>
@@ -1112,7 +1112,7 @@
 
     th, td {
         border: 1.5px solid #000;
-        padding: 7px 7px;
+        padding: 7px 6px;
         text-align: left;
         vertical-align: top;
         word-break: break-word;
@@ -1131,6 +1131,7 @@
     .requirements-table th,
     .process-table th {
         vertical-align: middle;
+        font-size: 13px;
     }
 
     thead {
@@ -1202,7 +1203,7 @@
         th, td {
             border: 1.5px solid #000 !important;
             font-size: 14px !important;
-            padding: 7px 7px !important;
+            padding: 7px 6px !important;
             color: #000 !important;
         }
 
@@ -1215,6 +1216,7 @@
         .requirements-table th,
         .process-table th {
             vertical-align: middle !important;
+            font-size: 13px !important;
         }
 
         .service-name {
