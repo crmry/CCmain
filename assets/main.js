@@ -3,6 +3,8 @@
 		let processOverviewEditors = [];
 		let editorCounter = 0;
 		let ckeditorInstance;
+		let totalFeesEditor;
+		let totalTimeEditor;
 		let previewWindow = null;
 		let currentOpenedFileName = '';
 
@@ -16,16 +18,35 @@
 		    localStorage.removeItem(DRAFT_CACHE_KEY);
 		} catch (e) {}
 
+		function hasVisibleEditorContent(val) {
+		    if (!val) return false;
+		    return String(val).replace(/<[^>]*>/g, '').replace(/&nbsp;/gi, ' ').trim().length > 0;
+		}
+
+		function toEditorHtml(val) {
+		    if (!val) return '';
+		    const str = String(val);
+		    if (/<(?:p|ul|ol|li|br|strong|b|em|i|h[1-6]|div)\b/i.test(str)) {
+		        return str;
+		    }
+		    const escaped = str
+		        .replace(/&/g, '&amp;')
+		        .replace(/</g, '&lt;')
+		        .replace(/>/g, '&gt;')
+		        .replace(/\r?\n/g, '<br>');
+		    return `<p>${escaped}</p>`;
+		}
+
 		function hasSubstantialData(data) {
 		    if (!data) return false;
 		    if (data.serviceName && data.serviceName.trim()) return true;
 		    if (data.office && data.office.trim()) return true;
-		    if (data.description && data.description.replace(/<[^>]*>/g, '').trim()) return true;
+		    if (hasVisibleEditorContent(data.description)) return true;
 		    if (data.classification && data.classification !== 'Not selected' && data.classification !== '') return true;
 		    if (data.transaction_type && data.transaction_type.length > 0) return true;
 		    if (data.who_may_avail && data.who_may_avail.trim()) return true;
-		    if (data.feesToBePaid && data.feesToBePaid.trim()) return true;
-		    if (data.processingTime && data.processingTime.trim()) return true;
+		    if (hasVisibleEditorContent(data.feesToBePaid)) return true;
+		    if (hasVisibleEditorContent(data.processingTime)) return true;
 
 		    if (data.requirements && data.requirements.some(r => 
 		        (r.checklist && r.checklist.replace(/<[^>]*>/g, '').trim()) || 
@@ -172,14 +193,49 @@
 		        addProcessOverviewRow();
 		    }
 
-		    ClassicEditor.create(document.querySelector("#editor"), descriptionConfig).then(e => {
+		    const totalCellEditorConfig = {
+		        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList']
+		    };
+
+		    const applyEditorWrappingStyles = (editorInstance) => {
+		        editorInstance.editing.view.change(writer => {
+		            writer.setStyle('word-break', 'keep-all', editorInstance.editing.view.document.getRoot());
+		            writer.setStyle('overflow-wrap', 'break-word', editorInstance.editing.view.document.getRoot());
+		            writer.setStyle('white-space', 'normal', editorInstance.editing.view.document.getRoot());
+		            writer.setStyle('hyphens', 'none', editorInstance.editing.view.document.getRoot());
+		        });
+		    };
+
+		    const mainEditorPromise = ClassicEditor.create(document.querySelector("#editor"), descriptionConfig).then(e => {
 		        ckeditorInstance = e;
 		        ckeditorInstance.model.document.on('change:data', () => scheduleAutoSave());
-		        if (draftExists) {
-		            checkAndRestoreDraft();
-		        }
 		    }).catch(error => {
 		        console.error('Error initializing main editor:', error);
+		    });
+
+		    const totalFeesPromise = ClassicEditor.create(document.querySelector("#FeesToBePaid"), {
+		        ...totalCellEditorConfig,
+		        placeholder: 'e.g., Total: PHP 50.00 or None'
+		    }).then(e => {
+		        totalFeesEditor = e;
+		        applyEditorWrappingStyles(e);
+		        e.model.document.on('change:data', () => scheduleAutoSave());
+		    }).catch(error => {
+		        console.error('Error initializing total fees editor:', error);
+		    });
+
+		    const totalTimePromise = ClassicEditor.create(document.querySelector("#ProcessingTime"), {
+		        ...totalCellEditorConfig,
+		        placeholder: 'e.g., Total: 2 Days, 3 Hours (1 Day = 8 hrs)'
+		    }).then(e => {
+		        totalTimeEditor = e;
+		        applyEditorWrappingStyles(e);
+		        e.model.document.on('change:data', () => scheduleAutoSave());
+		    }).catch(error => {
+		        console.error('Error initializing total processing time editor:', error);
+		    });
+
+		    Promise.allSettled([mainEditorPromise, totalFeesPromise, totalTimePromise]).then(() => {
 		        if (draftExists) {
 		            checkAndRestoreDraft();
 		        }
@@ -537,6 +593,12 @@
 		    if (ckeditorInstance) {
 		        ckeditorInstance.setData('');
 		    }
+		    if (totalFeesEditor) {
+		        totalFeesEditor.setData('');
+		    }
+		    if (totalTimeEditor) {
+		        totalTimeEditor.setData('');
+		    }
 		    requirementEditors.forEach(e => {
 		        try { e.editor.destroy(); } catch (err) {}
 		    });
@@ -577,8 +639,8 @@
 		        classification: formData.get('classification') || '',
 		        transaction_type: formData.getAll('transaction_type') || [],
 		        who_may_avail: formData.get('who_may_avail') || '',
-		        feesToBePaid: formData.get('feesToBePaid') || '',
-		        processingTime: formData.get('processingTime') || '',
+		        feesToBePaid: totalFeesEditor ? totalFeesEditor.getData() : (formData.get('feesToBePaid') || ''),
+		        processingTime: totalTimeEditor ? totalTimeEditor.getData() : (formData.get('processingTime') || ''),
 		        description: ckeditorInstance ? ckeditorInstance.getData() : '',
 		        requirements: [],
 		        processOverview: []
@@ -635,11 +697,19 @@
 		    const whoMayAvailTextarea = document.querySelector('textarea[name="who_may_avail"]');
 		    if (whoMayAvailTextarea) whoMayAvailTextarea.value = data.who_may_avail || '';
 
-		    const feesInput = document.getElementById('FeesToBePaid');
-		    if (feesInput) feesInput.value = data.feesToBePaid || '';
+		    if (totalFeesEditor) {
+		        totalFeesEditor.setData(toEditorHtml(data.feesToBePaid));
+		    } else {
+		        const feesInput = document.getElementById('FeesToBePaid');
+		        if (feesInput && 'value' in feesInput) feesInput.value = data.feesToBePaid || '';
+		    }
 
-		    const processingTimeInput = document.getElementById('ProcessingTime');
-		    if (processingTimeInput) processingTimeInput.value = data.processingTime || '';
+		    if (totalTimeEditor) {
+		        totalTimeEditor.setData(toEditorHtml(data.processingTime));
+		    } else {
+		        const processingTimeInput = document.getElementById('ProcessingTime');
+		        if (processingTimeInput && 'value' in processingTimeInput) processingTimeInput.value = data.processingTime || '';
+		    }
 
 		    if (ckeditorInstance) {
 		        ckeditorInstance.setData(data.description || '');
@@ -760,8 +830,10 @@
 
 
 		function getCitizenCharterData() {
-		    const FeesToBePaid = document.getElementById('FeesToBePaid').value || "N/A";
-		    const ProcessingTime = document.getElementById('ProcessingTime').value || "N/A";
+		    const rawTotalFees = totalFeesEditor ? totalFeesEditor.getData() : '';
+		    const rawTotalTime = totalTimeEditor ? totalTimeEditor.getData() : '';
+		    const FeesToBePaid = hasVisibleEditorContent(rawTotalFees) ? rawTotalFees : "NONE";
+		    const ProcessingTime = hasVisibleEditorContent(rawTotalTime) ? rawTotalTime : "N/A";
 		    const serviceName = document.getElementById('serviceNameInput').value;
 		    const description = ckeditorInstance ? ckeditorInstance.getData() : '';
 		    const office = document.querySelector('textarea[name="office"]').value;
@@ -922,8 +994,8 @@
 		                <tr>
 		                    <th></th>
 		                    <th style="text-align:right;">TOTAL</th>
-		                    <th style="text-align:center;">${(FeesToBePaid || 'NONE').toUpperCase()}</th>
-		                    <th style="text-align:center;">${(ProcessingTime || 'N/A').toUpperCase()}</th>
+		                    <th style="text-align:center;">${hasVisibleEditorContent(FeesToBePaid) ? FeesToBePaid : 'NONE'}</th>
+		                    <th style="text-align:center;">${hasVisibleEditorContent(ProcessingTime) ? ProcessingTime : 'N/A'}</th>
 		                    <th></th>
 		                </tr>
 		            </tbody>
@@ -1091,6 +1163,12 @@
     .service-description p:last-child,
     td p:last-child, th p:last-child {
         margin-bottom: 0;
+    }
+
+    td ul, td ol, th ul, th ol {
+        text-align: left;
+        margin: 2px 0;
+        padding-left: 18px;
     }
 
     table {

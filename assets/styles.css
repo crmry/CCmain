@@ -375,12 +375,26 @@ table.table-bordered tfoot tr {
 }
 
 table.table-bordered tfoot td {
-    vertical-align: middle !important;
+    vertical-align: top !important;
     background-color: #8eaadb !important;
     color: #0f172a !important;
     font-weight: 700 !important;
-    padding: 8px 10px !important;
+    padding: 10px 12px !important;
     border: 1.5px solid #000000 !important;
+}
+
+table.table-bordered tfoot td.total-label-cell {
+    vertical-align: middle !important;
+}
+
+table.table-bordered tfoot .ck.ck-editor {
+    font-weight: 400;
+    text-align: left;
+    border-color: #475569 !important;
+}
+
+table.table-bordered tfoot .ck.ck-editor:focus-within {
+    border-color: #2563eb !important;
 }
 
 table.table-bordered tfoot input.form-control {
@@ -397,13 +411,13 @@ table.table-bordered tfoot input.form-control {
     position: relative;
     border: 1.5px solid #94a3b8 !important;
     border-radius: 6px !important;
-    overflow: hidden !important;
+    overflow: visible !important;
 }
 
 .ck.ck-toolbar {
     border: none !important;
     border-bottom: 1.5px solid #94a3b8 !important;
-    border-radius: 0 !important;
+    border-radius: 4.5px 4.5px 0 0 !important;
     background: #f8fafc !important;
     padding: 2px 4px !important;
 }
@@ -415,7 +429,7 @@ table.table-bordered tfoot input.form-control {
     line-height: 1.5 !important;
     color: #0f172a !important;
     border: none !important;
-    border-radius: 0 !important;
+    border-radius: 0 0 4.5px 4.5px !important;
     background-color: #ffffff !important;
     padding: 8px 12px !important;
 }
