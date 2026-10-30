@@ -1497,8 +1497,8 @@
 		            {
 		                element: '.actions-panel',
 		                popover: {
-		                    title: '10. Print, PDF Export & Compliance Actions',
-		                    description: '• <strong>Print / Save as PDF:</strong> Opens the official printable report. Select <em>"Save as PDF"</em> in your printer dialog for crisp vector output or print directly to paper.<br>• <strong>Save:</strong> Exports a standard <code>.json</code> data backup for recordkeeping and mandatory annual updates (required by March 31 annually).<br>• <strong>Open:</strong> Loads an existing <code>.json</code> file to modify or review.<br>• <strong>Clear Form:</strong> Resets fields to draft a new charter.',
+		                    title: '10. Preview, PDF Export & Compliance Actions',
+		                    description: '• <strong>Preview / Save as PDF:</strong> Opens the official printable report preview. Select <em>"Save as PDF"</em> in your printer dialog for crisp vector output or print directly to paper.<br>• <strong>Save:</strong> Exports a standard <code>.json</code> data backup for recordkeeping and mandatory annual updates (required by March 31 annually).<br>• <strong>Open:</strong> Loads an existing <code>.json</code> file to modify or review.<br>• <strong>Clear Form:</strong> Resets fields to draft a new charter.',
 		                    side: 'top',
 		                    align: 'center'
 		                }
