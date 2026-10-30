@@ -946,14 +946,14 @@
 		    wrapper.style.position = 'absolute';
 		    wrapper.style.left = '0';
 		    wrapper.style.top = '0';
-		    wrapper.style.width = '700px';
+		    wrapper.style.width = '650px';
 		    wrapper.style.zIndex = '-9999';
 		    wrapper.style.pointerEvents = 'none';
 		    wrapper.style.background = '#ffffff';
 
 		    const container = document.createElement('div');
 		    container.id = 'directPdfExportContainer';
-		    container.style.width = '700px';
+		    container.style.width = '650px';
 		    container.style.background = '#ffffff';
 		    container.style.padding = '0';
 		    container.style.fontFamily = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
@@ -983,8 +983,10 @@
 		    wrapper.appendChild(container);
 		    document.body.appendChild(wrapper);
 
+		    // Match exact print margins: Top 1.5in (38.1mm), Left 1.0in (25.4mm), Bottom 1.0in (25.4mm), Right 0.5in (12.7mm)
+		    // pagebreak mode without 'avoid-all' allows table rows to flow naturally across pages without pushing whole tables
 		    const opt = {
-		        margin: [15, 12, 15, 12],
+		        margin: [38.1, 25.4, 25.4, 12.7],
 		        filename: safeFilename,
 		        image: { type: 'jpeg', quality: 0.98 },
 		        html2canvas: {
@@ -994,7 +996,7 @@
 		            scrollY: 0
 		        },
 		        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-		        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+		        pagebreak: { mode: ['css', 'legacy'] }
 		    };
 
 		    if (typeof html2pdf !== 'undefined') {
@@ -1432,7 +1434,7 @@
                     }
 
                     const opt = {
-                        margin: [15, 12, 15, 12],
+                        margin: [38.1, 25.4, 25.4, 12.7],
                         filename: '${safeFilename}',
                         image: { type: 'jpeg', quality: 0.98 },
                         html2canvas: {
@@ -1442,7 +1444,7 @@
                             scrollY: 0
                         },
                         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                        pagebreak: { mode: ['css', 'legacy'] }
                     };
 
                     if (typeof html2pdf !== 'undefined') {
