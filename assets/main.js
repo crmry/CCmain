@@ -920,10 +920,11 @@
 		                    </tr>
 		                `}
 		                <tr>
-		                    <th colspan="2" style="text-align:right;">TOTAL:</th>
+		                    <th></th>
+		                    <th style="text-align:right;">TOTAL</th>
 		                    <th style="text-align:center;">${(FeesToBePaid || 'NONE').toUpperCase()}</th>
 		                    <th style="text-align:center;">${(ProcessingTime || 'N/A').toUpperCase()}</th>
-		                    <td style="background-color: #8eaadb;"></td>
+		                    <th></th>
 		                </tr>
 		            </tbody>
 		        </table>
